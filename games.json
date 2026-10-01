@@ -1,0 +1,22 @@
+[
+  {
+    "id": "neon-snake",
+    "title": "Neon Snake",
+    "category": "Arcade",
+    "icon": "🐍",
+    "color": "#2ec4b6",
+    "image": "",
+    "description": "Arrow keys or WASD to steer. Eat the dots, don't hit yourself.",
+    "iframe": "<iframe src='games/neon-snake/index.html' title='Neon Snake' sandbox='allow-scripts allow-same-origin' allowfullscreen></iframe>"
+  },
+  {
+    "id": "target-tap",
+    "title": "Target Tap",
+    "category": "Arcade",
+    "icon": "🎯",
+    "color": "#ff6b6b",
+    "image": "",
+    "description": "Tap the targets before they vanish. 20 seconds on the clock.",
+    "iframe": "<iframe src='games/target-tap/index.html' title='Target Tap' sandbox='allow-scripts allow-same-origin' allowfullscreen></iframe>"
+  }
+]
