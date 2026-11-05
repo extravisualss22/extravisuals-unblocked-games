@@ -11,7 +11,8 @@
     "test:web": "node tests/standalone.mjs",
     "test": "node --test --test-isolation=none tests/*.test.mjs chess-assistant/tests/*.test.*",
     "test:engine": "node tests/real-engine.mjs",
-    "package": "python3 scripts/package.py"
+    "package": "python3 scripts/package.py",
+    "build:chromebook": "node scripts/build-chromebook.mjs"
   },
   "dependencies": {
     "chess.js": "1.4.0",

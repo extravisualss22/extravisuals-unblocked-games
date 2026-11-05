@@ -22,11 +22,11 @@ try {
     }});
   });
   if(process.env.TEST_OVER_HTTP==='1'){
-    server=createServer((_request,response)=>{response.writeHead(200,{'Content-Type':'text/html'});createReadStream(resolve('dist/travis.suda.html')).pipe(response);});
+    server=createServer((_request,response)=>{response.writeHead(200,{'Content-Type':'text/html'});createReadStream(resolve(process.env.STANDALONE_FILE || 'dist/travis.suda.html')).pipe(response);});
     await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
     await page.goto(`http://127.0.0.1:${server.address().port}/`,{waitUntil:'load',timeout:60000});
     remote.length=0;
-  }else await page.goto(pathToFileURL(resolve('dist/travis.suda.html')).href,{waitUntil:'load',timeout:60000});
+  }else await page.goto(pathToFileURL(resolve(process.env.STANDALONE_FILE || 'dist/travis.suda.html')).href,{waitUntil:'load',timeout:60000});
   assert.equal(await page.locator('#board .square').count(),64);
   await page.locator('#time').selectOption('1000');
   await page.locator('#position-input').fill('7k/5Q2/6K1/8/8/8/8/8 w - - 0 1');
@@ -95,5 +95,5 @@ try {
   await page.screenshot({path:'/tmp/chess-website-mobile.png',fullPage:true});
   assert.deepEqual(remote,[],'Standalone engine must make no HTTP requests');
   assert.deepEqual(errors,[],'No browser script errors');
-  console.log(`PASS (${process.env.TEST_OVER_HTTP==='1'?'self-contained page over local HTTP':'direct file opening'}): full Stockfish mate, manual moves, undo, promotion, denied sharing, calibrated capture with confirmation, stream cleanup, mobile layout, no network requests after page load.`);
+  console.log(`PASS (${process.env.TEST_OVER_HTTP==='1'?'self-contained page over local HTTP':'direct file opening'}): Stockfish mate, manual moves, undo, promotion, denied sharing, calibrated capture with confirmation, stream cleanup, mobile layout, no network requests after page load.`);
 } finally {await browser.close();if(server)await new Promise(resolve=>server.close(resolve));}

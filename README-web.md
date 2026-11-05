@@ -4,6 +4,9 @@ The website runs the full Stockfish 19 neural-network engine on your device. It 
 
 ## Open on a Chromebook
 
+**If the full engine times out during startup, use [the Chromebook edition](downloads/travis.suda-chromebook.zip).** Extract it, close older app tabs, and open `travis.suda-chromebook.html`. It includes Stockfish 19 Lite offline, uses 32 MB hash memory instead of 128 MB, and allows up to three minutes for startup. The smaller network is weaker than the full version. It does not need an engine download. Build it with `npm run build:chromebook`.
+
+
 **If the online version says `Failed to fetch`, download [travis.suda-offline.zip](downloads/travis.suda-offline.zip).** Extract it and open `travis.suda-offline.html` in Chrome, closing the old online page. This ZIP includes the full Stockfish engine and makes no engine download requests. It is approximately 85 MB compressed. Browser permission is still required for optional screen sharing.
 
 If the large attachment will not download, use **travis.suda-online.html** (about 181 KB), or extract it from **travis.suda-small.zip**. This version downloads the same full Stockfish 19 engine from the pinned official npm package on first analysis; it does not use a weaker engine. The package transfer is about 154 MB, so first analysis can take several minutes and requires access to `registry.npmjs.org`. The selected WASM is checked against its SHA-256 before execution. The engine is reused while the page stays open. Game positions and video remain local. Build this version with `npm run build:online`.

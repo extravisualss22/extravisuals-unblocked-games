@@ -90,10 +90,10 @@ export class Engine {
       };
       this.worker.onerror = event => {
         event.preventDefault?.();
-        this._fail(new Error(event.message || 'Stockfish could not load. Reload the extension and try again.'));
+        this._fail(new Error(event.message || 'Stockfish could not load. Reload this page and try again.'));
       };
       this.worker.onmessageerror = () => this._fail(new Error('The engine returned an unreadable response.'));
-      this._deadline(60000, 'Stockfish took too long to load. Reload the extension and try again.');
+      this._deadline(globalThis.CHESS_ENGINE_STARTUP_MS || 60000, 'Stockfish took too long to load. Reload this page and try again.');
       this._send('uci');
     };
     try {
@@ -144,7 +144,7 @@ export class Engine {
     // Synchronize before assigning a request to the engine. In particular, wait
     // for the canceled search's bestmove before entering this barrier.
     this.barrier = true;
-    this._deadline(10000, 'Stockfish is not responding. Reload the extension and try again.');
+    this._deadline(10000, 'Stockfish is not responding. Reload this page and try again.');
     this._send('isready');
   }
 
@@ -166,7 +166,7 @@ export class Engine {
       const option = line.match(/^option name (.+?) type /);
       if (option) this.options.add(option[1]);
       if (line === 'uciok') {
-        for (const [name, value] of [['Hash', 128], ['Threads', 1], ['MultiPV', 1], ['UCI_LimitStrength', 'false'], ['Skill Level', 20]]) {
+        for (const [name, value] of [['Hash', globalThis.CHESS_ENGINE_HASH_MB || 128], ['Threads', 1], ['MultiPV', 1], ['UCI_LimitStrength', 'false'], ['Skill Level', 20]]) {
           if (this.options.has(name)) this._send(`setoption name ${name} value ${value}`);
         }
         this._send('isready');
