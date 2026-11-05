@@ -87,7 +87,7 @@ function route() {
     frameWrap.innerHTML = "";
     player.hidden = true;
     library.hidden = false;
-    document.title = "Game Shelf";
+    document.title = "travis.suda";
     return;
   }
   library.hidden = true;
@@ -95,7 +95,7 @@ function route() {
   document.getElementById("player-title").textContent = game.title;
   document.getElementById("player-desc").textContent = game.description || "";
   frameWrap.innerHTML = game.iframe; // iframe markup comes from your own games.json
-  document.title = game.title + " | Game Shelf";
+  document.title = game.title + " | travis.suda";
 }
 
 document.getElementById("back").addEventListener("click", () => { location.hash = ""; });

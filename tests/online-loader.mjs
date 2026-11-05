@@ -3,7 +3,7 @@ import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 const require=createRequire(import.meta.url);const {chromium}=require('playwright');
-const html=await readFile('dist/chess-companion-online.html');
+const html=await readFile('dist/travis.suda-online.html');
 const server=createServer((_,response)=>{response.writeHead(200,{'Content-Type':'text/html'});response.end(html);});
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox'],proxy:process.env.HTTPS_PROXY?{server:process.env.HTTPS_PROXY,bypass:'127.0.0.1,localhost'}:undefined});

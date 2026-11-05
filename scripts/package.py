@@ -10,9 +10,9 @@ for filename in required:
         raise SystemExit('Missing engine files. Run npm ci and npm run vendor first.')
 destination = root / 'dist'
 destination.mkdir(exist_ok=True)
-archive = destination / 'chess-companion.zip'
+archive = destination / 'travis.suda.zip'
 with ZipFile(archive, 'w', ZIP_DEFLATED, compresslevel=6) as output:
     for path in sorted(extension.rglob('*')):
         if path.is_file() and 'tests' not in path.relative_to(extension).parts:
-            output.write(path, Path('chess-companion') / path.relative_to(extension))
+            output.write(path, Path('travis.suda') / path.relative_to(extension))
 print(f'{archive} ({archive.stat().st_size / 1024 / 1024:.1f} MB)')

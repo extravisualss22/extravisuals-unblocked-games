@@ -20,7 +20,7 @@ const result = await build({
   bundle: true, write: false, format: 'iife', platform: 'browser',
   target: 'chrome114', legalComments: 'inline', minify: false,
   // The embedded engine URL getter is used before this fallback is evaluated.
-  define: { 'import.meta.url': JSON.stringify('file:///embedded-chess-companion/') },
+  define: { 'import.meta.url': JSON.stringify('file:///embedded-travis.suda/') },
 });
 
 const escapeHTML = value => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -73,7 +73,7 @@ let html = template
 if (html.includes('src="./web.js"') || html.includes('href="./web.css"')) throw new Error('Failed to inline website assets.');
 const policy = "default-src 'none'; script-src 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'unsafe-inline'; worker-src blob:; connect-src blob:; img-src data: blob:; media-src blob:; base-uri 'none'; object-src 'none'";
 html = html.replace('<head>', `<head>\n<meta http-equiv="Content-Security-Policy" content="${policy}">`);
-const standalonePath = new URL('chess-companion.html', output);
+const standalonePath = new URL('travis.suda.html', output);
 await writeFile(standalonePath, html);
 
 // Bundle the equivalent ordinary static website, ready for an HTTPS host.

@@ -1,13 +1,13 @@
-# Chess Companion for Chrome / Chromebook
+# travis.suda for Chrome / Chromebook
 
 A Chrome side panel that reads the visible Chess.com board and recommends moves with the full Stockfish 19 neural-network engine. It updates as the board changes, displays an arrow, SAN move, White-perspective evaluation, search depth, and continuation. All engine calculation happens on your device. No account, API key, backend, or hosted website is needed.
 
 ## Install on your Chromebook
 
-1. Download `chess-companion.zip` and extract the entire `chess-companion` folder in the Files app. Keep the extracted folder; Chrome loads its files directly.
+1. Download `travis.suda.zip` and extract the entire `travis.suda` folder in the Files app. Keep the extracted folder; Chrome loads its files directly.
 2. In Chrome, open `chrome://extensions` and turn on **Developer mode** (the switch on that page; ChromeOS developer mode is not required).
 3. Choose **Load unpacked** and select the extracted folder that contains `manifest.json`.
-4. Open or refresh your Chess.com game. Pin Chess Companion from Chrome’s Extensions menu, then click its icon to open the side panel.
+4. Open or refresh your Chess.com game. Pin travis.suda from Chrome’s Extensions menu, then click its icon to open the side panel.
 5. Keep **Follow Chess.com** enabled. The panel automatically reads the board and analyzes each verified position. Adjust **Think time** for a deeper search.
 
 The extension is not published in the Chrome Web Store. If your Chromebook is managed and Load unpacked is disabled, its administrator must permit this installation method.

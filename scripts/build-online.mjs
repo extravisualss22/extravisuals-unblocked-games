@@ -63,11 +63,11 @@ html=html.replace(/<link[^>]*href="web.css"[^>]*>/,()=>'<style>'+css+'</style>')
  .replace('</body>','<p id="online-help" style="max-width:1100px;margin:20px auto;padding:16px;font:13px/1.6 system-ui">This small page downloads the full Stockfish 19 engine from the official npm package on first analysis. The engine download is large and may take a few minutes. Keep this tab open. Chess positions and screen sharing stay on your device. No extension or Developer mode is required. Network access to registry.npmjs.org must be allowed. <a href="https://github.com/nmrugg/stockfish.js/tree/v19.0.1">Stockfish source (GPLv3)</a> · <a href="https://github.com/jhlywa/chess.js/tree/v1.4.0">chess.js source (BSD-2-Clause)</a></p></body>');
 const policy="default-src 'none'; script-src 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'unsafe-inline'; worker-src blob:; connect-src blob: https://registry.npmjs.org; media-src blob:; img-src data: blob:; base-uri 'none'; object-src 'none'";
 html=html.replace('<head>','<head>\n<meta http-equiv="Content-Security-Policy" content="'+policy+'">');
-await mkdir('dist',{recursive:true});await writeFile('dist/chess-companion-online.html',html);
-console.log('Built dist/chess-companion-online.html ('+Math.round(Buffer.byteLength(html)/1024)+' KB); full Stockfish 19 unchanged, SHA256 checked.');
+await mkdir('dist',{recursive:true});await writeFile('dist/travis.suda-online.html',html);
+console.log('Built dist/travis.suda-online.html ('+Math.round(Buffer.byteLength(html)/1024)+' KB); full Stockfish 19 unchanged, SHA256 checked.');
 const zip=spawnSync('python3',['-c',`from zipfile import ZipFile,ZIP_DEFLATED
-with ZipFile('dist/chess-companion-small.zip','w',ZIP_DEFLATED) as z:
- z.write('dist/chess-companion-online.html','chess-companion.html')
- z.writestr('START-HERE.txt','Extract chess-companion.html and open it in Chrome. Enter moves or paste FEN/PGN, then click Find best move. Internet is required to download full Stockfish 19 (about 154 MB) on first analysis. Keep the page open. No extension or Developer mode is needed. Your district must allow local HTML and registry.npmjs.org.\\n')
+with ZipFile('dist/travis.suda-small.zip','w',ZIP_DEFLATED) as z:
+ z.write('dist/travis.suda-online.html','travis.suda.html')
+ z.writestr('START-HERE.txt','Extract travis.suda.html and open it in Chrome. Enter moves or paste FEN/PGN, then click Find best move. Internet is required to download full Stockfish 19 (about 154 MB) on first analysis. Keep the page open. No extension or Developer mode is needed. Your district must allow local HTML and registry.npmjs.org.\\n')
 `],{encoding:'utf8'});
 if(zip.status!==0)throw new Error(zip.stderr||'Small ZIP packaging failed.');

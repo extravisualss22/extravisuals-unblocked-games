@@ -1,0 +1,4526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'unsafe-inline'; worker-src blob:; connect-src blob: https://registry.npmjs.org; media-src blob:; img-src data: blob:; base-uri 'none'; object-src 'none'">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#193d32">
+  <meta name="description" content="A private chess analysis workspace powered by the full Stockfish 19 engine. Enter moves, import a game, or share your chess tab.">
+  <title>travis.suda — Stockfish analysis</title>
+  <style>:root{color-scheme:light;--paper:#f4f2eb;--ink:#263d33;--muted:#7c847a;--forest:#214c3b;--border:#dedfd3;--white:#fffef8;--sage:#d7dfcb;font-family:Inter,"Segoe UI",Arial,sans-serif;font-synthesis:none;color:var(--ink);background:var(--paper)}*{box-sizing:border-box}body{margin:0;min-width:320px}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:default;opacity:.45}button,a,summary,select{ -webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #b28630;outline-offset:3px}a{color:inherit}button{transition:background .15s,box-shadow .15s,transform .15s}.site-header{height:99px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;max-width:1440px;margin:auto;padding:0 72px}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-family:Georgia,"Times New Roman",serif;font-size:23px;letter-spacing:-.7px}.brand-mark{font-size:43px;line-height:1}.brand small{display:block;font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:8px;letter-spacing:1.7px;font-weight:600;margin-top:6px;color:#7b8679}.local-status{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.7px;color:#667765;text-transform:uppercase}.status-dot{width:6px;height:6px;border-radius:50%;background:#739167;box-shadow:0 0 0 4px #73916712}.status-divider{padding:0 5px;color:#afb8a6}main{max-width:1260px;margin:auto;padding:43px 40px 0}.page-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:29px}.eyebrow{font-size:9px;letter-spacing:2px;font-weight:700;color:#859072;margin:0 0 12px}h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:43px;line-height:1.12;letter-spacing:-1.7px;margin:0 0 13px}.intro{font-size:12px;line-height:1.7;color:#80867b;margin:0}.heading-note{display:flex;gap:14px;align-items:center;padding-top:15px;color:#89927e}.heading-note>span{font-size:27px;font-weight:300}.heading-note p{font-size:10px;line-height:1.7}.workspace{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr);gap:32px;align-items:start}.board-column{min-width:0}.board-toolbar{display:flex;align-items:center;justify-content:space-between;height:29px;margin-bottom:12px;font-size:11px}.turn-indicator{display:flex;align-items:center;gap:8px}.turn-piece{background:#fffef8;box-shadow:0 0 0 1px #cbccbf;width:14px;height:14px;border-radius:50%;font-size:0}.source-label{color:#8d9386;font-size:10px}.board-frame{padding:10px;background:#e6e5d9;border-radius:8px;box-shadow:0 9px 20px #2839240a,inset 0 1px 0 #ffffff95}.board-surface{position:relative;border-radius:3px;overflow:hidden;container-type:inline-size}.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1}.square{position:relative;border:0;padding:0;display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:1;background:#eee9d6;border-radius:0;color:var(--ink)}.square.light{background:#eee9d6}.square.dark{background:#829778}.square:hover{filter:brightness(1.03)}.square.last-move{box-shadow:inset 0 0 0 100px #eac34b33}.square.selected{box-shadow:inset 0 0 0 100px #eac34b66}.square.legal:after{content:"";width:23%;height:23%;background:#233b3260;position:absolute;border-radius:50%;z-index:2;pointer-events:none}.square.legal:has(.piece):after{width:91%;height:91%;background:none;border:5px solid #233b3245}.piece{font-family:"DejaVu Sans","Arial Unicode MS",serif;font-size:clamp(25px,9.2cqw,74px);line-height:1;position:relative;z-index:1;user-select:none;pointer-events:none;transform:translateY(-1px)}.piece.white{color:#fffcf0;-webkit-text-stroke:1px #415145;text-shadow:0 2px 1px #15251d33}.piece.black{color:#263d31;-webkit-text-stroke:.6px #1c3025;text-shadow:0 1px 0 #faf7e199}.rank,.file,.coordinate{position:absolute;font-size:9px;line-height:1;font-weight:700;pointer-events:none;color:#6c7b61}.rank{top:5px;left:5px}.file{bottom:4px;right:5px}.dark .rank,.dark .file,.dark .coordinate{color:#ecedda}.board-arrow{position:absolute;inset:0;width:100%;height:100%;opacity:.88;pointer-events:none;filter:drop-shadow(0 1px 1px #523f2530)}[hidden]{display:none!important}.board-actions{display:flex;justify-content:space-between;align-items:center;padding:13px 0 17px;gap:12px}.board-actions>p{font-size:10px;color:#8b9385;margin:0}.board-actions>div{display:flex;align-items:center;gap:15px}.quiet-button,.text-button{background:none;border:0;padding:3px 0;color:#65735e;font-size:10px}.quiet-button span{font-size:15px;margin-right:3px}.quiet-button:hover,.text-button:hover{color:#1d4937}.history-card{border:1px solid var(--border);border-radius:7px;padding:16px 18px;min-height:106px}.section-label{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.section-label h2,.continuation h2{font-size:8px;letter-spacing:1.7px;font-weight:700;margin:0;color:#8e9783}.move-history{display:flex;flex-wrap:wrap;gap:7px;font-size:12px;line-height:1.6;max-height:120px;overflow:auto}.move-history p{margin:0}.empty-history{font-size:11px;color:#9ba28f}.move-history button{border:0;background:#e8ebde;color:#526447;font-size:11px;padding:3px 8px;border-radius:3px}.move-history .move-number{color:#a3ab96;font-size:10px;padding-top:4px}.move-history .current{background:#214c3b;color:#fff}.analysis-column{padding-top:41px;min-width:0}.analysis-card{background:var(--white);border:1px solid #dedfd2;border-radius:9px;padding:25px 25px 20px;box-shadow:0 6px 18px #293d2410}.analysis-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.analysis-top .eyebrow{margin:0;font-size:8px;letter-spacing:1.6px}.evaluation{font-size:13px;font-weight:600;color:#46663c;background:#e7eddd;min-width:45px;padding:6px 9px;text-align:center;border-radius:5px;font-variant-numeric:tabular-nums}.recommendation{padding:18px 0 21px}.recommendation strong{font-family:Georgia,"Times New Roman",serif;font-size:66px;line-height:1.15;letter-spacing:-2px;font-weight:400;display:block}.recommendation p{font-size:12px;color:#92977f;margin:9px 0 0;line-height:1.5}.continuation{background:#f3f5eb;border-radius:5px;padding:14px 15px;min-height:83px}.continuation h2{font-size:7px;letter-spacing:1.5px;color:#9aa38a}.continuation p{font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;font-size:11px;line-height:1.8;color:#68805a;margin:9px 0 0;word-break:break-word}.engine-meta{display:flex;justify-content:space-between;gap:10px;padding:15px 0 20px;font-size:9px;color:#9aa58e;line-height:1.6}.engine-meta #depth{white-space:nowrap;color:#6f8561}.analysis-settings{border-top:1px solid #e6e8da;padding:19px 0 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;color:#7a886b}select{border:1px solid #dce0ce;border-radius:5px;background:#f7f8f0;color:#4e6342;padding:7px 25px 7px 10px;font-size:10px;cursor:pointer}.analysis-buttons{display:flex;gap:9px}.primary-button,.outline-button,.small-button{border-radius:5px;min-height:39px;padding:10px 15px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap}.primary-button{background:var(--forest);color:#f4f4e8;border:1px solid var(--forest)}.primary-button:hover:not(:disabled){background:#315e46;box-shadow:0 3px 7px #1e45311a}.primary-button>span{font-size:15px;font-weight:400}.analysis-buttons .primary-button{flex:1}.outline-button{background:transparent;color:#8b957b;border:1px solid #dfe2d3}.outline-button:hover:not(:disabled){background:#f0f3e7}.small-button{min-height:32px;background:#e6ecda;border:1px solid #e0e6d3;color:#506842;font-size:10px;padding:8px 11px}.small-button:hover:not(:disabled){background:#d8e4c8}.analysis-note{text-align:center;color:#a2a98f;font-size:8px;line-height:1.7;margin:13px 0 0}.utility-card{border:1px solid var(--border);border-radius:7px;margin-top:19px}.utility-card summary{display:flex;gap:11px;align-items:center;list-style:none;cursor:pointer;padding:18px 19px;font-size:12px;color:#4d6241}.utility-card summary::-webkit-details-marker,.sharing-card summary::-webkit-details-marker{display:none}.utility-icon{font-size:25px;color:#8b9e7b;line-height:1}.summary-subtitle{display:block;font-size:9px;color:#98a28c;margin-top:5px}.chevron{margin-left:auto;color:#8d9b7b;font-size:16px;transition:transform .2s}details[open]>.utility-card .chevron,details[open]>summary .chevron{transform:rotate(180deg)}.utility-body{padding:0 19px 17px}.help{font-size:10px;line-height:1.8;color:#959e87;margin:0 0 12px}textarea{display:block;width:100%;resize:vertical;border:1px solid #dce0d1;border-radius:5px;background:#eeeee3;color:#536747;padding:11px 12px;font-family:ui-monospace,Consolas,monospace;font-size:10px;line-height:1.6;min-height:78px}textarea::placeholder{color:#a0a78f}.import-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px}.import-footer>span{font-size:8px;letter-spacing:1.6px;color:#a1aa92}.error-message{font-size:10px;line-height:1.7;color:#ad5b42;margin:10px 0 0}.error-message:empty{display:none}.perspective-note{display:flex;gap:10px;align-items:flex-start;margin:18px 5px}.perspective-note>span{font-size:19px;line-height:1.5;color:#a5ae94}.perspective-note p{font-size:9px;line-height:1.8;color:#9da78f;margin:0}.perspective-note strong{color:#6f8261}.notice{background:#e6eddd;border:1px solid #d6dfca;border-left:3px solid #759568;border-radius:4px;padding:12px 15px;font-size:12px;line-height:1.6;color:#5e7452;margin:0 0 22px}.sharing-card{border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:34px 0 0}.sharing-card>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;padding:25px 0;list-style:none}.sharing-title{display:flex;align-items:center;gap:14px;font-size:14px}.share-icon{font-size:27px;color:#789168}.sharing-title small{display:block;font-size:10px;color:#9ba58e;margin-top:6px}.sharing-tag{font-size:8px;letter-spacing:1.3px;color:#8d9b7e;display:flex;align-items:center;gap:18px}.sharing-tag span{font-size:16px}.sharing-body{padding:0 0 24px}.sharing-guide{display:grid;grid-template-columns:1fr 1fr;column-gap:30px}.sharing-guide>p:not(.privacy-note){font-size:11px;line-height:1.9;color:#7b8b6c;margin:0 0 18px}.share-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;grid-column:1/-1}.share-controls label{font-size:10px;color:#7d906f;margin-left:auto}.privacy-note{font-size:9px;color:#9aab8a;grid-column:1/-1;margin:11px 0 17px;display:flex;gap:6px;align-items:center}.privacy-note>span{font-size:13px}.share-preview{position:relative;background:#e6e8dc;border:1px solid #dce0cf;border-radius:7px;overflow:hidden}.share-preview canvas{display:block;max-width:100%;width:100%;height:auto;max-height:600px;object-fit:contain;cursor:crosshair;background:repeating-linear-gradient(45deg,#e8eadd,#e8eadd 12px,#e5e7da 12px,#e5e7da 24px)}.share-status{margin:0;padding:11px 15px;border-top:1px solid #d7ddca;background:#eaf0df;font-size:11px;color:#728764;line-height:1.6}.share-confirm{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding-top:17px}.share-confirm p{font-size:11px;line-height:1.6;color:#7f9270;margin:0;flex:1;min-width:190px}.site-footer{max-width:1180px;padding:27px 0 32px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;color:#9ba68e}.site-footer p{font-family:Georgia,"Times New Roman",serif;font-size:13px;display:flex;align-items:center;gap:12px;margin:0}.footer-knight{font-size:24px;color:#a1b092}.site-footer>div{display:flex;align-items:center;gap:10px;font-size:9px}.site-footer a{text-decoration:none}.site-footer a:hover{text-decoration:underline}.promotion-dialog{border:1px solid var(--border);border-radius:13px;background:var(--paper);color:var(--ink);padding:30px;max-width:430px;box-shadow:0 20px 80px #142c3260}.promotion-dialog::backdrop{background:#0f211d8c;backdrop-filter:blur(3px)}.promotion-dialog h2{font-family:Georgia,"Times New Roman",serif;font-size:25px;font-weight:400;margin:0 0 25px}.promotion-options{display:flex;gap:10px;margin-bottom:22px}.promotion-options button{width:68px;border:1px solid #ced8c2;border-radius:6px;background:#e7ecdc;color:#294532;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 5px 9px;font-size:36px;gap:7px}.promotion-options button:hover{background:#d3e0c3}.promotion-options span{font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:10px;color:#758769}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(min-width:1400px){main{padding-top:49px}.workspace{gap:38px}.analysis-card{padding:29px}.recommendation{padding:20px 0 25px}.recommendation strong{font-size:76px}}@media(max-width:1050px){.site-header{padding:0 34px}main{padding:35px 28px 0}.workspace{grid-template-columns:minmax(0,1.3fr) minmax(290px,1fr);gap:22px}.analysis-card{padding:20px}.board-actions{align-items:flex-start}.board-actions>p{max-width:125px;line-height:1.5}.board-actions>div{gap:12px}.site-footer{margin:0 28px}.heading-note{display:none}.recommendation strong{font-size:59px}.sharing-guide{column-gap:22px}}@media(max-width:760px){.site-header{height:82px;padding:0 22px}.brand{font-size:20px}.brand-mark{font-size:36px}.brand small{font-size:7px}.local-status{font-size:8px;letter-spacing:.3px}.status-divider,.local-status .status-divider+span{display:none}main{max-width:620px;padding:30px 20px 0}.page-heading{margin-bottom:22px}.eyebrow{font-size:8px;letter-spacing:1.5px}h1{font-size:35px}.intro{font-size:11px;max-width:340px}.workspace{grid-template-columns:1fr;gap:22px}.analysis-column{padding-top:0}.board-frame{padding:8px}.board-actions>p{max-width:none}.board-actions{align-items:center;padding-bottom:18px}.analysis-card{padding:24px}.recommendation strong{font-size:66px}.perspective-note{margin-bottom:0}.sharing-card{margin-top:26px}.sharing-tag{display:none}.sharing-guide{grid-template-columns:1fr}.sharing-guide>p:not(.privacy-note){margin-bottom:12px}.share-controls label{margin-left:0}.share-controls{gap:9px}.share-confirm{gap:12px}.share-confirm p{order:3;flex-basis:100%}.share-confirm button{flex:1}.site-footer{max-width:580px;margin:auto;padding:24px 20px;flex-direction:column;align-items:flex-start;gap:18px}.site-footer p{font-size:12px}.source-label{font-size:9px}.sharing-title{font-size:13px}.sharing-title small{font-size:9px}}@media(max-width:420px){.site-header{padding:0 17px}.brand{font-size:18px;gap:8px}.brand small{font-size:6px;letter-spacing:1.2px}.brand-mark{font-size:32px}.local-status{font-size:0;gap:0}.local-status .status-dot{width:7px;height:7px}main{padding:27px 14px 0}h1{font-size:32px}.board-actions>p{font-size:9px}.board-actions>div{gap:11px}.quiet-button{font-size:9px}.rank,.file{font-size:8px}.analysis-card{padding:20px}.share-controls{display:grid;grid-template-columns:1fr 1fr}.share-controls>button{font-size:10px;padding:9px}.share-controls label{grid-column:1}.share-controls select{grid-column:2;max-width:100%;padding-left:6px}.share-confirm{display:grid;grid-template-columns:1fr}.share-confirm p{order:0}.promotion-dialog{padding:23px}.promotion-options{gap:8px}.promotion-options button{width:57px}.board-frame{padding:6px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="travis.suda home"><span class="brand-mark" aria-hidden="true">♞</span><span>travis.suda<small>YOUR PERSONAL ANALYSIS BOARD</small></span></a>
+    <span class="local-status"><span class="status-dot"></span> Stockfish 19 <span class="status-divider">/</span> On your device</span>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <div><p class="eyebrow">A CLEARER VIEW OF THE BOARD</p><h1>Find your next move.</h1><p class="intro">Enter a position. Explore the possibilities. Let Stockfish do the thinking.</p></div>
+      <div class="heading-note"><span aria-hidden="true">↗</span><p>Full neural network.<br>Engine downloads on first use.</p></div>
+    </section>
+
+    <p id="notice" class="notice" role="status" hidden></p>
+
+    <div class="workspace">
+      <section class="board-column" aria-label="Analysis board">
+        <div class="board-toolbar"><div class="turn-indicator"><span class="turn-piece" aria-hidden="true">●</span><span id="turn">White to move</span></div><span id="source" class="source-label">Starting position</span></div>
+        <div class="board-frame">
+          <div class="board-surface">
+            <div id="board" class="board" aria-label="Chessboard"></div>
+            <svg id="arrow" class="board-arrow" viewBox="0 0 800 800" aria-hidden="true" hidden><defs><marker id="arrowhead" markerWidth="4" markerHeight="4" refX="2.5" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 Z" fill="#e4aa32"/></marker></defs><line id="best-arrow" stroke="#e4aa32" stroke-width="13" stroke-linecap="round" marker-end="url(#arrowhead)"/></svg>
+          </div>
+        </div>
+        <div class="board-actions"><p>Click a piece, then its destination.</p><div><button id="undo" class="quiet-button" title="Undo the last move"><span aria-hidden="true">↶</span> Undo</button><button id="flip" class="quiet-button" title="Flip the board"><span aria-hidden="true">⇅</span> Flip</button><button id="reset" class="quiet-button">Reset</button></div></div>
+        <section class="history-card" aria-label="Move history"><div class="section-label"><h2>THE GAME SO FAR</h2><button id="fen-copy" class="text-button">Copy FEN <span aria-hidden="true">↗</span></button></div><div id="history" class="move-history" aria-live="polite"><p class="empty-history">Your moves will appear here.</p></div></section>
+      </section>
+
+      <aside class="analysis-column" aria-label="Position analysis">
+        <section class="analysis-card">
+          <div class="analysis-top"><span class="eyebrow">THE ENGINE’S CHOICE</span><span id="evaluation" class="evaluation" title="Evaluation from White’s perspective">—</span></div>
+          <div class="recommendation"><strong id="best-move">—</strong><p id="move-description">Ready when you are.</p></div>
+          <div class="continuation"><h2>LIKELY CONTINUATION</h2><p id="variation">Analyze the position to see the next moves.</p></div>
+          <div class="engine-meta"><span id="engine-status" role="status">Internet required · full engine downloads on first analysis</span><span id="depth">Depth —</span></div>
+          <div class="analysis-settings"><label for="time">Think time</label><select id="time"><option value="1000">1 second</option><option value="3000" selected>3 seconds</option><option value="10000">10 seconds</option><option value="30000">30 seconds</option></select></div>
+          <div class="analysis-buttons"><button id="analyze" class="primary-button"><span aria-hidden="true">✦</span> Find best move</button><button id="stop" class="outline-button">Stop</button></div>
+          <p class="analysis-note">More thinking time can reveal a stronger continuation.</p>
+        </section>
+
+        <details class="utility-card import-card" open>
+          <summary><span class="utility-icon" aria-hidden="true">↳</span><span>Bring your game<span class="summary-subtitle">Import a position or move history</span></span><span class="chevron" aria-hidden="true">⌄</span></summary>
+          <div class="utility-body"><p class="help">Paste a FEN position or PGN game from your chess website’s share or download tools.</p><label class="visually-hidden" for="position-input">FEN position or PGN game</label><textarea id="position-input" rows="3" spellcheck="false" placeholder="Paste FEN or PGN here…"></textarea><div class="import-footer"><span>FEN / PGN</span><button id="import" class="small-button">Load position <span aria-hidden="true">→</span></button></div><p id="import-error" class="error-message" role="alert"></p></div>
+        </details>
+        <div class="perspective-note"><span aria-hidden="true">◐</span><p>Evaluation is from White’s perspective.<br><strong>+</strong> favors White · <strong>−</strong> favors Black · <strong>M</strong> means mate.</p></div>
+      </aside>
+    </div>
+
+    <details class="sharing-card" id="sharing-section">
+      <summary><div class="sharing-title"><span class="share-icon" aria-hidden="true">▣</span><span>Keep your game in view<small>Optional tab sharing · no extension needed</small></span></div><span class="sharing-tag">SCREEN SHARE ASSIST <span aria-hidden="true">⌄</span></span></summary>
+      <div class="sharing-body">
+        <div class="sharing-guide"><p>Share your chess tab, then mark the board’s top-left and bottom-right corners in the preview. Load the same position here, confirm it matches, and check each detected move before applying it.</p><p class="help">Start with a FEN/PGN for a game in progress, or use the initial position for a new game. If sharing is unavailable, enter moves on the analysis board instead.</p><div class="share-controls"><button id="share-start" class="primary-button">Share chess tab <span aria-hidden="true">↗</span></button><button id="share-stop" class="outline-button" disabled>Stop sharing</button><label for="share-orientation">Shared board</label><select id="share-orientation"><option value="white">White at bottom</option><option value="black">Black at bottom</option></select></div><p class="privacy-note"><span aria-hidden="true">◈</span> Your screen stays on this device. Nothing is uploaded.</p></div>
+        <div class="share-preview"><video id="share-video" hidden muted playsinline></video><canvas id="share-canvas" width="960" height="540" aria-label="Shared chess tab preview; mark the top-left and bottom-right corners of the board"></canvas><p id="share-status" class="share-status" role="status">Your shared tab will appear here.</p></div>
+        <div class="share-confirm"><button id="share-seed" class="small-button" disabled>Position matches · track changes</button><p id="share-candidate" aria-live="polite">Detected moves will appear here for you to confirm.</p><button id="share-apply" class="primary-button" disabled>Apply detected move</button></div>
+      </div>
+    </details>
+  </main>
+
+  <footer class="site-footer"><p><span class="footer-knight" aria-hidden="true">♞</span> A little more clarity. One move at a time.</p><div><a href="https://github.com/nmrugg/stockfish.js/tree/v19.0.1" target="_blank" rel="noopener noreferrer">Stockfish 19</a><span>·</span><a href="https://github.com/nmrugg/stockfish.js/blob/v19.0.1/Copying.txt">GPLv3</a><span>·</span><a href="#online-help">About &amp; source</a></div></footer>
+
+  <dialog id="promotion" class="promotion-dialog"><form method="dialog"><p class="eyebrow">A PAWN’S NEXT CHAPTER</p><h2>Choose your promotion</h2><div class="promotion-options"><button type="button" data-promotion="q" aria-label="Promote to queen">♛<span>Queen</span></button><button type="button" data-promotion="r" aria-label="Promote to rook">♜<span>Rook</span></button><button type="button" data-promotion="b" aria-label="Promote to bishop">♝<span>Bishop</span></button><button type="button" data-promotion="n" aria-label="Promote to knight">♞<span>Knight</span></button></div><button type="button" id="promotion-cancel" class="quiet-button">Cancel</button></form></dialog>
+  <script>(() => {
+  // chess-assistant/vendor/chess.js
+  function rootNode(comment) {
+    return comment !== null ? { comment, variations: [] } : { variations: [] };
+  }
+  function node(move, suffix, nag, comment, variations) {
+    const node2 = { move, variations };
+    if (suffix) {
+      node2.suffix = suffix;
+    }
+    if (nag) {
+      node2.nag = nag;
+    }
+    if (comment !== null) {
+      node2.comment = comment;
+    }
+    return node2;
+  }
+  function lineToTree(...nodes) {
+    const [root, ...rest] = nodes;
+    let parent = root;
+    for (const child of rest) {
+      if (child !== null) {
+        parent.variations = [child, ...child.variations];
+        child.variations = [];
+        parent = child;
+      }
+    }
+    return root;
+  }
+  function pgn(headers, game2) {
+    if (game2.marker && game2.marker.comment) {
+      let node2 = game2.root;
+      while (true) {
+        const next = node2.variations[0];
+        if (!next) {
+          node2.comment = game2.marker.comment;
+          break;
+        }
+        node2 = next;
+      }
+    }
+    return {
+      headers,
+      root: game2.root,
+      result: (game2.marker && game2.marker.result) ?? void 0
+    };
+  }
+  function peg$subclass(child, parent) {
+    function C() {
+      this.constructor = child;
+    }
+    C.prototype = parent.prototype;
+    child.prototype = new C();
+  }
+  function peg$SyntaxError(message, expected, found, location) {
+    var self = Error.call(this, message);
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(self, peg$SyntaxError.prototype);
+    }
+    self.expected = expected;
+    self.found = found;
+    self.location = location;
+    self.name = "SyntaxError";
+    return self;
+  }
+  peg$subclass(peg$SyntaxError, Error);
+  function peg$padEnd(str, targetLength, padString) {
+    padString = padString || " ";
+    if (str.length > targetLength) {
+      return str;
+    }
+    targetLength -= str.length;
+    padString += padString.repeat(targetLength);
+    return str + padString.slice(0, targetLength);
+  }
+  peg$SyntaxError.prototype.format = function(sources) {
+    var str = "Error: " + this.message;
+    if (this.location) {
+      var src = null;
+      var k;
+      for (k = 0; k < sources.length; k++) {
+        if (sources[k].source === this.location.source) {
+          src = sources[k].text.split(/\r\n|\n|\r/g);
+          break;
+        }
+      }
+      var s = this.location.start;
+      var offset_s = this.location.source && typeof this.location.source.offset === "function" ? this.location.source.offset(s) : s;
+      var loc = this.location.source + ":" + offset_s.line + ":" + offset_s.column;
+      if (src) {
+        var e = this.location.end;
+        var filler = peg$padEnd("", offset_s.line.toString().length, " ");
+        var line = src[s.line - 1];
+        var last = s.line === e.line ? e.column : line.length + 1;
+        var hatLen = last - s.column || 1;
+        str += "\n --> " + loc + "\n" + filler + " |\n" + offset_s.line + " | " + line + "\n" + filler + " | " + peg$padEnd("", s.column - 1, " ") + peg$padEnd("", hatLen, "^");
+      } else {
+        str += "\n at " + loc;
+      }
+    }
+    return str;
+  };
+  peg$SyntaxError.buildMessage = function(expected, found) {
+    var DESCRIBE_EXPECTATION_FNS = {
+      literal: function(expectation) {
+        return '"' + literalEscape(expectation.text) + '"';
+      },
+      class: function(expectation) {
+        var escapedParts = expectation.parts.map(function(part) {
+          return Array.isArray(part) ? classEscape(part[0]) + "-" + classEscape(part[1]) : classEscape(part);
+        });
+        return "[" + (expectation.inverted ? "^" : "") + escapedParts.join("") + "]";
+      },
+      any: function() {
+        return "any character";
+      },
+      end: function() {
+        return "end of input";
+      },
+      other: function(expectation) {
+        return expectation.description;
+      }
+    };
+    function hex(ch) {
+      return ch.charCodeAt(0).toString(16).toUpperCase();
+    }
+    function literalEscape(s) {
+      return s.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\0/g, "\\0").replace(/\t/g, "\\t").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/[\x00-\x0F]/g, function(ch) {
+        return "\\x0" + hex(ch);
+      }).replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) {
+        return "\\x" + hex(ch);
+      });
+    }
+    function classEscape(s) {
+      return s.replace(/\\/g, "\\\\").replace(/\]/g, "\\]").replace(/\^/g, "\\^").replace(/-/g, "\\-").replace(/\0/g, "\\0").replace(/\t/g, "\\t").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/[\x00-\x0F]/g, function(ch) {
+        return "\\x0" + hex(ch);
+      }).replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) {
+        return "\\x" + hex(ch);
+      });
+    }
+    function describeExpectation(expectation) {
+      return DESCRIBE_EXPECTATION_FNS[expectation.type](expectation);
+    }
+    function describeExpected(expected2) {
+      var descriptions = expected2.map(describeExpectation);
+      var i, j;
+      descriptions.sort();
+      if (descriptions.length > 0) {
+        for (i = 1, j = 1; i < descriptions.length; i++) {
+          if (descriptions[i - 1] !== descriptions[i]) {
+            descriptions[j] = descriptions[i];
+            j++;
+          }
+        }
+        descriptions.length = j;
+      }
+      switch (descriptions.length) {
+        case 1:
+          return descriptions[0];
+        case 2:
+          return descriptions[0] + " or " + descriptions[1];
+        default:
+          return descriptions.slice(0, -1).join(", ") + ", or " + descriptions[descriptions.length - 1];
+      }
+    }
+    function describeFound(found2) {
+      return found2 ? '"' + literalEscape(found2) + '"' : "end of input";
+    }
+    return "Expected " + describeExpected(expected) + " but " + describeFound(found) + " found.";
+  };
+  function peg$parse(input, options) {
+    options = options !== void 0 ? options : {};
+    var peg$FAILED = {};
+    var peg$source = options.grammarSource;
+    var peg$startRuleFunctions = { pgn: peg$parsepgn };
+    var peg$startRuleFunction = peg$parsepgn;
+    var peg$c0 = "[";
+    var peg$c1 = '"';
+    var peg$c2 = "]";
+    var peg$c3 = ".";
+    var peg$c4 = "O-O-O";
+    var peg$c5 = "O-O";
+    var peg$c6 = "0-0-0";
+    var peg$c7 = "0-0";
+    var peg$c8 = "$";
+    var peg$c9 = "{";
+    var peg$c10 = "}";
+    var peg$c11 = ";";
+    var peg$c12 = "(";
+    var peg$c13 = ")";
+    var peg$c14 = "1-0";
+    var peg$c15 = "0-1";
+    var peg$c16 = "1/2-1/2";
+    var peg$c17 = "*";
+    var peg$r0 = /^[a-zA-Z]/;
+    var peg$r1 = /^[^"]/;
+    var peg$r2 = /^[0-9]/;
+    var peg$r3 = /^[.]/;
+    var peg$r4 = /^[a-zA-Z1-8\-=]/;
+    var peg$r5 = /^[+#]/;
+    var peg$r6 = /^[!?]/;
+    var peg$r7 = /^[^}]/;
+    var peg$r8 = /^[^\r\n]/;
+    var peg$r9 = /^[ \t\r\n]/;
+    var peg$e0 = peg$otherExpectation("tag pair");
+    var peg$e1 = peg$literalExpectation("[", false);
+    var peg$e2 = peg$literalExpectation('"', false);
+    var peg$e3 = peg$literalExpectation("]", false);
+    var peg$e4 = peg$otherExpectation("tag name");
+    var peg$e5 = peg$classExpectation([["a", "z"], ["A", "Z"]], false, false);
+    var peg$e6 = peg$otherExpectation("tag value");
+    var peg$e7 = peg$classExpectation(['"'], true, false);
+    var peg$e8 = peg$otherExpectation("move number");
+    var peg$e9 = peg$classExpectation([["0", "9"]], false, false);
+    var peg$e10 = peg$literalExpectation(".", false);
+    var peg$e11 = peg$classExpectation(["."], false, false);
+    var peg$e12 = peg$otherExpectation("standard algebraic notation");
+    var peg$e13 = peg$literalExpectation("O-O-O", false);
+    var peg$e14 = peg$literalExpectation("O-O", false);
+    var peg$e15 = peg$literalExpectation("0-0-0", false);
+    var peg$e16 = peg$literalExpectation("0-0", false);
+    var peg$e17 = peg$classExpectation([["a", "z"], ["A", "Z"], ["1", "8"], "-", "="], false, false);
+    var peg$e18 = peg$classExpectation(["+", "#"], false, false);
+    var peg$e19 = peg$otherExpectation("suffix annotation");
+    var peg$e20 = peg$classExpectation(["!", "?"], false, false);
+    var peg$e21 = peg$otherExpectation("NAG");
+    var peg$e22 = peg$literalExpectation("$", false);
+    var peg$e23 = peg$otherExpectation("brace comment");
+    var peg$e24 = peg$literalExpectation("{", false);
+    var peg$e25 = peg$classExpectation(["}"], true, false);
+    var peg$e26 = peg$literalExpectation("}", false);
+    var peg$e27 = peg$otherExpectation("rest of line comment");
+    var peg$e28 = peg$literalExpectation(";", false);
+    var peg$e29 = peg$classExpectation(["\r", "\n"], true, false);
+    var peg$e30 = peg$otherExpectation("variation");
+    var peg$e31 = peg$literalExpectation("(", false);
+    var peg$e32 = peg$literalExpectation(")", false);
+    var peg$e33 = peg$otherExpectation("game termination marker");
+    var peg$e34 = peg$literalExpectation("1-0", false);
+    var peg$e35 = peg$literalExpectation("0-1", false);
+    var peg$e36 = peg$literalExpectation("1/2-1/2", false);
+    var peg$e37 = peg$literalExpectation("*", false);
+    var peg$e38 = peg$otherExpectation("whitespace");
+    var peg$e39 = peg$classExpectation([" ", "	", "\r", "\n"], false, false);
+    var peg$f0 = function(headers, game2) {
+      return pgn(headers, game2);
+    };
+    var peg$f1 = function(tagPairs) {
+      return Object.fromEntries(tagPairs);
+    };
+    var peg$f2 = function(tagName, tagValue) {
+      return [tagName, tagValue];
+    };
+    var peg$f3 = function(root, marker) {
+      return { root, marker };
+    };
+    var peg$f4 = function(comment, moves) {
+      return lineToTree(rootNode(comment), ...moves.flat());
+    };
+    var peg$f5 = function(san, suffix, nag, comment, variations) {
+      return node(san, suffix, nag, comment, variations);
+    };
+    var peg$f6 = function(nag) {
+      return nag;
+    };
+    var peg$f7 = function(comment) {
+      return comment.replace(/[\r\n]+/g, " ");
+    };
+    var peg$f8 = function(comment) {
+      return comment.trim();
+    };
+    var peg$f9 = function(line) {
+      return line;
+    };
+    var peg$f10 = function(result, comment) {
+      return { result, comment };
+    };
+    var peg$currPos = options.peg$currPos | 0;
+    var peg$posDetailsCache = [{ line: 1, column: 1 }];
+    var peg$maxFailPos = peg$currPos;
+    var peg$maxFailExpected = options.peg$maxFailExpected || [];
+    var peg$silentFails = options.peg$silentFails | 0;
+    var peg$result;
+    if (options.startRule) {
+      if (!(options.startRule in peg$startRuleFunctions)) {
+        throw new Error(`Can't start parsing from rule "` + options.startRule + '".');
+      }
+      peg$startRuleFunction = peg$startRuleFunctions[options.startRule];
+    }
+    function peg$literalExpectation(text, ignoreCase) {
+      return { type: "literal", text, ignoreCase };
+    }
+    function peg$classExpectation(parts, inverted, ignoreCase) {
+      return { type: "class", parts, inverted, ignoreCase };
+    }
+    function peg$endExpectation() {
+      return { type: "end" };
+    }
+    function peg$otherExpectation(description) {
+      return { type: "other", description };
+    }
+    function peg$computePosDetails(pos) {
+      var details = peg$posDetailsCache[pos];
+      var p;
+      if (details) {
+        return details;
+      } else {
+        if (pos >= peg$posDetailsCache.length) {
+          p = peg$posDetailsCache.length - 1;
+        } else {
+          p = pos;
+          while (!peg$posDetailsCache[--p]) {
+          }
+        }
+        details = peg$posDetailsCache[p];
+        details = {
+          line: details.line,
+          column: details.column
+        };
+        while (p < pos) {
+          if (input.charCodeAt(p) === 10) {
+            details.line++;
+            details.column = 1;
+          } else {
+            details.column++;
+          }
+          p++;
+        }
+        peg$posDetailsCache[pos] = details;
+        return details;
+      }
+    }
+    function peg$computeLocation(startPos, endPos, offset) {
+      var startPosDetails = peg$computePosDetails(startPos);
+      var endPosDetails = peg$computePosDetails(endPos);
+      var res = {
+        source: peg$source,
+        start: {
+          offset: startPos,
+          line: startPosDetails.line,
+          column: startPosDetails.column
+        },
+        end: {
+          offset: endPos,
+          line: endPosDetails.line,
+          column: endPosDetails.column
+        }
+      };
+      return res;
+    }
+    function peg$fail(expected) {
+      if (peg$currPos < peg$maxFailPos) {
+        return;
+      }
+      if (peg$currPos > peg$maxFailPos) {
+        peg$maxFailPos = peg$currPos;
+        peg$maxFailExpected = [];
+      }
+      peg$maxFailExpected.push(expected);
+    }
+    function peg$buildStructuredError(expected, found, location) {
+      return new peg$SyntaxError(
+        peg$SyntaxError.buildMessage(expected, found),
+        expected,
+        found,
+        location
+      );
+    }
+    function peg$parsepgn() {
+      var s0, s1, s2;
+      s0 = peg$currPos;
+      s1 = peg$parsetagPairSection();
+      s2 = peg$parsemoveTextSection();
+      s0 = peg$f0(s1, s2);
+      return s0;
+    }
+    function peg$parsetagPairSection() {
+      var s0, s1, s2;
+      s0 = peg$currPos;
+      s1 = [];
+      s2 = peg$parsetagPair();
+      while (s2 !== peg$FAILED) {
+        s1.push(s2);
+        s2 = peg$parsetagPair();
+      }
+      s2 = peg$parse_();
+      s0 = peg$f1(s1);
+      return s0;
+    }
+    function peg$parsetagPair() {
+      var s0, s2, s4, s6, s7, s8, s10;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      peg$parse_();
+      if (input.charCodeAt(peg$currPos) === 91) {
+        s2 = peg$c0;
+        peg$currPos++;
+      } else {
+        s2 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e1);
+        }
+      }
+      if (s2 !== peg$FAILED) {
+        peg$parse_();
+        s4 = peg$parsetagName();
+        if (s4 !== peg$FAILED) {
+          peg$parse_();
+          if (input.charCodeAt(peg$currPos) === 34) {
+            s6 = peg$c1;
+            peg$currPos++;
+          } else {
+            s6 = peg$FAILED;
+            if (peg$silentFails === 0) {
+              peg$fail(peg$e2);
+            }
+          }
+          if (s6 !== peg$FAILED) {
+            s7 = peg$parsetagValue();
+            if (input.charCodeAt(peg$currPos) === 34) {
+              s8 = peg$c1;
+              peg$currPos++;
+            } else {
+              s8 = peg$FAILED;
+              if (peg$silentFails === 0) {
+                peg$fail(peg$e2);
+              }
+            }
+            if (s8 !== peg$FAILED) {
+              peg$parse_();
+              if (input.charCodeAt(peg$currPos) === 93) {
+                s10 = peg$c2;
+                peg$currPos++;
+              } else {
+                s10 = peg$FAILED;
+                if (peg$silentFails === 0) {
+                  peg$fail(peg$e3);
+                }
+              }
+              if (s10 !== peg$FAILED) {
+                s0 = peg$f2(s4, s7);
+              } else {
+                peg$currPos = s0;
+                s0 = peg$FAILED;
+              }
+            } else {
+              peg$currPos = s0;
+              s0 = peg$FAILED;
+            }
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e0);
+        }
+      }
+      return s0;
+    }
+    function peg$parsetagName() {
+      var s0, s1, s2;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      s1 = [];
+      s2 = input.charAt(peg$currPos);
+      if (peg$r0.test(s2)) {
+        peg$currPos++;
+      } else {
+        s2 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e5);
+        }
+      }
+      if (s2 !== peg$FAILED) {
+        while (s2 !== peg$FAILED) {
+          s1.push(s2);
+          s2 = input.charAt(peg$currPos);
+          if (peg$r0.test(s2)) {
+            peg$currPos++;
+          } else {
+            s2 = peg$FAILED;
+            if (peg$silentFails === 0) {
+              peg$fail(peg$e5);
+            }
+          }
+        }
+      } else {
+        s1 = peg$FAILED;
+      }
+      if (s1 !== peg$FAILED) {
+        s0 = input.substring(s0, peg$currPos);
+      } else {
+        s0 = s1;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e4);
+        }
+      }
+      return s0;
+    }
+    function peg$parsetagValue() {
+      var s0, s1, s2;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      s1 = [];
+      s2 = input.charAt(peg$currPos);
+      if (peg$r1.test(s2)) {
+        peg$currPos++;
+      } else {
+        s2 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e7);
+        }
+      }
+      while (s2 !== peg$FAILED) {
+        s1.push(s2);
+        s2 = input.charAt(peg$currPos);
+        if (peg$r1.test(s2)) {
+          peg$currPos++;
+        } else {
+          s2 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e7);
+          }
+        }
+      }
+      s0 = input.substring(s0, peg$currPos);
+      peg$silentFails--;
+      s1 = peg$FAILED;
+      if (peg$silentFails === 0) {
+        peg$fail(peg$e6);
+      }
+      return s0;
+    }
+    function peg$parsemoveTextSection() {
+      var s0, s1, s3;
+      s0 = peg$currPos;
+      s1 = peg$parseline();
+      peg$parse_();
+      s3 = peg$parsegameTerminationMarker();
+      if (s3 === peg$FAILED) {
+        s3 = null;
+      }
+      peg$parse_();
+      s0 = peg$f3(s1, s3);
+      return s0;
+    }
+    function peg$parseline() {
+      var s0, s1, s2, s3;
+      s0 = peg$currPos;
+      s1 = peg$parsecomment();
+      if (s1 === peg$FAILED) {
+        s1 = null;
+      }
+      s2 = [];
+      s3 = peg$parsemove();
+      while (s3 !== peg$FAILED) {
+        s2.push(s3);
+        s3 = peg$parsemove();
+      }
+      s0 = peg$f4(s1, s2);
+      return s0;
+    }
+    function peg$parsemove() {
+      var s0, s4, s5, s6, s7, s8, s9, s10;
+      s0 = peg$currPos;
+      peg$parse_();
+      peg$parsemoveNumber();
+      peg$parse_();
+      s4 = peg$parsesan();
+      if (s4 !== peg$FAILED) {
+        s5 = peg$parsesuffixAnnotation();
+        if (s5 === peg$FAILED) {
+          s5 = null;
+        }
+        s6 = [];
+        s7 = peg$parsenag();
+        while (s7 !== peg$FAILED) {
+          s6.push(s7);
+          s7 = peg$parsenag();
+        }
+        s7 = peg$parse_();
+        s8 = peg$parsecomment();
+        if (s8 === peg$FAILED) {
+          s8 = null;
+        }
+        s9 = [];
+        s10 = peg$parsevariation();
+        while (s10 !== peg$FAILED) {
+          s9.push(s10);
+          s10 = peg$parsevariation();
+        }
+        s0 = peg$f5(s4, s5, s6, s8, s9);
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+      return s0;
+    }
+    function peg$parsemoveNumber() {
+      var s0, s1, s2, s3, s4, s5;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      s1 = [];
+      s2 = input.charAt(peg$currPos);
+      if (peg$r2.test(s2)) {
+        peg$currPos++;
+      } else {
+        s2 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e9);
+        }
+      }
+      while (s2 !== peg$FAILED) {
+        s1.push(s2);
+        s2 = input.charAt(peg$currPos);
+        if (peg$r2.test(s2)) {
+          peg$currPos++;
+        } else {
+          s2 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e9);
+          }
+        }
+      }
+      if (input.charCodeAt(peg$currPos) === 46) {
+        s2 = peg$c3;
+        peg$currPos++;
+      } else {
+        s2 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e10);
+        }
+      }
+      if (s2 !== peg$FAILED) {
+        s3 = peg$parse_();
+        s4 = [];
+        s5 = input.charAt(peg$currPos);
+        if (peg$r3.test(s5)) {
+          peg$currPos++;
+        } else {
+          s5 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e11);
+          }
+        }
+        while (s5 !== peg$FAILED) {
+          s4.push(s5);
+          s5 = input.charAt(peg$currPos);
+          if (peg$r3.test(s5)) {
+            peg$currPos++;
+          } else {
+            s5 = peg$FAILED;
+            if (peg$silentFails === 0) {
+              peg$fail(peg$e11);
+            }
+          }
+        }
+        s1 = [s1, s2, s3, s4];
+        s0 = s1;
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e8);
+        }
+      }
+      return s0;
+    }
+    function peg$parsesan() {
+      var s0, s1, s2, s3, s4, s5;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      s1 = peg$currPos;
+      if (input.substr(peg$currPos, 5) === peg$c4) {
+        s2 = peg$c4;
+        peg$currPos += 5;
+      } else {
+        s2 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e13);
+        }
+      }
+      if (s2 === peg$FAILED) {
+        if (input.substr(peg$currPos, 3) === peg$c5) {
+          s2 = peg$c5;
+          peg$currPos += 3;
+        } else {
+          s2 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e14);
+          }
+        }
+        if (s2 === peg$FAILED) {
+          if (input.substr(peg$currPos, 5) === peg$c6) {
+            s2 = peg$c6;
+            peg$currPos += 5;
+          } else {
+            s2 = peg$FAILED;
+            if (peg$silentFails === 0) {
+              peg$fail(peg$e15);
+            }
+          }
+          if (s2 === peg$FAILED) {
+            if (input.substr(peg$currPos, 3) === peg$c7) {
+              s2 = peg$c7;
+              peg$currPos += 3;
+            } else {
+              s2 = peg$FAILED;
+              if (peg$silentFails === 0) {
+                peg$fail(peg$e16);
+              }
+            }
+            if (s2 === peg$FAILED) {
+              s2 = peg$currPos;
+              s3 = input.charAt(peg$currPos);
+              if (peg$r0.test(s3)) {
+                peg$currPos++;
+              } else {
+                s3 = peg$FAILED;
+                if (peg$silentFails === 0) {
+                  peg$fail(peg$e5);
+                }
+              }
+              if (s3 !== peg$FAILED) {
+                s4 = [];
+                s5 = input.charAt(peg$currPos);
+                if (peg$r4.test(s5)) {
+                  peg$currPos++;
+                } else {
+                  s5 = peg$FAILED;
+                  if (peg$silentFails === 0) {
+                    peg$fail(peg$e17);
+                  }
+                }
+                if (s5 !== peg$FAILED) {
+                  while (s5 !== peg$FAILED) {
+                    s4.push(s5);
+                    s5 = input.charAt(peg$currPos);
+                    if (peg$r4.test(s5)) {
+                      peg$currPos++;
+                    } else {
+                      s5 = peg$FAILED;
+                      if (peg$silentFails === 0) {
+                        peg$fail(peg$e17);
+                      }
+                    }
+                  }
+                } else {
+                  s4 = peg$FAILED;
+                }
+                if (s4 !== peg$FAILED) {
+                  s3 = [s3, s4];
+                  s2 = s3;
+                } else {
+                  peg$currPos = s2;
+                  s2 = peg$FAILED;
+                }
+              } else {
+                peg$currPos = s2;
+                s2 = peg$FAILED;
+              }
+            }
+          }
+        }
+      }
+      if (s2 !== peg$FAILED) {
+        s3 = input.charAt(peg$currPos);
+        if (peg$r5.test(s3)) {
+          peg$currPos++;
+        } else {
+          s3 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e18);
+          }
+        }
+        if (s3 === peg$FAILED) {
+          s3 = null;
+        }
+        s2 = [s2, s3];
+        s1 = s2;
+      } else {
+        peg$currPos = s1;
+        s1 = peg$FAILED;
+      }
+      if (s1 !== peg$FAILED) {
+        s0 = input.substring(s0, peg$currPos);
+      } else {
+        s0 = s1;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e12);
+        }
+      }
+      return s0;
+    }
+    function peg$parsesuffixAnnotation() {
+      var s0, s1, s2;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      s1 = [];
+      s2 = input.charAt(peg$currPos);
+      if (peg$r6.test(s2)) {
+        peg$currPos++;
+      } else {
+        s2 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e20);
+        }
+      }
+      while (s2 !== peg$FAILED) {
+        s1.push(s2);
+        if (s1.length >= 2) {
+          s2 = peg$FAILED;
+        } else {
+          s2 = input.charAt(peg$currPos);
+          if (peg$r6.test(s2)) {
+            peg$currPos++;
+          } else {
+            s2 = peg$FAILED;
+            if (peg$silentFails === 0) {
+              peg$fail(peg$e20);
+            }
+          }
+        }
+      }
+      if (s1.length < 1) {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      } else {
+        s0 = s1;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e19);
+        }
+      }
+      return s0;
+    }
+    function peg$parsenag() {
+      var s0, s2, s3, s4, s5;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      peg$parse_();
+      if (input.charCodeAt(peg$currPos) === 36) {
+        s2 = peg$c8;
+        peg$currPos++;
+      } else {
+        s2 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e22);
+        }
+      }
+      if (s2 !== peg$FAILED) {
+        s3 = peg$currPos;
+        s4 = [];
+        s5 = input.charAt(peg$currPos);
+        if (peg$r2.test(s5)) {
+          peg$currPos++;
+        } else {
+          s5 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e9);
+          }
+        }
+        if (s5 !== peg$FAILED) {
+          while (s5 !== peg$FAILED) {
+            s4.push(s5);
+            s5 = input.charAt(peg$currPos);
+            if (peg$r2.test(s5)) {
+              peg$currPos++;
+            } else {
+              s5 = peg$FAILED;
+              if (peg$silentFails === 0) {
+                peg$fail(peg$e9);
+              }
+            }
+          }
+        } else {
+          s4 = peg$FAILED;
+        }
+        if (s4 !== peg$FAILED) {
+          s3 = input.substring(s3, peg$currPos);
+        } else {
+          s3 = s4;
+        }
+        if (s3 !== peg$FAILED) {
+          s0 = peg$f6(s3);
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e21);
+        }
+      }
+      return s0;
+    }
+    function peg$parsecomment() {
+      var s0;
+      s0 = peg$parsebraceComment();
+      if (s0 === peg$FAILED) {
+        s0 = peg$parserestOfLineComment();
+      }
+      return s0;
+    }
+    function peg$parsebraceComment() {
+      var s0, s1, s2, s3, s4;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      if (input.charCodeAt(peg$currPos) === 123) {
+        s1 = peg$c9;
+        peg$currPos++;
+      } else {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e24);
+        }
+      }
+      if (s1 !== peg$FAILED) {
+        s2 = peg$currPos;
+        s3 = [];
+        s4 = input.charAt(peg$currPos);
+        if (peg$r7.test(s4)) {
+          peg$currPos++;
+        } else {
+          s4 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e25);
+          }
+        }
+        while (s4 !== peg$FAILED) {
+          s3.push(s4);
+          s4 = input.charAt(peg$currPos);
+          if (peg$r7.test(s4)) {
+            peg$currPos++;
+          } else {
+            s4 = peg$FAILED;
+            if (peg$silentFails === 0) {
+              peg$fail(peg$e25);
+            }
+          }
+        }
+        s2 = input.substring(s2, peg$currPos);
+        if (input.charCodeAt(peg$currPos) === 125) {
+          s3 = peg$c10;
+          peg$currPos++;
+        } else {
+          s3 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e26);
+          }
+        }
+        if (s3 !== peg$FAILED) {
+          s0 = peg$f7(s2);
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e23);
+        }
+      }
+      return s0;
+    }
+    function peg$parserestOfLineComment() {
+      var s0, s1, s2, s3, s4;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      if (input.charCodeAt(peg$currPos) === 59) {
+        s1 = peg$c11;
+        peg$currPos++;
+      } else {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e28);
+        }
+      }
+      if (s1 !== peg$FAILED) {
+        s2 = peg$currPos;
+        s3 = [];
+        s4 = input.charAt(peg$currPos);
+        if (peg$r8.test(s4)) {
+          peg$currPos++;
+        } else {
+          s4 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e29);
+          }
+        }
+        while (s4 !== peg$FAILED) {
+          s3.push(s4);
+          s4 = input.charAt(peg$currPos);
+          if (peg$r8.test(s4)) {
+            peg$currPos++;
+          } else {
+            s4 = peg$FAILED;
+            if (peg$silentFails === 0) {
+              peg$fail(peg$e29);
+            }
+          }
+        }
+        s2 = input.substring(s2, peg$currPos);
+        s0 = peg$f8(s2);
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e27);
+        }
+      }
+      return s0;
+    }
+    function peg$parsevariation() {
+      var s0, s2, s3, s5;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      peg$parse_();
+      if (input.charCodeAt(peg$currPos) === 40) {
+        s2 = peg$c12;
+        peg$currPos++;
+      } else {
+        s2 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e31);
+        }
+      }
+      if (s2 !== peg$FAILED) {
+        s3 = peg$parseline();
+        if (s3 !== peg$FAILED) {
+          peg$parse_();
+          if (input.charCodeAt(peg$currPos) === 41) {
+            s5 = peg$c13;
+            peg$currPos++;
+          } else {
+            s5 = peg$FAILED;
+            if (peg$silentFails === 0) {
+              peg$fail(peg$e32);
+            }
+          }
+          if (s5 !== peg$FAILED) {
+            s0 = peg$f9(s3);
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e30);
+        }
+      }
+      return s0;
+    }
+    function peg$parsegameTerminationMarker() {
+      var s0, s1, s3;
+      peg$silentFails++;
+      s0 = peg$currPos;
+      if (input.substr(peg$currPos, 3) === peg$c14) {
+        s1 = peg$c14;
+        peg$currPos += 3;
+      } else {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e34);
+        }
+      }
+      if (s1 === peg$FAILED) {
+        if (input.substr(peg$currPos, 3) === peg$c15) {
+          s1 = peg$c15;
+          peg$currPos += 3;
+        } else {
+          s1 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e35);
+          }
+        }
+        if (s1 === peg$FAILED) {
+          if (input.substr(peg$currPos, 7) === peg$c16) {
+            s1 = peg$c16;
+            peg$currPos += 7;
+          } else {
+            s1 = peg$FAILED;
+            if (peg$silentFails === 0) {
+              peg$fail(peg$e36);
+            }
+          }
+          if (s1 === peg$FAILED) {
+            if (input.charCodeAt(peg$currPos) === 42) {
+              s1 = peg$c17;
+              peg$currPos++;
+            } else {
+              s1 = peg$FAILED;
+              if (peg$silentFails === 0) {
+                peg$fail(peg$e37);
+              }
+            }
+          }
+        }
+      }
+      if (s1 !== peg$FAILED) {
+        peg$parse_();
+        s3 = peg$parsecomment();
+        if (s3 === peg$FAILED) {
+          s3 = null;
+        }
+        s0 = peg$f10(s1, s3);
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+      peg$silentFails--;
+      if (s0 === peg$FAILED) {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e33);
+        }
+      }
+      return s0;
+    }
+    function peg$parse_() {
+      var s0, s1;
+      peg$silentFails++;
+      s0 = [];
+      s1 = input.charAt(peg$currPos);
+      if (peg$r9.test(s1)) {
+        peg$currPos++;
+      } else {
+        s1 = peg$FAILED;
+        if (peg$silentFails === 0) {
+          peg$fail(peg$e39);
+        }
+      }
+      while (s1 !== peg$FAILED) {
+        s0.push(s1);
+        s1 = input.charAt(peg$currPos);
+        if (peg$r9.test(s1)) {
+          peg$currPos++;
+        } else {
+          s1 = peg$FAILED;
+          if (peg$silentFails === 0) {
+            peg$fail(peg$e39);
+          }
+        }
+      }
+      peg$silentFails--;
+      s1 = peg$FAILED;
+      if (peg$silentFails === 0) {
+        peg$fail(peg$e38);
+      }
+      return s0;
+    }
+    peg$result = peg$startRuleFunction();
+    if (options.peg$library) {
+      return (
+        /** @type {any} */
+        {
+          peg$result,
+          peg$currPos,
+          peg$FAILED,
+          peg$maxFailExpected,
+          peg$maxFailPos
+        }
+      );
+    }
+    if (peg$result !== peg$FAILED && peg$currPos === input.length) {
+      return peg$result;
+    } else {
+      if (peg$result !== peg$FAILED && peg$currPos < input.length) {
+        peg$fail(peg$endExpectation());
+      }
+      throw peg$buildStructuredError(
+        peg$maxFailExpected,
+        peg$maxFailPos < input.length ? input.charAt(peg$maxFailPos) : null,
+        peg$maxFailPos < input.length ? peg$computeLocation(peg$maxFailPos, peg$maxFailPos + 1) : peg$computeLocation(peg$maxFailPos, peg$maxFailPos)
+      );
+    }
+  }
+  /**
+   * @license
+   * Copyright (c) 2025, Jeff Hlywa (jhlywa@gmail.com)
+   * All rights reserved.
+   *
+   * Redistribution and use in source and binary forms, with or without
+   * modification, are permitted provided that the following conditions are met:
+   *
+   * 1. Redistributions of source code must retain the above copyright notice,
+   *    this list of conditions and the following disclaimer.
+   * 2. Redistributions in binary form must reproduce the above copyright notice,
+   *    this list of conditions and the following disclaimer in the documentation
+   *    and/or other materials provided with the distribution.
+   *
+   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+   * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   * POSSIBILITY OF SUCH DAMAGE.
+   */
+  var MASK64 = 0xffffffffffffffffn;
+  function rotl(x, k) {
+    return (x << k | x >> 64n - k) & 0xffffffffffffffffn;
+  }
+  function wrappingMul(x, y) {
+    return x * y & MASK64;
+  }
+  function xoroshiro128(state) {
+    return function() {
+      let s0 = BigInt(state & MASK64);
+      let s1 = BigInt(state >> 64n & MASK64);
+      const result = wrappingMul(rotl(wrappingMul(s0, 5n), 7n), 9n);
+      s1 ^= s0;
+      s0 = (rotl(s0, 24n) ^ s1 ^ s1 << 16n) & MASK64;
+      s1 = rotl(s1, 37n);
+      state = s1 << 64n | s0;
+      return result;
+    };
+  }
+  var rand = xoroshiro128(0xa187eb39cdcaed8f31c4b365b102e01en);
+  var PIECE_KEYS = Array.from({ length: 2 }, () => Array.from({ length: 6 }, () => Array.from({ length: 128 }, () => rand())));
+  var EP_KEYS = Array.from({ length: 8 }, () => rand());
+  var CASTLING_KEYS = Array.from({ length: 16 }, () => rand());
+  var SIDE_KEY = rand();
+  var WHITE = "w";
+  var BLACK = "b";
+  var PAWN = "p";
+  var KNIGHT = "n";
+  var BISHOP = "b";
+  var ROOK = "r";
+  var QUEEN = "q";
+  var KING = "k";
+  var DEFAULT_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+  var Move = class {
+    color;
+    from;
+    to;
+    piece;
+    captured;
+    promotion;
+    /**
+     * @deprecated This field is deprecated and will be removed in version 2.0.0.
+     * Please use move descriptor functions instead: `isCapture`, `isPromotion`,
+     * `isEnPassant`, `isKingsideCastle`, `isQueensideCastle`, `isCastle`, and
+     * `isBigPawn`
+     */
+    flags;
+    san;
+    lan;
+    before;
+    after;
+    constructor(chess, internal) {
+      const { color, piece, from, to, flags, captured, promotion } = internal;
+      const fromAlgebraic = algebraic(from);
+      const toAlgebraic = algebraic(to);
+      this.color = color;
+      this.piece = piece;
+      this.from = fromAlgebraic;
+      this.to = toAlgebraic;
+      this.san = chess["_moveToSan"](internal, chess["_moves"]({ legal: true }));
+      this.lan = fromAlgebraic + toAlgebraic;
+      this.before = chess.fen();
+      chess["_makeMove"](internal);
+      this.after = chess.fen();
+      chess["_undoMove"]();
+      this.flags = "";
+      for (const flag in BITS) {
+        if (BITS[flag] & flags) {
+          this.flags += FLAGS[flag];
+        }
+      }
+      if (captured) {
+        this.captured = captured;
+      }
+      if (promotion) {
+        this.promotion = promotion;
+        this.lan += promotion;
+      }
+    }
+    isCapture() {
+      return this.flags.indexOf(FLAGS["CAPTURE"]) > -1;
+    }
+    isPromotion() {
+      return this.flags.indexOf(FLAGS["PROMOTION"]) > -1;
+    }
+    isEnPassant() {
+      return this.flags.indexOf(FLAGS["EP_CAPTURE"]) > -1;
+    }
+    isKingsideCastle() {
+      return this.flags.indexOf(FLAGS["KSIDE_CASTLE"]) > -1;
+    }
+    isQueensideCastle() {
+      return this.flags.indexOf(FLAGS["QSIDE_CASTLE"]) > -1;
+    }
+    isBigPawn() {
+      return this.flags.indexOf(FLAGS["BIG_PAWN"]) > -1;
+    }
+  };
+  var EMPTY = -1;
+  var FLAGS = {
+    NORMAL: "n",
+    CAPTURE: "c",
+    BIG_PAWN: "b",
+    EP_CAPTURE: "e",
+    PROMOTION: "p",
+    KSIDE_CASTLE: "k",
+    QSIDE_CASTLE: "q",
+    NULL_MOVE: "-"
+  };
+  var BITS = {
+    NORMAL: 1,
+    CAPTURE: 2,
+    BIG_PAWN: 4,
+    EP_CAPTURE: 8,
+    PROMOTION: 16,
+    KSIDE_CASTLE: 32,
+    QSIDE_CASTLE: 64,
+    NULL_MOVE: 128
+  };
+  var SEVEN_TAG_ROSTER = {
+    Event: "?",
+    Site: "?",
+    Date: "????.??.??",
+    Round: "?",
+    White: "?",
+    Black: "?",
+    Result: "*"
+  };
+  var SUPLEMENTAL_TAGS = {
+    WhiteTitle: null,
+    BlackTitle: null,
+    WhiteElo: null,
+    BlackElo: null,
+    WhiteUSCF: null,
+    BlackUSCF: null,
+    WhiteNA: null,
+    BlackNA: null,
+    WhiteType: null,
+    BlackType: null,
+    EventDate: null,
+    EventSponsor: null,
+    Section: null,
+    Stage: null,
+    Board: null,
+    Opening: null,
+    Variation: null,
+    SubVariation: null,
+    ECO: null,
+    NIC: null,
+    Time: null,
+    UTCTime: null,
+    UTCDate: null,
+    TimeControl: null,
+    SetUp: null,
+    FEN: null,
+    Termination: null,
+    Annotator: null,
+    Mode: null,
+    PlyCount: null
+  };
+  var HEADER_TEMPLATE = {
+    ...SEVEN_TAG_ROSTER,
+    ...SUPLEMENTAL_TAGS
+  };
+  var Ox88 = {
+    a8: 0,
+    b8: 1,
+    c8: 2,
+    d8: 3,
+    e8: 4,
+    f8: 5,
+    g8: 6,
+    h8: 7,
+    a7: 16,
+    b7: 17,
+    c7: 18,
+    d7: 19,
+    e7: 20,
+    f7: 21,
+    g7: 22,
+    h7: 23,
+    a6: 32,
+    b6: 33,
+    c6: 34,
+    d6: 35,
+    e6: 36,
+    f6: 37,
+    g6: 38,
+    h6: 39,
+    a5: 48,
+    b5: 49,
+    c5: 50,
+    d5: 51,
+    e5: 52,
+    f5: 53,
+    g5: 54,
+    h5: 55,
+    a4: 64,
+    b4: 65,
+    c4: 66,
+    d4: 67,
+    e4: 68,
+    f4: 69,
+    g4: 70,
+    h4: 71,
+    a3: 80,
+    b3: 81,
+    c3: 82,
+    d3: 83,
+    e3: 84,
+    f3: 85,
+    g3: 86,
+    h3: 87,
+    a2: 96,
+    b2: 97,
+    c2: 98,
+    d2: 99,
+    e2: 100,
+    f2: 101,
+    g2: 102,
+    h2: 103,
+    a1: 112,
+    b1: 113,
+    c1: 114,
+    d1: 115,
+    e1: 116,
+    f1: 117,
+    g1: 118,
+    h1: 119
+  };
+  var PAWN_OFFSETS = {
+    b: [16, 32, 17, 15],
+    w: [-16, -32, -17, -15]
+  };
+  var PIECE_OFFSETS = {
+    n: [-18, -33, -31, -14, 18, 33, 31, 14],
+    b: [-17, -15, 17, 15],
+    r: [-16, 1, 16, -1],
+    q: [-17, -16, -15, 1, 17, 16, 15, -1],
+    k: [-17, -16, -15, 1, 17, 16, 15, -1]
+  };
+  var ATTACKS = [
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    24,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    2,
+    24,
+    2,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    53,
+    56,
+    53,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    56,
+    0,
+    56,
+    24,
+    24,
+    24,
+    24,
+    24,
+    24,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    53,
+    56,
+    53,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    2,
+    24,
+    2,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    24,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20,
+    0,
+    0,
+    20,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    20
+  ];
+  var RAYS = [
+    17,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    16,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    15,
+    0,
+    0,
+    17,
+    0,
+    0,
+    0,
+    0,
+    0,
+    16,
+    0,
+    0,
+    0,
+    0,
+    0,
+    15,
+    0,
+    0,
+    0,
+    0,
+    17,
+    0,
+    0,
+    0,
+    0,
+    16,
+    0,
+    0,
+    0,
+    0,
+    15,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    17,
+    0,
+    0,
+    0,
+    16,
+    0,
+    0,
+    0,
+    15,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    17,
+    0,
+    0,
+    16,
+    0,
+    0,
+    15,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    17,
+    0,
+    16,
+    0,
+    15,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    17,
+    16,
+    15,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -15,
+    -16,
+    -17,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -15,
+    0,
+    -16,
+    0,
+    -17,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -15,
+    0,
+    0,
+    -16,
+    0,
+    0,
+    -17,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -15,
+    0,
+    0,
+    0,
+    -16,
+    0,
+    0,
+    0,
+    -17,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -15,
+    0,
+    0,
+    0,
+    0,
+    -16,
+    0,
+    0,
+    0,
+    0,
+    -17,
+    0,
+    0,
+    0,
+    0,
+    -15,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -16,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -17,
+    0,
+    0,
+    -15,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -16,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -17
+  ];
+  var PIECE_MASKS = { p: 1, n: 2, b: 4, r: 8, q: 16, k: 32 };
+  var SYMBOLS = "pnbrqkPNBRQK";
+  var PROMOTIONS = [KNIGHT, BISHOP, ROOK, QUEEN];
+  var RANK_1 = 7;
+  var RANK_2 = 6;
+  var RANK_7 = 1;
+  var RANK_8 = 0;
+  var SIDES = {
+    [KING]: BITS.KSIDE_CASTLE,
+    [QUEEN]: BITS.QSIDE_CASTLE
+  };
+  var ROOKS = {
+    w: [
+      { square: Ox88.a1, flag: BITS.QSIDE_CASTLE },
+      { square: Ox88.h1, flag: BITS.KSIDE_CASTLE }
+    ],
+    b: [
+      { square: Ox88.a8, flag: BITS.QSIDE_CASTLE },
+      { square: Ox88.h8, flag: BITS.KSIDE_CASTLE }
+    ]
+  };
+  var SECOND_RANK = { b: RANK_7, w: RANK_2 };
+  var SAN_NULLMOVE = "--";
+  function rank(square) {
+    return square >> 4;
+  }
+  function file(square) {
+    return square & 15;
+  }
+  function isDigit(c) {
+    return "0123456789".indexOf(c) !== -1;
+  }
+  function algebraic(square) {
+    const f = file(square);
+    const r = rank(square);
+    return "abcdefgh".substring(f, f + 1) + "87654321".substring(r, r + 1);
+  }
+  function swapColor(color) {
+    return color === WHITE ? BLACK : WHITE;
+  }
+  function validateFen(fen) {
+    const tokens = fen.split(/\s+/);
+    if (tokens.length !== 6) {
+      return {
+        ok: false,
+        error: "Invalid FEN: must contain six space-delimited fields"
+      };
+    }
+    const moveNumber = parseInt(tokens[5], 10);
+    if (isNaN(moveNumber) || moveNumber <= 0) {
+      return {
+        ok: false,
+        error: "Invalid FEN: move number must be a positive integer"
+      };
+    }
+    const halfMoves = parseInt(tokens[4], 10);
+    if (isNaN(halfMoves) || halfMoves < 0) {
+      return {
+        ok: false,
+        error: "Invalid FEN: half move counter number must be a non-negative integer"
+      };
+    }
+    if (!/^(-|[abcdefgh][36])$/.test(tokens[3])) {
+      return { ok: false, error: "Invalid FEN: en-passant square is invalid" };
+    }
+    if (/[^kKqQ-]/.test(tokens[2])) {
+      return { ok: false, error: "Invalid FEN: castling availability is invalid" };
+    }
+    if (!/^(w|b)$/.test(tokens[1])) {
+      return { ok: false, error: "Invalid FEN: side-to-move is invalid" };
+    }
+    const rows = tokens[0].split("/");
+    if (rows.length !== 8) {
+      return {
+        ok: false,
+        error: "Invalid FEN: piece data does not contain 8 '/'-delimited rows"
+      };
+    }
+    for (let i = 0; i < rows.length; i++) {
+      let sumFields = 0;
+      let previousWasNumber = false;
+      for (let k = 0; k < rows[i].length; k++) {
+        if (isDigit(rows[i][k])) {
+          if (previousWasNumber) {
+            return {
+              ok: false,
+              error: "Invalid FEN: piece data is invalid (consecutive number)"
+            };
+          }
+          sumFields += parseInt(rows[i][k], 10);
+          previousWasNumber = true;
+        } else {
+          if (!/^[prnbqkPRNBQK]$/.test(rows[i][k])) {
+            return {
+              ok: false,
+              error: "Invalid FEN: piece data is invalid (invalid piece)"
+            };
+          }
+          sumFields += 1;
+          previousWasNumber = false;
+        }
+      }
+      if (sumFields !== 8) {
+        return {
+          ok: false,
+          error: "Invalid FEN: piece data is invalid (too many squares in rank)"
+        };
+      }
+    }
+    if (tokens[3][1] == "3" && tokens[1] == "w" || tokens[3][1] == "6" && tokens[1] == "b") {
+      return { ok: false, error: "Invalid FEN: illegal en-passant square" };
+    }
+    const kings = [
+      { color: "white", regex: /K/g },
+      { color: "black", regex: /k/g }
+    ];
+    for (const { color, regex } of kings) {
+      if (!regex.test(tokens[0])) {
+        return { ok: false, error: `Invalid FEN: missing ${color} king` };
+      }
+      if ((tokens[0].match(regex) || []).length > 1) {
+        return { ok: false, error: `Invalid FEN: too many ${color} kings` };
+      }
+    }
+    if (Array.from(rows[0] + rows[7]).some((char) => char.toUpperCase() === "P")) {
+      return {
+        ok: false,
+        error: "Invalid FEN: some pawns are on the edge rows"
+      };
+    }
+    return { ok: true };
+  }
+  function getDisambiguator(move, moves) {
+    const from = move.from;
+    const to = move.to;
+    const piece = move.piece;
+    let ambiguities = 0;
+    let sameRank = 0;
+    let sameFile = 0;
+    for (let i = 0, len = moves.length; i < len; i++) {
+      const ambigFrom = moves[i].from;
+      const ambigTo = moves[i].to;
+      const ambigPiece = moves[i].piece;
+      if (piece === ambigPiece && from !== ambigFrom && to === ambigTo) {
+        ambiguities++;
+        if (rank(from) === rank(ambigFrom)) {
+          sameRank++;
+        }
+        if (file(from) === file(ambigFrom)) {
+          sameFile++;
+        }
+      }
+    }
+    if (ambiguities > 0) {
+      if (sameRank > 0 && sameFile > 0) {
+        return algebraic(from);
+      } else if (sameFile > 0) {
+        return algebraic(from).charAt(1);
+      } else {
+        return algebraic(from).charAt(0);
+      }
+    }
+    return "";
+  }
+  function addMove(moves, color, from, to, piece, captured = void 0, flags = BITS.NORMAL) {
+    const r = rank(to);
+    if (piece === PAWN && (r === RANK_1 || r === RANK_8)) {
+      for (let i = 0; i < PROMOTIONS.length; i++) {
+        const promotion = PROMOTIONS[i];
+        moves.push({
+          color,
+          from,
+          to,
+          piece,
+          captured,
+          promotion,
+          flags: flags | BITS.PROMOTION
+        });
+      }
+    } else {
+      moves.push({
+        color,
+        from,
+        to,
+        piece,
+        captured,
+        flags
+      });
+    }
+  }
+  function inferPieceType(san) {
+    let pieceType = san.charAt(0);
+    if (pieceType >= "a" && pieceType <= "h") {
+      const matches = san.match(/[a-h]\d.*[a-h]\d/);
+      if (matches) {
+        return void 0;
+      }
+      return PAWN;
+    }
+    pieceType = pieceType.toLowerCase();
+    if (pieceType === "o") {
+      return KING;
+    }
+    return pieceType;
+  }
+  function strippedSan(move) {
+    return move.replace(/=/, "").replace(/[+#]?[?!]*$/, "");
+  }
+  var Chess = class {
+    _board = new Array(128);
+    _turn = WHITE;
+    _header = {};
+    _kings = { w: EMPTY, b: EMPTY };
+    _epSquare = -1;
+    _halfMoves = 0;
+    _moveNumber = 0;
+    _history = [];
+    _comments = {};
+    _castling = { w: 0, b: 0 };
+    _hash = 0n;
+    // tracks number of times a position has been seen for repetition checking
+    _positionCount = /* @__PURE__ */ new Map();
+    constructor(fen = DEFAULT_POSITION, { skipValidation = false } = {}) {
+      this.load(fen, { skipValidation });
+    }
+    clear({ preserveHeaders = false } = {}) {
+      this._board = new Array(128);
+      this._kings = { w: EMPTY, b: EMPTY };
+      this._turn = WHITE;
+      this._castling = { w: 0, b: 0 };
+      this._epSquare = EMPTY;
+      this._halfMoves = 0;
+      this._moveNumber = 1;
+      this._history = [];
+      this._comments = {};
+      this._header = preserveHeaders ? this._header : { ...HEADER_TEMPLATE };
+      this._hash = this._computeHash();
+      this._positionCount = /* @__PURE__ */ new Map();
+      this._header["SetUp"] = null;
+      this._header["FEN"] = null;
+    }
+    load(fen, { skipValidation = false, preserveHeaders = false } = {}) {
+      let tokens = fen.split(/\s+/);
+      if (tokens.length >= 2 && tokens.length < 6) {
+        const adjustments = ["-", "-", "0", "1"];
+        fen = tokens.concat(adjustments.slice(-(6 - tokens.length))).join(" ");
+      }
+      tokens = fen.split(/\s+/);
+      if (!skipValidation) {
+        const { ok, error } = validateFen(fen);
+        if (!ok) {
+          throw new Error(error);
+        }
+      }
+      const position = tokens[0];
+      let square = 0;
+      this.clear({ preserveHeaders });
+      for (let i = 0; i < position.length; i++) {
+        const piece = position.charAt(i);
+        if (piece === "/") {
+          square += 8;
+        } else if (isDigit(piece)) {
+          square += parseInt(piece, 10);
+        } else {
+          const color = piece < "a" ? WHITE : BLACK;
+          this._put({ type: piece.toLowerCase(), color }, algebraic(square));
+          square++;
+        }
+      }
+      this._turn = tokens[1];
+      if (tokens[2].indexOf("K") > -1) {
+        this._castling.w |= BITS.KSIDE_CASTLE;
+      }
+      if (tokens[2].indexOf("Q") > -1) {
+        this._castling.w |= BITS.QSIDE_CASTLE;
+      }
+      if (tokens[2].indexOf("k") > -1) {
+        this._castling.b |= BITS.KSIDE_CASTLE;
+      }
+      if (tokens[2].indexOf("q") > -1) {
+        this._castling.b |= BITS.QSIDE_CASTLE;
+      }
+      this._epSquare = tokens[3] === "-" ? EMPTY : Ox88[tokens[3]];
+      this._halfMoves = parseInt(tokens[4], 10);
+      this._moveNumber = parseInt(tokens[5], 10);
+      this._hash = this._computeHash();
+      this._updateSetup(fen);
+      this._incPositionCount();
+    }
+    fen({ forceEnpassantSquare = false } = {}) {
+      let empty = 0;
+      let fen = "";
+      for (let i = Ox88.a8; i <= Ox88.h1; i++) {
+        if (this._board[i]) {
+          if (empty > 0) {
+            fen += empty;
+            empty = 0;
+          }
+          const { color, type: piece } = this._board[i];
+          fen += color === WHITE ? piece.toUpperCase() : piece.toLowerCase();
+        } else {
+          empty++;
+        }
+        if (i + 1 & 136) {
+          if (empty > 0) {
+            fen += empty;
+          }
+          if (i !== Ox88.h1) {
+            fen += "/";
+          }
+          empty = 0;
+          i += 8;
+        }
+      }
+      let castling = "";
+      if (this._castling[WHITE] & BITS.KSIDE_CASTLE) {
+        castling += "K";
+      }
+      if (this._castling[WHITE] & BITS.QSIDE_CASTLE) {
+        castling += "Q";
+      }
+      if (this._castling[BLACK] & BITS.KSIDE_CASTLE) {
+        castling += "k";
+      }
+      if (this._castling[BLACK] & BITS.QSIDE_CASTLE) {
+        castling += "q";
+      }
+      castling = castling || "-";
+      let epSquare = "-";
+      if (this._epSquare !== EMPTY) {
+        if (forceEnpassantSquare) {
+          epSquare = algebraic(this._epSquare);
+        } else {
+          const bigPawnSquare = this._epSquare + (this._turn === WHITE ? 16 : -16);
+          const squares = [bigPawnSquare + 1, bigPawnSquare - 1];
+          for (const square of squares) {
+            if (square & 136) {
+              continue;
+            }
+            const color = this._turn;
+            if (this._board[square]?.color === color && this._board[square]?.type === PAWN) {
+              this._makeMove({
+                color,
+                from: square,
+                to: this._epSquare,
+                piece: PAWN,
+                captured: PAWN,
+                flags: BITS.EP_CAPTURE
+              });
+              const isLegal = !this._isKingAttacked(color);
+              this._undoMove();
+              if (isLegal) {
+                epSquare = algebraic(this._epSquare);
+                break;
+              }
+            }
+          }
+        }
+      }
+      return [
+        fen,
+        this._turn,
+        castling,
+        epSquare,
+        this._halfMoves,
+        this._moveNumber
+      ].join(" ");
+    }
+    _pieceKey(i) {
+      if (!this._board[i]) {
+        return 0n;
+      }
+      const { color, type } = this._board[i];
+      const colorIndex = {
+        w: 0,
+        b: 1
+      }[color];
+      const typeIndex = {
+        p: 0,
+        n: 1,
+        b: 2,
+        r: 3,
+        q: 4,
+        k: 5
+      }[type];
+      return PIECE_KEYS[colorIndex][typeIndex][i];
+    }
+    _epKey() {
+      return this._epSquare === EMPTY ? 0n : EP_KEYS[this._epSquare & 7];
+    }
+    _castlingKey() {
+      const index = this._castling.w >> 5 | this._castling.b >> 3;
+      return CASTLING_KEYS[index];
+    }
+    _computeHash() {
+      let hash = 0n;
+      for (let i = Ox88.a8; i <= Ox88.h1; i++) {
+        if (i & 136) {
+          i += 7;
+          continue;
+        }
+        if (this._board[i]) {
+          hash ^= this._pieceKey(i);
+        }
+      }
+      hash ^= this._epKey();
+      hash ^= this._castlingKey();
+      if (this._turn === "b") {
+        hash ^= SIDE_KEY;
+      }
+      return hash;
+    }
+    /*
+     * Called when the initial board setup is changed with put() or remove().
+     * modifies the SetUp and FEN properties of the header object. If the FEN
+     * is equal to the default position, the SetUp and FEN are deleted the setup
+     * is only updated if history.length is zero, ie moves haven't been made.
+     */
+    _updateSetup(fen) {
+      if (this._history.length > 0)
+        return;
+      if (fen !== DEFAULT_POSITION) {
+        this._header["SetUp"] = "1";
+        this._header["FEN"] = fen;
+      } else {
+        this._header["SetUp"] = null;
+        this._header["FEN"] = null;
+      }
+    }
+    reset() {
+      this.load(DEFAULT_POSITION);
+    }
+    get(square) {
+      return this._board[Ox88[square]];
+    }
+    findPiece(piece) {
+      const squares = [];
+      for (let i = Ox88.a8; i <= Ox88.h1; i++) {
+        if (i & 136) {
+          i += 7;
+          continue;
+        }
+        if (!this._board[i] || this._board[i]?.color !== piece.color) {
+          continue;
+        }
+        if (this._board[i].color === piece.color && this._board[i].type === piece.type) {
+          squares.push(algebraic(i));
+        }
+      }
+      return squares;
+    }
+    put({ type, color }, square) {
+      if (this._put({ type, color }, square)) {
+        this._updateCastlingRights();
+        this._updateEnPassantSquare();
+        this._updateSetup(this.fen());
+        return true;
+      }
+      return false;
+    }
+    _set(sq, piece) {
+      this._hash ^= this._pieceKey(sq);
+      this._board[sq] = piece;
+      this._hash ^= this._pieceKey(sq);
+    }
+    _put({ type, color }, square) {
+      if (SYMBOLS.indexOf(type.toLowerCase()) === -1) {
+        return false;
+      }
+      if (!(square in Ox88)) {
+        return false;
+      }
+      const sq = Ox88[square];
+      if (type == KING && !(this._kings[color] == EMPTY || this._kings[color] == sq)) {
+        return false;
+      }
+      const currentPieceOnSquare = this._board[sq];
+      if (currentPieceOnSquare && currentPieceOnSquare.type === KING) {
+        this._kings[currentPieceOnSquare.color] = EMPTY;
+      }
+      this._set(sq, { type, color });
+      if (type === KING) {
+        this._kings[color] = sq;
+      }
+      return true;
+    }
+    _clear(sq) {
+      this._hash ^= this._pieceKey(sq);
+      delete this._board[sq];
+    }
+    remove(square) {
+      const piece = this.get(square);
+      this._clear(Ox88[square]);
+      if (piece && piece.type === KING) {
+        this._kings[piece.color] = EMPTY;
+      }
+      this._updateCastlingRights();
+      this._updateEnPassantSquare();
+      this._updateSetup(this.fen());
+      return piece;
+    }
+    _updateCastlingRights() {
+      this._hash ^= this._castlingKey();
+      const whiteKingInPlace = this._board[Ox88.e1]?.type === KING && this._board[Ox88.e1]?.color === WHITE;
+      const blackKingInPlace = this._board[Ox88.e8]?.type === KING && this._board[Ox88.e8]?.color === BLACK;
+      if (!whiteKingInPlace || this._board[Ox88.a1]?.type !== ROOK || this._board[Ox88.a1]?.color !== WHITE) {
+        this._castling.w &= -65;
+      }
+      if (!whiteKingInPlace || this._board[Ox88.h1]?.type !== ROOK || this._board[Ox88.h1]?.color !== WHITE) {
+        this._castling.w &= -33;
+      }
+      if (!blackKingInPlace || this._board[Ox88.a8]?.type !== ROOK || this._board[Ox88.a8]?.color !== BLACK) {
+        this._castling.b &= -65;
+      }
+      if (!blackKingInPlace || this._board[Ox88.h8]?.type !== ROOK || this._board[Ox88.h8]?.color !== BLACK) {
+        this._castling.b &= -33;
+      }
+      this._hash ^= this._castlingKey();
+    }
+    _updateEnPassantSquare() {
+      if (this._epSquare === EMPTY) {
+        return;
+      }
+      const startSquare = this._epSquare + (this._turn === WHITE ? -16 : 16);
+      const currentSquare = this._epSquare + (this._turn === WHITE ? 16 : -16);
+      const attackers = [currentSquare + 1, currentSquare - 1];
+      if (this._board[startSquare] !== null || this._board[this._epSquare] !== null || this._board[currentSquare]?.color !== swapColor(this._turn) || this._board[currentSquare]?.type !== PAWN) {
+        this._hash ^= this._epKey();
+        this._epSquare = EMPTY;
+        return;
+      }
+      const canCapture = (square) => !(square & 136) && this._board[square]?.color === this._turn && this._board[square]?.type === PAWN;
+      if (!attackers.some(canCapture)) {
+        this._hash ^= this._epKey();
+        this._epSquare = EMPTY;
+      }
+    }
+    _attacked(color, square, verbose) {
+      const attackers = [];
+      for (let i = Ox88.a8; i <= Ox88.h1; i++) {
+        if (i & 136) {
+          i += 7;
+          continue;
+        }
+        if (this._board[i] === void 0 || this._board[i].color !== color) {
+          continue;
+        }
+        const piece = this._board[i];
+        const difference = i - square;
+        if (difference === 0) {
+          continue;
+        }
+        const index = difference + 119;
+        if (ATTACKS[index] & PIECE_MASKS[piece.type]) {
+          if (piece.type === PAWN) {
+            if (difference > 0 && piece.color === WHITE || difference <= 0 && piece.color === BLACK) {
+              if (!verbose) {
+                return true;
+              } else {
+                attackers.push(algebraic(i));
+              }
+            }
+            continue;
+          }
+          if (piece.type === "n" || piece.type === "k") {
+            if (!verbose) {
+              return true;
+            } else {
+              attackers.push(algebraic(i));
+              continue;
+            }
+          }
+          const offset = RAYS[index];
+          let j = i + offset;
+          let blocked = false;
+          while (j !== square) {
+            if (this._board[j] != null) {
+              blocked = true;
+              break;
+            }
+            j += offset;
+          }
+          if (!blocked) {
+            if (!verbose) {
+              return true;
+            } else {
+              attackers.push(algebraic(i));
+              continue;
+            }
+          }
+        }
+      }
+      if (verbose) {
+        return attackers;
+      } else {
+        return false;
+      }
+    }
+    attackers(square, attackedBy) {
+      if (!attackedBy) {
+        return this._attacked(this._turn, Ox88[square], true);
+      } else {
+        return this._attacked(attackedBy, Ox88[square], true);
+      }
+    }
+    _isKingAttacked(color) {
+      const square = this._kings[color];
+      return square === -1 ? false : this._attacked(swapColor(color), square);
+    }
+    hash() {
+      return this._hash.toString(16);
+    }
+    isAttacked(square, attackedBy) {
+      return this._attacked(attackedBy, Ox88[square]);
+    }
+    isCheck() {
+      return this._isKingAttacked(this._turn);
+    }
+    inCheck() {
+      return this.isCheck();
+    }
+    isCheckmate() {
+      return this.isCheck() && this._moves().length === 0;
+    }
+    isStalemate() {
+      return !this.isCheck() && this._moves().length === 0;
+    }
+    isInsufficientMaterial() {
+      const pieces = {
+        b: 0,
+        n: 0,
+        r: 0,
+        q: 0,
+        k: 0,
+        p: 0
+      };
+      const bishops = [];
+      let numPieces = 0;
+      let squareColor = 0;
+      for (let i = Ox88.a8; i <= Ox88.h1; i++) {
+        squareColor = (squareColor + 1) % 2;
+        if (i & 136) {
+          i += 7;
+          continue;
+        }
+        const piece = this._board[i];
+        if (piece) {
+          pieces[piece.type] = piece.type in pieces ? pieces[piece.type] + 1 : 1;
+          if (piece.type === BISHOP) {
+            bishops.push(squareColor);
+          }
+          numPieces++;
+        }
+      }
+      if (numPieces === 2) {
+        return true;
+      } else if (
+        // k vs. kn .... or .... k vs. kb
+        numPieces === 3 && (pieces[BISHOP] === 1 || pieces[KNIGHT] === 1)
+      ) {
+        return true;
+      } else if (numPieces === pieces[BISHOP] + 2) {
+        let sum = 0;
+        const len = bishops.length;
+        for (let i = 0; i < len; i++) {
+          sum += bishops[i];
+        }
+        if (sum === 0 || sum === len) {
+          return true;
+        }
+      }
+      return false;
+    }
+    isThreefoldRepetition() {
+      return this._getPositionCount(this._hash) >= 3;
+    }
+    isDrawByFiftyMoves() {
+      return this._halfMoves >= 100;
+    }
+    isDraw() {
+      return this.isDrawByFiftyMoves() || this.isStalemate() || this.isInsufficientMaterial() || this.isThreefoldRepetition();
+    }
+    isGameOver() {
+      return this.isCheckmate() || this.isDraw();
+    }
+    moves({ verbose = false, square = void 0, piece = void 0 } = {}) {
+      const moves = this._moves({ square, piece });
+      if (verbose) {
+        return moves.map((move) => new Move(this, move));
+      } else {
+        return moves.map((move) => this._moveToSan(move, moves));
+      }
+    }
+    _moves({ legal = true, piece = void 0, square = void 0 } = {}) {
+      const forSquare = square ? square.toLowerCase() : void 0;
+      const forPiece = piece?.toLowerCase();
+      const moves = [];
+      const us = this._turn;
+      const them = swapColor(us);
+      let firstSquare = Ox88.a8;
+      let lastSquare = Ox88.h1;
+      let singleSquare = false;
+      if (forSquare) {
+        if (!(forSquare in Ox88)) {
+          return [];
+        } else {
+          firstSquare = lastSquare = Ox88[forSquare];
+          singleSquare = true;
+        }
+      }
+      for (let from = firstSquare; from <= lastSquare; from++) {
+        if (from & 136) {
+          from += 7;
+          continue;
+        }
+        if (!this._board[from] || this._board[from].color === them) {
+          continue;
+        }
+        const { type } = this._board[from];
+        let to;
+        if (type === PAWN) {
+          if (forPiece && forPiece !== type)
+            continue;
+          to = from + PAWN_OFFSETS[us][0];
+          if (!this._board[to]) {
+            addMove(moves, us, from, to, PAWN);
+            to = from + PAWN_OFFSETS[us][1];
+            if (SECOND_RANK[us] === rank(from) && !this._board[to]) {
+              addMove(moves, us, from, to, PAWN, void 0, BITS.BIG_PAWN);
+            }
+          }
+          for (let j = 2; j < 4; j++) {
+            to = from + PAWN_OFFSETS[us][j];
+            if (to & 136)
+              continue;
+            if (this._board[to]?.color === them) {
+              addMove(moves, us, from, to, PAWN, this._board[to].type, BITS.CAPTURE);
+            } else if (to === this._epSquare) {
+              addMove(moves, us, from, to, PAWN, PAWN, BITS.EP_CAPTURE);
+            }
+          }
+        } else {
+          if (forPiece && forPiece !== type)
+            continue;
+          for (let j = 0, len = PIECE_OFFSETS[type].length; j < len; j++) {
+            const offset = PIECE_OFFSETS[type][j];
+            to = from;
+            while (true) {
+              to += offset;
+              if (to & 136)
+                break;
+              if (!this._board[to]) {
+                addMove(moves, us, from, to, type);
+              } else {
+                if (this._board[to].color === us)
+                  break;
+                addMove(moves, us, from, to, type, this._board[to].type, BITS.CAPTURE);
+                break;
+              }
+              if (type === KNIGHT || type === KING)
+                break;
+            }
+          }
+        }
+      }
+      if (forPiece === void 0 || forPiece === KING) {
+        if (!singleSquare || lastSquare === this._kings[us]) {
+          if (this._castling[us] & BITS.KSIDE_CASTLE) {
+            const castlingFrom = this._kings[us];
+            const castlingTo = castlingFrom + 2;
+            if (!this._board[castlingFrom + 1] && !this._board[castlingTo] && !this._attacked(them, this._kings[us]) && !this._attacked(them, castlingFrom + 1) && !this._attacked(them, castlingTo)) {
+              addMove(moves, us, this._kings[us], castlingTo, KING, void 0, BITS.KSIDE_CASTLE);
+            }
+          }
+          if (this._castling[us] & BITS.QSIDE_CASTLE) {
+            const castlingFrom = this._kings[us];
+            const castlingTo = castlingFrom - 2;
+            if (!this._board[castlingFrom - 1] && !this._board[castlingFrom - 2] && !this._board[castlingFrom - 3] && !this._attacked(them, this._kings[us]) && !this._attacked(them, castlingFrom - 1) && !this._attacked(them, castlingTo)) {
+              addMove(moves, us, this._kings[us], castlingTo, KING, void 0, BITS.QSIDE_CASTLE);
+            }
+          }
+        }
+      }
+      if (!legal || this._kings[us] === -1) {
+        return moves;
+      }
+      const legalMoves = [];
+      for (let i = 0, len = moves.length; i < len; i++) {
+        this._makeMove(moves[i]);
+        if (!this._isKingAttacked(us)) {
+          legalMoves.push(moves[i]);
+        }
+        this._undoMove();
+      }
+      return legalMoves;
+    }
+    move(move, { strict = false } = {}) {
+      let moveObj = null;
+      if (typeof move === "string") {
+        moveObj = this._moveFromSan(move, strict);
+      } else if (move === null) {
+        moveObj = this._moveFromSan(SAN_NULLMOVE, strict);
+      } else if (typeof move === "object") {
+        const moves = this._moves();
+        for (let i = 0, len = moves.length; i < len; i++) {
+          if (move.from === algebraic(moves[i].from) && move.to === algebraic(moves[i].to) && (!("promotion" in moves[i]) || move.promotion === moves[i].promotion)) {
+            moveObj = moves[i];
+            break;
+          }
+        }
+      }
+      if (!moveObj) {
+        if (typeof move === "string") {
+          throw new Error(`Invalid move: ${move}`);
+        } else {
+          throw new Error(`Invalid move: ${JSON.stringify(move)}`);
+        }
+      }
+      if (this.isCheck() && moveObj.flags & BITS.NULL_MOVE) {
+        throw new Error("Null move not allowed when in check");
+      }
+      const prettyMove = new Move(this, moveObj);
+      this._makeMove(moveObj);
+      this._incPositionCount();
+      return prettyMove;
+    }
+    _push(move) {
+      this._history.push({
+        move,
+        kings: { b: this._kings.b, w: this._kings.w },
+        turn: this._turn,
+        castling: { b: this._castling.b, w: this._castling.w },
+        epSquare: this._epSquare,
+        halfMoves: this._halfMoves,
+        moveNumber: this._moveNumber
+      });
+    }
+    _movePiece(from, to) {
+      this._hash ^= this._pieceKey(from);
+      this._board[to] = this._board[from];
+      delete this._board[from];
+      this._hash ^= this._pieceKey(to);
+    }
+    _makeMove(move) {
+      const us = this._turn;
+      const them = swapColor(us);
+      this._push(move);
+      if (move.flags & BITS.NULL_MOVE) {
+        if (us === BLACK) {
+          this._moveNumber++;
+        }
+        this._halfMoves++;
+        this._turn = them;
+        this._epSquare = EMPTY;
+        return;
+      }
+      this._hash ^= this._epKey();
+      this._hash ^= this._castlingKey();
+      if (move.captured) {
+        this._hash ^= this._pieceKey(move.to);
+      }
+      this._movePiece(move.from, move.to);
+      if (move.flags & BITS.EP_CAPTURE) {
+        if (this._turn === BLACK) {
+          this._clear(move.to - 16);
+        } else {
+          this._clear(move.to + 16);
+        }
+      }
+      if (move.promotion) {
+        this._clear(move.to);
+        this._set(move.to, { type: move.promotion, color: us });
+      }
+      if (this._board[move.to].type === KING) {
+        this._kings[us] = move.to;
+        if (move.flags & BITS.KSIDE_CASTLE) {
+          const castlingTo = move.to - 1;
+          const castlingFrom = move.to + 1;
+          this._movePiece(castlingFrom, castlingTo);
+        } else if (move.flags & BITS.QSIDE_CASTLE) {
+          const castlingTo = move.to + 1;
+          const castlingFrom = move.to - 2;
+          this._movePiece(castlingFrom, castlingTo);
+        }
+        this._castling[us] = 0;
+      }
+      if (this._castling[us]) {
+        for (let i = 0, len = ROOKS[us].length; i < len; i++) {
+          if (move.from === ROOKS[us][i].square && this._castling[us] & ROOKS[us][i].flag) {
+            this._castling[us] ^= ROOKS[us][i].flag;
+            break;
+          }
+        }
+      }
+      if (this._castling[them]) {
+        for (let i = 0, len = ROOKS[them].length; i < len; i++) {
+          if (move.to === ROOKS[them][i].square && this._castling[them] & ROOKS[them][i].flag) {
+            this._castling[them] ^= ROOKS[them][i].flag;
+            break;
+          }
+        }
+      }
+      this._hash ^= this._castlingKey();
+      if (move.flags & BITS.BIG_PAWN) {
+        let epSquare;
+        if (us === BLACK) {
+          epSquare = move.to - 16;
+        } else {
+          epSquare = move.to + 16;
+        }
+        if (!(move.to - 1 & 136) && this._board[move.to - 1]?.type === PAWN && this._board[move.to - 1]?.color === them || !(move.to + 1 & 136) && this._board[move.to + 1]?.type === PAWN && this._board[move.to + 1]?.color === them) {
+          this._epSquare = epSquare;
+          this._hash ^= this._epKey();
+        } else {
+          this._epSquare = EMPTY;
+        }
+      } else {
+        this._epSquare = EMPTY;
+      }
+      if (move.piece === PAWN) {
+        this._halfMoves = 0;
+      } else if (move.flags & (BITS.CAPTURE | BITS.EP_CAPTURE)) {
+        this._halfMoves = 0;
+      } else {
+        this._halfMoves++;
+      }
+      if (us === BLACK) {
+        this._moveNumber++;
+      }
+      this._turn = them;
+      this._hash ^= SIDE_KEY;
+    }
+    undo() {
+      const hash = this._hash;
+      const move = this._undoMove();
+      if (move) {
+        const prettyMove = new Move(this, move);
+        this._decPositionCount(hash);
+        return prettyMove;
+      }
+      return null;
+    }
+    _undoMove() {
+      const old = this._history.pop();
+      if (old === void 0) {
+        return null;
+      }
+      this._hash ^= this._epKey();
+      this._hash ^= this._castlingKey();
+      const move = old.move;
+      this._kings = old.kings;
+      this._turn = old.turn;
+      this._castling = old.castling;
+      this._epSquare = old.epSquare;
+      this._halfMoves = old.halfMoves;
+      this._moveNumber = old.moveNumber;
+      this._hash ^= this._epKey();
+      this._hash ^= this._castlingKey();
+      this._hash ^= SIDE_KEY;
+      const us = this._turn;
+      const them = swapColor(us);
+      if (move.flags & BITS.NULL_MOVE) {
+        return move;
+      }
+      this._movePiece(move.to, move.from);
+      if (move.piece) {
+        this._clear(move.from);
+        this._set(move.from, { type: move.piece, color: us });
+      }
+      if (move.captured) {
+        if (move.flags & BITS.EP_CAPTURE) {
+          let index;
+          if (us === BLACK) {
+            index = move.to - 16;
+          } else {
+            index = move.to + 16;
+          }
+          this._set(index, { type: PAWN, color: them });
+        } else {
+          this._set(move.to, { type: move.captured, color: them });
+        }
+      }
+      if (move.flags & (BITS.KSIDE_CASTLE | BITS.QSIDE_CASTLE)) {
+        let castlingTo, castlingFrom;
+        if (move.flags & BITS.KSIDE_CASTLE) {
+          castlingTo = move.to + 1;
+          castlingFrom = move.to - 1;
+        } else {
+          castlingTo = move.to - 2;
+          castlingFrom = move.to + 1;
+        }
+        this._movePiece(castlingFrom, castlingTo);
+      }
+      return move;
+    }
+    pgn({ newline = "\n", maxWidth = 0 } = {}) {
+      const result = [];
+      let headerExists = false;
+      for (const i in this._header) {
+        const headerTag = this._header[i];
+        if (headerTag)
+          result.push(`[${i} "${this._header[i]}"]` + newline);
+        headerExists = true;
+      }
+      if (headerExists && this._history.length) {
+        result.push(newline);
+      }
+      const appendComment = (moveString2) => {
+        const comment = this._comments[this.fen()];
+        if (typeof comment !== "undefined") {
+          const delimiter = moveString2.length > 0 ? " " : "";
+          moveString2 = `${moveString2}${delimiter}{${comment}}`;
+        }
+        return moveString2;
+      };
+      const reversedHistory = [];
+      while (this._history.length > 0) {
+        reversedHistory.push(this._undoMove());
+      }
+      const moves = [];
+      let moveString = "";
+      if (reversedHistory.length === 0) {
+        moves.push(appendComment(""));
+      }
+      while (reversedHistory.length > 0) {
+        moveString = appendComment(moveString);
+        const move = reversedHistory.pop();
+        if (!move) {
+          break;
+        }
+        if (!this._history.length && move.color === "b") {
+          const prefix = `${this._moveNumber}. ...`;
+          moveString = moveString ? `${moveString} ${prefix}` : prefix;
+        } else if (move.color === "w") {
+          if (moveString.length) {
+            moves.push(moveString);
+          }
+          moveString = this._moveNumber + ".";
+        }
+        moveString = moveString + " " + this._moveToSan(move, this._moves({ legal: true }));
+        this._makeMove(move);
+      }
+      if (moveString.length) {
+        moves.push(appendComment(moveString));
+      }
+      moves.push(this._header.Result || "*");
+      if (maxWidth === 0) {
+        return result.join("") + moves.join(" ");
+      }
+      const strip = function() {
+        if (result.length > 0 && result[result.length - 1] === " ") {
+          result.pop();
+          return true;
+        }
+        return false;
+      };
+      const wrapComment = function(width, move) {
+        for (const token2 of move.split(" ")) {
+          if (!token2) {
+            continue;
+          }
+          if (width + token2.length > maxWidth) {
+            while (strip()) {
+              width--;
+            }
+            result.push(newline);
+            width = 0;
+          }
+          result.push(token2);
+          width += token2.length;
+          result.push(" ");
+          width++;
+        }
+        if (strip()) {
+          width--;
+        }
+        return width;
+      };
+      let currentWidth = 0;
+      for (let i = 0; i < moves.length; i++) {
+        if (currentWidth + moves[i].length > maxWidth) {
+          if (moves[i].includes("{")) {
+            currentWidth = wrapComment(currentWidth, moves[i]);
+            continue;
+          }
+        }
+        if (currentWidth + moves[i].length > maxWidth && i !== 0) {
+          if (result[result.length - 1] === " ") {
+            result.pop();
+          }
+          result.push(newline);
+          currentWidth = 0;
+        } else if (i !== 0) {
+          result.push(" ");
+          currentWidth++;
+        }
+        result.push(moves[i]);
+        currentWidth += moves[i].length;
+      }
+      return result.join("");
+    }
+    /**
+     * @deprecated Use `setHeader` and `getHeaders` instead. This method will return null header tags (which is not what you want)
+     */
+    header(...args) {
+      for (let i = 0; i < args.length; i += 2) {
+        if (typeof args[i] === "string" && typeof args[i + 1] === "string") {
+          this._header[args[i]] = args[i + 1];
+        }
+      }
+      return this._header;
+    }
+    // TODO: value validation per spec
+    setHeader(key, value) {
+      this._header[key] = value ?? SEVEN_TAG_ROSTER[key] ?? null;
+      return this.getHeaders();
+    }
+    removeHeader(key) {
+      if (key in this._header) {
+        this._header[key] = SEVEN_TAG_ROSTER[key] || null;
+        return true;
+      }
+      return false;
+    }
+    // return only non-null headers (omit placemarker nulls)
+    getHeaders() {
+      const nonNullHeaders = {};
+      for (const [key, value] of Object.entries(this._header)) {
+        if (value !== null) {
+          nonNullHeaders[key] = value;
+        }
+      }
+      return nonNullHeaders;
+    }
+    loadPgn(pgn2, { strict = false, newlineChar = "\r?\n" } = {}) {
+      if (newlineChar !== "\r?\n") {
+        pgn2 = pgn2.replace(new RegExp(newlineChar, "g"), "\n");
+      }
+      const parsedPgn = peg$parse(pgn2);
+      this.reset();
+      const headers = parsedPgn.headers;
+      let fen = "";
+      for (const key in headers) {
+        if (key.toLowerCase() === "fen") {
+          fen = headers[key];
+        }
+        this.header(key, headers[key]);
+      }
+      if (!strict) {
+        if (fen) {
+          this.load(fen, { preserveHeaders: true });
+        }
+      } else {
+        if (headers["SetUp"] === "1") {
+          if (!("FEN" in headers)) {
+            throw new Error("Invalid PGN: FEN tag must be supplied with SetUp tag");
+          }
+          this.load(headers["FEN"], { preserveHeaders: true });
+        }
+      }
+      let node2 = parsedPgn.root;
+      while (node2) {
+        if (node2.move) {
+          const move = this._moveFromSan(node2.move, strict);
+          if (move == null) {
+            throw new Error(`Invalid move in PGN: ${node2.move}`);
+          } else {
+            this._makeMove(move);
+            this._incPositionCount();
+          }
+        }
+        if (node2.comment !== void 0) {
+          this._comments[this.fen()] = node2.comment;
+        }
+        node2 = node2.variations[0];
+      }
+      const result = parsedPgn.result;
+      if (result && Object.keys(this._header).length && this._header["Result"] !== result) {
+        this.setHeader("Result", result);
+      }
+    }
+    /*
+     * Convert a move from 0x88 coordinates to Standard Algebraic Notation
+     * (SAN)
+     *
+     * @param {boolean} strict Use the strict SAN parser. It will throw errors
+     * on overly disambiguated moves (see below):
+     *
+     * r1bqkbnr/ppp2ppp/2n5/1B1pP3/4P3/8/PPPP2PP/RNBQK1NR b KQkq - 2 4
+     * 4. ... Nge7 is overly disambiguated because the knight on c6 is pinned
+     * 4. ... Ne7 is technically the valid SAN
+     */
+    _moveToSan(move, moves) {
+      let output = "";
+      if (move.flags & BITS.KSIDE_CASTLE) {
+        output = "O-O";
+      } else if (move.flags & BITS.QSIDE_CASTLE) {
+        output = "O-O-O";
+      } else if (move.flags & BITS.NULL_MOVE) {
+        return SAN_NULLMOVE;
+      } else {
+        if (move.piece !== PAWN) {
+          const disambiguator = getDisambiguator(move, moves);
+          output += move.piece.toUpperCase() + disambiguator;
+        }
+        if (move.flags & (BITS.CAPTURE | BITS.EP_CAPTURE)) {
+          if (move.piece === PAWN) {
+            output += algebraic(move.from)[0];
+          }
+          output += "x";
+        }
+        output += algebraic(move.to);
+        if (move.promotion) {
+          output += "=" + move.promotion.toUpperCase();
+        }
+      }
+      this._makeMove(move);
+      if (this.isCheck()) {
+        if (this.isCheckmate()) {
+          output += "#";
+        } else {
+          output += "+";
+        }
+      }
+      this._undoMove();
+      return output;
+    }
+    // convert a move from Standard Algebraic Notation (SAN) to 0x88 coordinates
+    _moveFromSan(move, strict = false) {
+      let cleanMove = strippedSan(move);
+      if (!strict) {
+        if (cleanMove === "0-0") {
+          cleanMove = "O-O";
+        } else if (cleanMove === "0-0-0") {
+          cleanMove = "O-O-O";
+        }
+      }
+      if (cleanMove == SAN_NULLMOVE) {
+        const res = {
+          color: this._turn,
+          from: 0,
+          to: 0,
+          piece: "k",
+          flags: BITS.NULL_MOVE
+        };
+        return res;
+      }
+      let pieceType = inferPieceType(cleanMove);
+      let moves = this._moves({ legal: true, piece: pieceType });
+      for (let i = 0, len = moves.length; i < len; i++) {
+        if (cleanMove === strippedSan(this._moveToSan(moves[i], moves))) {
+          return moves[i];
+        }
+      }
+      if (strict) {
+        return null;
+      }
+      let piece = void 0;
+      let matches = void 0;
+      let from = void 0;
+      let to = void 0;
+      let promotion = void 0;
+      let overlyDisambiguated = false;
+      matches = cleanMove.match(/([pnbrqkPNBRQK])?([a-h][1-8])x?-?([a-h][1-8])([qrbnQRBN])?/);
+      if (matches) {
+        piece = matches[1];
+        from = matches[2];
+        to = matches[3];
+        promotion = matches[4];
+        if (from.length == 1) {
+          overlyDisambiguated = true;
+        }
+      } else {
+        matches = cleanMove.match(/([pnbrqkPNBRQK])?([a-h]?[1-8]?)x?-?([a-h][1-8])([qrbnQRBN])?/);
+        if (matches) {
+          piece = matches[1];
+          from = matches[2];
+          to = matches[3];
+          promotion = matches[4];
+          if (from.length == 1) {
+            overlyDisambiguated = true;
+          }
+        }
+      }
+      pieceType = inferPieceType(cleanMove);
+      moves = this._moves({
+        legal: true,
+        piece: piece ? piece : pieceType
+      });
+      if (!to) {
+        return null;
+      }
+      for (let i = 0, len = moves.length; i < len; i++) {
+        if (!from) {
+          if (cleanMove === strippedSan(this._moveToSan(moves[i], moves)).replace("x", "")) {
+            return moves[i];
+          }
+        } else if ((!piece || piece.toLowerCase() == moves[i].piece) && Ox88[from] == moves[i].from && Ox88[to] == moves[i].to && (!promotion || promotion.toLowerCase() == moves[i].promotion)) {
+          return moves[i];
+        } else if (overlyDisambiguated) {
+          const square = algebraic(moves[i].from);
+          if ((!piece || piece.toLowerCase() == moves[i].piece) && Ox88[to] == moves[i].to && (from == square[0] || from == square[1]) && (!promotion || promotion.toLowerCase() == moves[i].promotion)) {
+            return moves[i];
+          }
+        }
+      }
+      return null;
+    }
+    ascii() {
+      let s = "   +------------------------+\n";
+      for (let i = Ox88.a8; i <= Ox88.h1; i++) {
+        if (file(i) === 0) {
+          s += " " + "87654321"[rank(i)] + " |";
+        }
+        if (this._board[i]) {
+          const piece = this._board[i].type;
+          const color = this._board[i].color;
+          const symbol = color === WHITE ? piece.toUpperCase() : piece.toLowerCase();
+          s += " " + symbol + " ";
+        } else {
+          s += " . ";
+        }
+        if (i + 1 & 136) {
+          s += "|\n";
+          i += 8;
+        }
+      }
+      s += "   +------------------------+\n";
+      s += "     a  b  c  d  e  f  g  h";
+      return s;
+    }
+    perft(depth) {
+      const moves = this._moves({ legal: false });
+      let nodes = 0;
+      const color = this._turn;
+      for (let i = 0, len = moves.length; i < len; i++) {
+        this._makeMove(moves[i]);
+        if (!this._isKingAttacked(color)) {
+          if (depth - 1 > 0) {
+            nodes += this.perft(depth - 1);
+          } else {
+            nodes++;
+          }
+        }
+        this._undoMove();
+      }
+      return nodes;
+    }
+    setTurn(color) {
+      if (this._turn == color) {
+        return false;
+      }
+      this.move("--");
+      return true;
+    }
+    turn() {
+      return this._turn;
+    }
+    board() {
+      const output = [];
+      let row = [];
+      for (let i = Ox88.a8; i <= Ox88.h1; i++) {
+        if (this._board[i] == null) {
+          row.push(null);
+        } else {
+          row.push({
+            square: algebraic(i),
+            type: this._board[i].type,
+            color: this._board[i].color
+          });
+        }
+        if (i + 1 & 136) {
+          output.push(row);
+          row = [];
+          i += 8;
+        }
+      }
+      return output;
+    }
+    squareColor(square) {
+      if (square in Ox88) {
+        const sq = Ox88[square];
+        return (rank(sq) + file(sq)) % 2 === 0 ? "light" : "dark";
+      }
+      return null;
+    }
+    history({ verbose = false } = {}) {
+      const reversedHistory = [];
+      const moveHistory = [];
+      while (this._history.length > 0) {
+        reversedHistory.push(this._undoMove());
+      }
+      while (true) {
+        const move = reversedHistory.pop();
+        if (!move) {
+          break;
+        }
+        if (verbose) {
+          moveHistory.push(new Move(this, move));
+        } else {
+          moveHistory.push(this._moveToSan(move, this._moves()));
+        }
+        this._makeMove(move);
+      }
+      return moveHistory;
+    }
+    /*
+     * Keeps track of position occurrence counts for the purpose of repetition
+     * checking. Old positions are removed from the map if their counts are reduced to 0.
+     */
+    _getPositionCount(hash) {
+      return this._positionCount.get(hash) ?? 0;
+    }
+    _incPositionCount() {
+      this._positionCount.set(this._hash, (this._positionCount.get(this._hash) ?? 0) + 1);
+    }
+    _decPositionCount(hash) {
+      const currentCount = this._positionCount.get(hash) ?? 0;
+      if (currentCount === 1) {
+        this._positionCount.delete(hash);
+      } else {
+        this._positionCount.set(hash, currentCount - 1);
+      }
+    }
+    _pruneComments() {
+      const reversedHistory = [];
+      const currentComments = {};
+      const copyComment = (fen) => {
+        if (fen in this._comments) {
+          currentComments[fen] = this._comments[fen];
+        }
+      };
+      while (this._history.length > 0) {
+        reversedHistory.push(this._undoMove());
+      }
+      copyComment(this.fen());
+      while (true) {
+        const move = reversedHistory.pop();
+        if (!move) {
+          break;
+        }
+        this._makeMove(move);
+        copyComment(this.fen());
+      }
+      this._comments = currentComments;
+    }
+    getComment() {
+      return this._comments[this.fen()];
+    }
+    setComment(comment) {
+      this._comments[this.fen()] = comment.replace("{", "[").replace("}", "]");
+    }
+    /**
+     * @deprecated Renamed to `removeComment` for consistency
+     */
+    deleteComment() {
+      return this.removeComment();
+    }
+    removeComment() {
+      const comment = this._comments[this.fen()];
+      delete this._comments[this.fen()];
+      return comment;
+    }
+    getComments() {
+      this._pruneComments();
+      return Object.keys(this._comments).map((fen) => {
+        return { fen, comment: this._comments[fen] };
+      });
+    }
+    /**
+     * @deprecated Renamed to `removeComments` for consistency
+     */
+    deleteComments() {
+      return this.removeComments();
+    }
+    removeComments() {
+      this._pruneComments();
+      return Object.keys(this._comments).map((fen) => {
+        const comment = this._comments[fen];
+        delete this._comments[fen];
+        return { fen, comment };
+      });
+    }
+    setCastlingRights(color, rights) {
+      for (const side of [KING, QUEEN]) {
+        if (rights[side] !== void 0) {
+          if (rights[side]) {
+            this._castling[color] |= SIDES[side];
+          } else {
+            this._castling[color] &= ~SIDES[side];
+          }
+        }
+      }
+      this._updateCastlingRights();
+      const result = this.getCastlingRights(color);
+      return (rights[KING] === void 0 || rights[KING] === result[KING]) && (rights[QUEEN] === void 0 || rights[QUEEN] === result[QUEEN]);
+    }
+    getCastlingRights(color) {
+      return {
+        [KING]: (this._castling[color] & SIDES[KING]) !== 0,
+        [QUEEN]: (this._castling[color] & SIDES[QUEEN]) !== 0
+      };
+    }
+    moveNumber() {
+      return this._moveNumber;
+    }
+  };
+
+  // chess-assistant/engine.js
+  function engineURL() {
+    return globalThis.CHESS_ENGINE_URL || new URL("./vendor/stockfish-19-single.js", "file:///online-chess/");
+  }
+  var FEN_PATTERN = /^[prnbqkPRNBQK1-8/]+ [wb] (?:-|[KQkq]+) (?:-|[a-h][36]) \d+ [1-9]\d*$/;
+  var MOVE_PATTERN = /^[a-h][1-8][a-h][1-8][qrbn]?$/;
+  function parseInfo(line) {
+    if (!line.startsWith("info ") || /^info string\b/.test(line)) return null;
+    const result = {};
+    for (const key of ["depth", "seldepth", "nodes", "nps", "multipv"]) {
+      const match = line.match(new RegExp(`\\b${key} (\\d+)`));
+      if (match) result[key] = Number(match[1]);
+    }
+    const time = line.match(/\btime (\d+)/);
+    if (time) result.timeMs = Number(time[1]);
+    const score = line.match(/\bscore (cp|mate) (-?\d+)(?: (lowerbound|upperbound))?/);
+    if (score) {
+      result.score = { type: score[1], value: Number(score[2]) };
+      if (score[3]) result.score.bound = score[3];
+    }
+    const pv = line.match(/\bpv (.+)$/);
+    if (pv) result.pv = pv[1].trim().split(/\s+/).filter((move) => MOVE_PATTERN.test(move));
+    return Object.keys(result).length ? result : null;
+  }
+  var Engine = class {
+    constructor({ onStatus = () => {
+    }, onInfo = () => {
+    }, onBestMove = () => {
+    }, onError = () => {
+    } } = {}) {
+      this.onStatus = onStatus;
+      this.onInfo = onInfo;
+      this.onBestMove = onBestMove;
+      this.onError = onError;
+      this.worker = null;
+      this.state = "idle";
+      this.sequence = 0;
+      this.pending = null;
+      this.active = null;
+      this.barrier = false;
+      this.options = /* @__PURE__ */ new Set();
+      this.startPromise = null;
+      this.resolveStart = null;
+      this.rejectStart = null;
+      this.timer = null;
+      this.generation = 0;
+    }
+    _status(state, message) {
+      this.state = state;
+      this.onStatus({ state, message });
+    }
+    _clearTimer() {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+    _deadline(milliseconds, message) {
+      this._clearTimer();
+      this.timer = setTimeout(() => this._fail(new Error(message)), milliseconds);
+    }
+    _send(command) {
+      this.worker.postMessage(command);
+    }
+    start() {
+      if (this.state === "disposed") return Promise.reject(new Error("The engine has been closed."));
+      if (this.startPromise) return this.startPromise;
+      this.options.clear();
+      this.startPromise = new Promise((resolve, reject) => {
+        this.resolveStart = resolve;
+        this.rejectStart = reject;
+      });
+      const promise = this.startPromise;
+      const generation = ++this.generation;
+      this._status("loading", "Loading Stockfish 19\u2026");
+      const launch = (url) => {
+        if (this.state !== "loading" || generation !== this.generation) return;
+        this.worker = new Worker(url);
+        this.worker.onmessage = (event) => {
+          for (const line of String(event.data).split(/\r?\n/)) this._line(line.trim());
+        };
+        this.worker.onerror = (event) => {
+          event.preventDefault?.();
+          this._fail(new Error(event.message || "Stockfish could not load. Reload the extension and try again."));
+        };
+        this.worker.onmessageerror = () => this._fail(new Error("The engine returned an unreadable response."));
+        this._deadline(6e4, "Stockfish took too long to load. Reload the extension and try again.");
+        this._send("uci");
+      };
+      try {
+        if (typeof globalThis.CHESS_PREPARE_ENGINE === "function") {
+          this._deadline(24e4, "The engine download took too long. Check your connection and try again.");
+          Promise.resolve(globalThis.CHESS_PREPARE_ENGINE((message) => this.onStatus({ state: "loading", message }))).then(launch).catch((error) => {
+            if (generation === this.generation) this._fail(error);
+          });
+        } else launch(engineURL());
+      } catch (error) {
+        this._fail(error);
+      }
+      return promise;
+    }
+    analyze({ fen, moves = [], timeMs = 5e3 }) {
+      if (this.state === "disposed") throw new Error("The engine has been closed.");
+      if (typeof fen !== "string" || !FEN_PATTERN.test(fen.trim())) throw new Error("A complete FEN position is required.");
+      if (!Array.isArray(moves) || moves.some((move) => !MOVE_PATTERN.test(move))) throw new Error("Invalid UCI move history.");
+      if (!Number.isFinite(Number(timeMs))) throw new Error("Invalid analysis time.");
+      const token2 = ++this.sequence;
+      this.pending = { token: token2, fen: fen.trim(), moves: [...moves], timeMs: Math.max(250, Math.min(6e4, Math.round(Number(timeMs)))) };
+      if (this.active) this._cancelActive();
+      if (this.state === "idle" || this.state === "error" || this.state === "loading") {
+        this.start().then(() => this._pump()).catch(() => {
+        });
+      } else {
+        this._pump();
+      }
+      return token2;
+    }
+    _cancelActive() {
+      if (!this.active || this.active.canceled) return;
+      this.active.canceled = true;
+      this._status("stopping", "Updating position\u2026");
+      this._deadline(1e4, "Stockfish did not stop its previous search. Try reloading the extension.");
+      this._send("stop");
+    }
+    stop() {
+      this.pending = null;
+      if (this.active) this._cancelActive();
+    }
+    _pump() {
+      if (!this.pending || this.active || this.barrier || this.state !== "ready") return;
+      this.barrier = true;
+      this._deadline(1e4, "Stockfish is not responding. Reload the extension and try again.");
+      this._send("isready");
+    }
+    _beginLatest() {
+      if (!this.pending) return;
+      this.active = { ...this.pending, canceled: false, info: {} };
+      this.pending = null;
+      const request = this.active;
+      this._status("thinking", "Analyzing position\u2026");
+      const history = request.moves.length ? ` moves ${request.moves.join(" ")}` : "";
+      this._send(`position fen ${request.fen}${history}`);
+      this._deadline(request.timeMs + 15e3, "Stockfish did not finish its search. Try a shorter analysis time.");
+      this._send(`go movetime ${request.timeMs}`);
+    }
+    _line(line) {
+      if (!line || this.state === "disposed" || this.state === "error") return;
+      if (this.state === "loading") {
+        const option = line.match(/^option name (.+?) type /);
+        if (option) this.options.add(option[1]);
+        if (line === "uciok") {
+          for (const [name, value] of [["Hash", 128], ["Threads", 1], ["MultiPV", 1], ["UCI_LimitStrength", "false"], ["Skill Level", 20]]) {
+            if (this.options.has(name)) this._send(`setoption name ${name} value ${value}`);
+          }
+          this._send("isready");
+        } else if (line === "readyok") {
+          this._clearTimer();
+          this._status("ready", "Stockfish 19 ready");
+          this.resolveStart?.();
+          this.resolveStart = null;
+          this.rejectStart = null;
+          this._pump();
+        }
+        return;
+      }
+      if (line === "readyok" && this.barrier) {
+        this.barrier = false;
+        this._clearTimer();
+        this._beginLatest();
+        return;
+      }
+      if (!this.active) return;
+      const request = this.active;
+      if (line.startsWith("bestmove ")) {
+        this._clearTimer();
+        this.active = null;
+        this._status("ready", "Analysis complete");
+        if (!request.canceled) {
+          const [, move, , ponder] = line.split(/\s+/);
+          this.onBestMove({
+            ...request.info,
+            token: request.token,
+            fen: request.fen,
+            move: MOVE_PATTERN.test(move) ? move : null,
+            ponder: ponder && MOVE_PATTERN.test(ponder) ? ponder : null
+          });
+        }
+        this._pump();
+        return;
+      }
+      if (request.canceled) return;
+      const info = parseInfo(line);
+      if (!info || info.multipv && info.multipv !== 1) return;
+      request.info = { ...request.info, ...info };
+      this.onInfo({ ...request.info, token: request.token, fen: request.fen });
+    }
+    _fail(error) {
+      this.generation++;
+      this._clearTimer();
+      this.worker?.terminate();
+      this.worker = null;
+      this.active = null;
+      this.pending = null;
+      this.barrier = false;
+      this.rejectStart?.(error);
+      this.resolveStart = null;
+      this.rejectStart = null;
+      this.startPromise = null;
+      this._status("error", error.message);
+      this.onError(error);
+    }
+    dispose() {
+      this.generation++;
+      this._clearTimer();
+      this.worker?.terminate();
+      this.worker = null;
+      this.pending = null;
+      this.active = null;
+      this.barrier = false;
+      this.rejectStart?.(new Error("The engine was closed."));
+      this.resolveStart = null;
+      this.rejectStart = null;
+      this.startPromise = null;
+      this._status("disposed", "Engine closed");
+    }
+  };
+
+  // chess-assistant/position.js
+  var START = new Chess().fen();
+  function cloneGame(game2) {
+    const history = game2.history({ verbose: true });
+    const clone = new Chess(history[0]?.before || game2.fen());
+    for (const move of history) clone.move(move);
+    return clone;
+  }
+  function importPosition(text) {
+    const value = text.trim();
+    if (!value) throw new Error("Paste a FEN position or PGN game first.");
+    if (/^[prnbqkPRNBQK1-8/]+\s+[wb]\s/.test(value)) return new Chess(value);
+    const game2 = new Chess();
+    game2.loadPgn(value);
+    if (!game2.history().length && !/\[FEN\s/.test(value)) throw new Error("No moves found. Paste a FEN position or complete PGN.");
+    return game2;
+  }
+  function analysisPosition(game2) {
+    const history = game2.history({ verbose: true });
+    return {
+      fen: history[0]?.before || game2.fen(),
+      moves: history.map((move) => move.from + move.to + (move.promotion || ""))
+    };
+  }
+  function moveDetails(game2, uci) {
+    if (!uci || !/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(uci)) return null;
+    try {
+      const copy = new Chess(game2.fen());
+      return copy.move({ from: uci.slice(0, 2), to: uci.slice(2, 4), promotion: uci[4] });
+    } catch {
+      return null;
+    }
+  }
+  function variation(game2, moves = []) {
+    const copy = new Chess(game2.fen());
+    const result = [];
+    for (const uci of moves.slice(0, 10)) {
+      const move = moveDetails(copy, uci);
+      if (!move) break;
+      copy.move(move);
+      result.push(move.san);
+    }
+    return result.join("  ");
+  }
+
+  // chess-assistant/capture.js
+  var SAMPLE_SIZE = 320;
+  var INTERVAL_MS = 240;
+  var STABLE_MS = 550;
+  function boardFeatures(image, orientation2 = "white") {
+    if (!image?.data || image.width !== image.height || image.width % 8) throw new Error("A square board image is required.");
+    const width = image.width;
+    const tile = width / 8;
+    const margin = Math.max(2, Math.round(tile * 0.13));
+    const luma = (x, y) => {
+      const i = (y * width + x) * 4;
+      return image.data[i] * 0.299 + image.data[i + 1] * 0.587 + image.data[i + 2] * 0.114;
+    };
+    const result = {};
+    for (let row = 0; row < 8; row++) {
+      for (let column = 0; column < 8; column++) {
+        const file2 = orientation2 === "white" ? column : 7 - column;
+        const rank2 = orientation2 === "white" ? 8 - row : row + 1;
+        const square = String.fromCharCode(97 + file2) + rank2;
+        const feature = [];
+        for (let y = row * tile + margin; y < (row + 1) * tile - margin; y++) {
+          for (let x = column * tile + margin; x < (column + 1) * tile - margin; x++) {
+            const dx = luma(x + 1, y) - luma(x - 1, y);
+            const dy = luma(x, y + 1) - luma(x, y - 1);
+            feature.push(Math.min(1, Math.hypot(dx, dy) / 100));
+          }
+        }
+        result[square] = Float32Array.from(feature);
+      }
+    }
+    return result;
+  }
+  function featureDistance(a, b) {
+    if (!a || !b || a.length !== b.length) return 1;
+    let total = 0;
+    for (let i = 0; i < a.length; i++) total += Math.abs(a[i] - b[i]);
+    return total / a.length;
+  }
+  function changedSquares(before, after, threshold = 0.045) {
+    return Object.keys(before).filter((square) => featureDistance(before[square], after[square]) > threshold).sort();
+  }
+  function candidateMoves(game2, squares) {
+    if (!Array.isArray(squares) || squares.length < 2 || squares.length > 4) return [];
+    const target = [...new Set(squares)].sort().join(",");
+    const trial = cloneGame(game2);
+    const original = new Map(trial.board().flat().filter(Boolean).map((piece) => [piece.square, piece.color + piece.type]));
+    const result = [];
+    for (const move of trial.moves({ verbose: true })) {
+      trial.move(move);
+      const next = new Map(trial.board().flat().filter(Boolean).map((piece) => [piece.square, piece.color + piece.type]));
+      const changed = [.../* @__PURE__ */ new Set([...original.keys(), ...next.keys()])].filter((square) => original.get(square) !== next.get(square)).sort().join(",");
+      if (changed === target) result.push({ from: move.from, to: move.to, ...move.promotion ? { promotion: move.promotion } : {}, san: move.san });
+      trial.undo();
+    }
+    return result;
+  }
+  var BoardCapture = class {
+    constructor({ video, canvas, onCandidate = () => {
+    }, onState = () => {
+    } }) {
+      if (!video || !canvas) throw new Error("A video and preview canvas are required.");
+      this.video = video;
+      this.canvas = canvas;
+      this.onCandidate = onCandidate;
+      this.onState = onState;
+      this.stream = null;
+      this.crop = null;
+      this.corner = null;
+      this.game = null;
+      this.orientation = "white";
+      this.baseline = null;
+      this.previousFrame = null;
+      this.pendingFrame = null;
+      this.pendingFen = null;
+      this.signature = "";
+      this.stableSince = 0;
+      this.tracking = false;
+      this.state = "idle";
+      this.timer = null;
+      this.generation = 0;
+      this.dimensions = "";
+      this.sampler = document.createElement("canvas");
+      this.sampler.width = this.sampler.height = SAMPLE_SIZE;
+      this.context = this.sampler.getContext("2d", { willReadFrequently: true });
+      this.handleClick = (event) => this._calibrationClick(event);
+      canvas.addEventListener("click", this.handleClick);
+      this.handleHide = () => {
+        if (document.hidden && this.tracking) this.pause("Watching paused while this analysis tab is hidden. Return here and confirm the current position before watching again.");
+      };
+      document.addEventListener("visibilitychange", this.handleHide);
+      this.handleUnload = () => this.stop();
+      window.addEventListener("pagehide", this.handleUnload);
+    }
+    _state(state, message) {
+      this.state = state;
+      this.onState({ state, message, calibrated: Boolean(this.crop), tracking: this.tracking });
+    }
+    async start() {
+      this.stop();
+      const generation = this.generation;
+      if (!navigator.mediaDevices?.getDisplayMedia) {
+        this._state("error", "Tab sharing is unavailable. Use an HTTPS website in a supported Chrome browser, or enter moves manually.");
+        return false;
+      }
+      this._state("sharing", "Choose the Chess.com tab in Chrome\u2019s sharing prompt.");
+      try {
+        const stream = await navigator.mediaDevices.getDisplayMedia({ video: { displaySurface: "browser", frameRate: { ideal: 5, max: 10 } }, audio: false });
+        if (generation !== this.generation) {
+          stream.getTracks().forEach((track) => track.stop());
+          return false;
+        }
+        this.stream = stream;
+        this.video.srcObject = stream;
+        this.video.muted = true;
+        this.video.playsInline = true;
+        stream.getVideoTracks()[0]?.addEventListener("ended", () => {
+          if (this.stream === stream) this.stop("Screen sharing ended.");
+        }, { once: true });
+        await this.video.play();
+        if (generation !== this.generation) return false;
+        this.dimensions = `${this.video.videoWidth}x${this.video.videoHeight}`;
+        this.beginCalibration();
+        this._tick();
+        this.timer = setInterval(() => this._tick(), INTERVAL_MS);
+        return true;
+      } catch (error) {
+        if (generation !== this.generation) return false;
+        this.stream?.getTracks().forEach((track) => track.stop());
+        this.stream = null;
+        this.video.srcObject = null;
+        const message = error.name === "NotAllowedError" ? "Screen sharing was canceled or blocked. You can still paste FEN/PGN or enter moves manually." : `Screen sharing could not start: ${error.message}`;
+        this._state("error", message);
+        return false;
+      }
+    }
+    beginCalibration() {
+      if (!this.stream) return false;
+      this.tracking = false;
+      this.crop = null;
+      this.corner = null;
+      this.baseline = null;
+      this.previousFrame = null;
+      this._state("calibrating", "Click the board\u2019s top-left outer corner in the shared preview, then its bottom-right outer corner.");
+      return true;
+    }
+    _calibrationClick(event) {
+      if (this.state !== "calibrating" || !this.video.videoWidth) return;
+      const rect = this.canvas.getBoundingClientRect();
+      const point = {
+        x: Math.max(0, Math.min(this.video.videoWidth, (event.clientX - rect.left) / rect.width * this.video.videoWidth)),
+        y: Math.max(0, Math.min(this.video.videoHeight, (event.clientY - rect.top) / rect.height * this.video.videoHeight))
+      };
+      if (!this.corner) {
+        this.corner = point;
+        this._state("calibrating", "Now click the board\u2019s bottom-right outer corner. Include all 64 squares.");
+        return;
+      }
+      const width = point.x - this.corner.x;
+      const height = point.y - this.corner.y;
+      if (width < 120 || height < 120 || Math.abs(width / height - 1) > 0.08) {
+        this.corner = null;
+        this._state("calibrating", "That selection was not a square board. Start again at its top-left outer corner.");
+        return;
+      }
+      this.crop = { x: this.corner.x, y: this.corner.y, width, height };
+      this.corner = null;
+      this._state("ready", "Board area selected. Make the analysis position and orientation match the shared board, then choose Start watching.");
+    }
+    _features() {
+      if (!this.crop || !this.video.videoWidth) throw new Error("Select the board area first.");
+      const { x, y, width, height } = this.crop;
+      this.context.drawImage(this.video, x, y, width, height, 0, 0, SAMPLE_SIZE, SAMPLE_SIZE);
+      return boardFeatures(this.context.getImageData(0, 0, SAMPLE_SIZE, SAMPLE_SIZE), this.orientation);
+    }
+    seed(game2, orientation2 = "white") {
+      if (!this.stream || !this.crop) throw new Error("Share a tab and select the board area first.");
+      if (document.hidden) throw new Error("Keep this analysis page visible while watching.");
+      this.orientation = orientation2;
+      this.game = cloneGame(game2);
+      this.baseline = this._features();
+      this.previousFrame = this.baseline;
+      this.pendingFrame = null;
+      this.pendingFen = null;
+      this.signature = "";
+      this.stableSince = 0;
+      this.tracking = true;
+      this._state("tracking", "Watching square changes. Check and confirm each suggested move before analysis updates.");
+    }
+    acknowledge(game2) {
+      if (!this.pendingFrame || !this.pendingFen || game2.fen() !== this.pendingFen) {
+        this.pause("The confirmed position differs from the suggested move. Match the shared board, then choose Start watching.");
+        return false;
+      }
+      try {
+        if (changedSquares(this.pendingFrame, this._features(), 0.025).length) {
+          this.pause("The shared board changed again before confirmation. Enter any additional moves, then choose Start watching.");
+          return false;
+        }
+        this.seed(game2, this.orientation);
+        return true;
+      } catch (error) {
+        this.pause(`Watching could not resume: ${error.message}`);
+        return false;
+      }
+    }
+    pause(message = "Watching paused. Match the current position, then choose Start watching.") {
+      this.tracking = false;
+      this.signature = "";
+      this.previousFrame = null;
+      this.pendingFrame = null;
+      this.pendingFen = null;
+      this._state("paused", message);
+    }
+    reject() {
+      this.pause("Move suggestion dismissed. Enter the correct move or import the current position, then choose Start watching.");
+    }
+    _tick() {
+      if (!this.stream || !this.video.videoWidth || document.hidden) return;
+      try {
+        const dimensions = `${this.video.videoWidth}x${this.video.videoHeight}`;
+        if (this.dimensions !== dimensions) {
+          this.dimensions = dimensions;
+          this.beginCalibration();
+          this._state("calibrating", "The shared tab size changed. Select the board corners again.");
+        }
+        const scale = Math.min(1, 960 / this.video.videoWidth);
+        const width = Math.round(this.video.videoWidth * scale);
+        const height = Math.round(this.video.videoHeight * scale);
+        if (this.canvas.width !== width || this.canvas.height !== height) {
+          this.canvas.width = width;
+          this.canvas.height = height;
+        }
+        const context = this.canvas.getContext("2d");
+        context.drawImage(this.video, 0, 0, width, height);
+        context.strokeStyle = "#eeb955";
+        context.lineWidth = 3;
+        if (this.crop) context.strokeRect(this.crop.x * scale, this.crop.y * scale, this.crop.width * scale, this.crop.height * scale);
+        if (this.corner) {
+          context.beginPath();
+          context.arc(this.corner.x * scale, this.corner.y * scale, 6, 0, Math.PI * 2);
+          context.stroke();
+        }
+        if (!this.tracking) return;
+        const current = this._features();
+        const changed = changedSquares(this.baseline, current);
+        if (!changed.length) {
+          this.previousFrame = current;
+          this.signature = "";
+          this.stableSince = 0;
+          return;
+        }
+        const signature = changed.join(",");
+        const steady = this.previousFrame && changedSquares(this.previousFrame, current, 0.025).length === 0;
+        this.previousFrame = current;
+        if (!steady || signature !== this.signature) {
+          this.signature = signature;
+          this.stableSince = performance.now();
+          return;
+        }
+        if (performance.now() - this.stableSince < STABLE_MS) return;
+        const candidates = candidateMoves(this.game, changed);
+        this.tracking = false;
+        if (candidates.length === 1) {
+          this.pendingFrame = current;
+          const after = cloneGame(this.game);
+          after.move(candidates[0]);
+          this.pendingFen = after.fen();
+          this._state("paused", `Possible move: ${candidates[0].san}. Check the shared board and confirm it below.`);
+          this.onCandidate({ move: candidates[0], changedSquares: changed, fen: this.game.fen() });
+        } else {
+          this._state("paused", candidates.length > 1 ? "The change matches several moves, including a possible promotion. Enter the move manually, then resume watching." : "The changed squares did not match one legal move. Check the board position and crop, enter missed moves manually, then resume watching.");
+        }
+      } catch (error) {
+        this.tracking = false;
+        this._state("error", `Could not read the shared board: ${error.message}. Enter moves manually or calibrate again.`);
+      }
+    }
+    stop(message = "Screen sharing is off.") {
+      this.generation++;
+      clearInterval(this.timer);
+      this.timer = null;
+      const stream = this.stream;
+      this.stream = null;
+      stream?.getTracks().forEach((track) => track.stop());
+      this.video.srcObject = null;
+      this.tracking = false;
+      this.crop = null;
+      this.corner = null;
+      this.baseline = null;
+      this.game = null;
+      this.previousFrame = null;
+      this.pendingFrame = null;
+      this.pendingFen = null;
+      this._state("idle", message);
+    }
+    dispose() {
+      this.stop();
+      this.canvas.removeEventListener("click", this.handleClick);
+      document.removeEventListener("visibilitychange", this.handleHide);
+      window.removeEventListener("pagehide", this.handleUnload);
+    }
+  };
+
+  // chess-assistant/web.js
+  var $ = (id) => document.getElementById(id);
+  var glyphs = { k: "\u265A", q: "\u265B", r: "\u265C", b: "\u265D", n: "\u265E", p: "\u265F" };
+  var names = { k: "King", q: "Queen", r: "Rook", b: "Bishop", n: "Knight", p: "Pawn" };
+  var game = new Chess();
+  var orientation = "white";
+  var selected = null;
+  var recommended = null;
+  var lastMove = null;
+  var token = null;
+  var pendingPromotion = null;
+  var pendingCapture = null;
+  var captureState = "idle";
+  var source = "Starting position";
+  var analyzing = false;
+  var engine = new Engine({
+    onStatus({ state, message }) {
+      $("engine-status").textContent = message;
+      analyzing = state === "thinking" || state === "loading";
+    },
+    onInfo(info) {
+      if (info.token !== token) return;
+      if (info.depth) $("depth").textContent = `Depth ${info.depth}`;
+      if (info.score) {
+        const value = info.score.value * (game.turn() === "w" ? 1 : -1);
+        $("evaluation").textContent = info.score.type === "mate" ? `${value < 0 ? "\u2212" : ""}M${Math.abs(value)}` : `${value > 0 ? "+" : ""}${(value / 100).toFixed(2)}`;
+        $("evaluation").title = "Evaluation from White\u2019s perspective";
+      }
+      if (info.pv?.length) showMove(info.pv[0], info.pv);
+    },
+    onBestMove(info) {
+      if (info.token !== token) return;
+      showMove(info.move, info.pv);
+      $("engine-status").textContent = "Analysis complete";
+      analyzing = false;
+    },
+    onError(error) {
+      token = null;
+      analyzing = false;
+      clearResult();
+      notice(`Stockfish could not finish: ${error.message}. Press Analyze to retry.`);
+      $("engine-status").textContent = "Engine needs a retry";
+    }
+  });
+  var capture = new BoardCapture({
+    video: $("share-video"),
+    canvas: $("share-canvas"),
+    onState({ state, message, calibrated }) {
+      captureState = state;
+      $("share-status").textContent = message;
+      $("share-stop").disabled = state === "idle";
+      $("share-start").disabled = !["idle", "error"].includes(state);
+      $("share-seed").disabled = !calibrated;
+      if (["idle", "error", "paused", "calibrating"].includes(state)) clearCandidate();
+    },
+    onCandidate(candidate) {
+      pendingCapture = { ...candidate, fen: game.fen() };
+      cancelAnalysis();
+      clearResult();
+      $("share-candidate").textContent = `Possible move: ${candidate.move.san}. Check the shared board, then confirm.`;
+      $("share-apply").disabled = false;
+      $("move-description").textContent = "Confirm the detected move below";
+      $("engine-status").textContent = "Waiting for your confirmation";
+    }
+  });
+  function notice(message = "") {
+    $("notice").textContent = message;
+    $("notice").hidden = !message;
+  }
+  function clearCandidate() {
+    pendingCapture = null;
+    $("share-candidate").textContent = "";
+    $("share-apply").disabled = true;
+  }
+  function invalidateCapture() {
+    clearCandidate();
+    if (!["idle", "error"].includes(captureState)) capture.reject();
+  }
+  function cancelAnalysis() {
+    token = null;
+    engine.stop();
+    analyzing = false;
+  }
+  function clearResult() {
+    recommended = null;
+    $("arrow").setAttribute("hidden", "");
+    $("best-move").textContent = "\u2014";
+    $("move-description").textContent = "Ready to analyze your position";
+    $("evaluation").textContent = "\u2014";
+    $("depth").textContent = "Depth \u2014";
+    $("variation").textContent = "The suggested continuation will appear here.";
+  }
+  function coordinates(square) {
+    const file2 = square.charCodeAt(0) - 97, rank2 = +square[1] - 1;
+    return orientation === "white" ? [file2 * 100 + 50, (7 - rank2) * 100 + 50] : [(7 - file2) * 100 + 50, rank2 * 100 + 50];
+  }
+  function drawArrow() {
+    $("arrow").toggleAttribute("hidden", !recommended);
+    if (!recommended) return;
+    const [x1, y1] = coordinates(recommended.from), [x2, y2] = coordinates(recommended.to);
+    const trim = 17 / Math.hypot(x2 - x1, y2 - y1);
+    for (const [key, value] of Object.entries({ x1, y1, x2: x2 - (x2 - x1) * trim, y2: y2 - (y2 - y1) * trim })) $("best-arrow").setAttribute(key, value);
+  }
+  function render() {
+    const legal = selected ? game.moves({ square: selected, verbose: true }).map((move) => move.to) : [];
+    $("board").replaceChildren();
+    for (let row = 0; row < 8; row++) for (let col = 0; col < 8; col++) {
+      const file2 = orientation === "white" ? col : 7 - col;
+      const rank2 = orientation === "white" ? 8 - row : row + 1;
+      const square = String.fromCharCode(97 + file2) + rank2;
+      const piece = game.get(square);
+      const cell = document.createElement("button");
+      cell.type = "button";
+      cell.className = `square ${(file2 + rank2) % 2 === 0 ? "dark" : "light"}${selected === square ? " selected" : ""}${legal.includes(square) ? " legal" : ""}${lastMove && (lastMove.from === square || lastMove.to === square) ? " last-move" : ""}`;
+      cell.dataset.square = square;
+      cell.setAttribute("aria-label", `${square}${piece ? ` ${piece.color === "w" ? "White" : "Black"} ${names[piece.type]}` : ", empty"}${legal.includes(square) ? ", legal destination" : ""}`);
+      cell.setAttribute("aria-pressed", String(selected === square));
+      if (piece) {
+        const span = document.createElement("span");
+        span.className = `piece ${piece.color === "w" ? "white" : "black"}`;
+        span.textContent = glyphs[piece.type];
+        span.setAttribute("aria-hidden", "true");
+        cell.append(span);
+      }
+      if (col === 0) {
+        const label = document.createElement("span");
+        label.className = "rank";
+        label.textContent = rank2;
+        label.setAttribute("aria-hidden", "true");
+        cell.append(label);
+      }
+      if (row === 7) {
+        const label = document.createElement("span");
+        label.className = "file";
+        label.textContent = square[0];
+        label.setAttribute("aria-hidden", "true");
+        cell.append(label);
+      }
+      cell.addEventListener("click", () => clickSquare(square));
+      cell.addEventListener("keydown", (event) => {
+        const offsets = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: 8, ArrowUp: -8 };
+        if (!(event.key in offsets)) return;
+        event.preventDefault();
+        const next = row * 8 + col + offsets[event.key];
+        if (next >= 0 && next < 64) $("board").children[next].focus();
+      });
+      $("board").append(cell);
+    }
+    $("turn").textContent = game.isCheckmate() ? "Checkmate" : game.isStalemate() ? "Stalemate" : game.isDraw() ? "Draw" : `${game.turn() === "w" ? "White" : "Black"} to move${game.isCheck() ? " \xB7 check" : ""}`;
+    $("source").textContent = source;
+    $("undo").disabled = game.history().length === 0;
+    const moves = game.history({ verbose: true });
+    $("history").textContent = moves.length ? moves.map((move, index) => `${move.color === "w" ? `${move.before.split(" ")[5]}. ` : index === 0 ? `${move.before.split(" ")[5]}\u2026 ` : ""}${move.san}`).join("  ") : "No moves entered yet";
+    drawArrow();
+  }
+  function clickSquare(square) {
+    if (pendingPromotion) return;
+    if (selected === square) {
+      selected = null;
+      render();
+      return;
+    }
+    if (selected) {
+      const moves = game.moves({ square: selected, verbose: true }).filter((move) => move.to === square);
+      if (moves.length) {
+        if (moves.some((move) => move.promotion)) {
+          pendingPromotion = { from: selected, to: square };
+          $("promotion").showModal();
+        } else commitMove(moves[0]);
+        return;
+      }
+    }
+    const piece = game.get(square);
+    selected = piece?.color === game.turn() ? square : null;
+    render();
+    $("board").querySelector(`[data-square="${square}"]`)?.focus();
+  }
+  function commitMove(move, fromCapture = false) {
+    const result = game.move(move);
+    selected = null;
+    lastMove = result;
+    source = fromCapture ? "Confirmed from shared board" : "Moves entered on this board";
+    if (!fromCapture) invalidateCapture();
+    notice();
+    render();
+    analyze();
+  }
+  function showMove(uci, pv = []) {
+    recommended = moveDetails(game, uci);
+    if (!recommended) {
+      clearResult();
+      $("move-description").textContent = "No legal move available";
+      return;
+    }
+    $("best-move").textContent = recommended.san;
+    $("move-description").textContent = `${names[recommended.piece]} ${recommended.from} \u2192 ${recommended.to}${recommended.promotion ? ` \xB7 promote to ${names[recommended.promotion].toLowerCase()}` : ""}`;
+    $("variation").textContent = variation(game, pv?.length ? pv : [uci]);
+    drawArrow();
+  }
+  function analyze() {
+    if (pendingCapture) {
+      notice("Confirm the detected move, or stop sharing to analyze the position currently shown.");
+      return;
+    }
+    cancelAnalysis();
+    clearResult();
+    notice();
+    if (game.isGameOver()) {
+      $("move-description").textContent = game.isCheckmate() ? "Checkmate" : game.isStalemate() ? "Stalemate" : "Draw";
+      $("variation").textContent = "This position is finished.";
+      $("engine-status").textContent = "Game over";
+      return;
+    }
+    token = engine.analyze({ ...analysisPosition(game), timeMs: Number($("time").value) });
+  }
+  function replaceGame(next, label) {
+    cancelAnalysis();
+    invalidateCapture();
+    game = next;
+    selected = null;
+    lastMove = game.history({ verbose: true }).at(-1) || null;
+    source = label;
+    notice();
+    render();
+    analyze();
+  }
+  $("analyze").addEventListener("click", analyze);
+  $("stop").addEventListener("click", () => {
+    cancelAnalysis();
+    $("engine-status").textContent = "Analysis stopped";
+  });
+  $("flip").addEventListener("click", () => {
+    orientation = orientation === "white" ? "black" : "white";
+    render();
+  });
+  $("undo").addEventListener("click", () => {
+    if (!game.history().length) return;
+    game.undo();
+    replaceGame(game, "Move taken back");
+  });
+  $("reset").addEventListener("click", () => replaceGame(new Chess(), "Starting position"));
+  $("time").addEventListener("change", () => {
+    if (token !== null || analyzing) analyze();
+  });
+  $("import").addEventListener("click", () => {
+    try {
+      const next = importPosition($("position-input").value);
+      $("import-error").textContent = "";
+      replaceGame(next, "Imported FEN / PGN");
+    } catch (error) {
+      $("import-error").textContent = error.message;
+    }
+  });
+  $("fen-copy").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(game.fen());
+      notice("FEN copied.");
+    } catch {
+      $("position-input").value = game.fen();
+      $("position-input").closest("details")?.setAttribute("open", "");
+      $("position-input").focus();
+      $("position-input").select();
+      notice("Select and copy the FEN in the import box.");
+    }
+  });
+  document.querySelectorAll("[data-promotion]").forEach((button) => button.addEventListener("click", () => {
+    const move = { ...pendingPromotion, promotion: button.dataset.promotion };
+    pendingPromotion = null;
+    $("promotion").close();
+    commitMove(move);
+  }));
+  $("promotion-cancel").addEventListener("click", () => {
+    $("promotion").close();
+    pendingPromotion = null;
+  });
+  $("promotion").addEventListener("cancel", () => {
+    pendingPromotion = null;
+  });
+  $("share-start").addEventListener("click", async () => {
+    try {
+      await capture.start();
+    } catch (error) {
+      $("share-status").textContent = error.message;
+    }
+  });
+  $("share-stop").addEventListener("click", () => {
+    capture.stop();
+    clearCandidate();
+  });
+  $("share-seed").addEventListener("click", () => {
+    try {
+      clearCandidate();
+      capture.seed(game, $("share-orientation").value);
+      analyze();
+    } catch (error) {
+      $("share-status").textContent = error.message;
+    }
+  });
+  $("share-orientation").addEventListener("change", () => invalidateCapture());
+  $("share-apply").addEventListener("click", () => {
+    if (!pendingCapture || pendingCapture.fen !== game.fen()) {
+      invalidateCapture();
+      return;
+    }
+    const move = pendingCapture.move;
+    clearCandidate();
+    try {
+      commitMove(move, true);
+      capture.acknowledge(game);
+    } catch (error) {
+      $("share-status").textContent = error.message;
+      capture.reject();
+    }
+  });
+  window.addEventListener("pagehide", () => {
+    capture.stop();
+    engine.dispose();
+  });
+  render();
+  clearResult();
+  $("share-stop").disabled = true;
+  $("share-seed").disabled = true;
+  $("share-apply").disabled = true;
+
+  // online-entry.js
+  var prepared;
+  globalThis.CHESS_PREPARE_ENGINE = (report) => {
+    if (prepared) return prepared;
+    prepared = (async () => {
+      report("Downloading full Stockfish 19\u2026");
+      const response = await fetch("https://registry.npmjs.org/stockfish/-/stockfish-19.0.1.tgz", { credentials: "omit" });
+      if (!response.ok) throw new Error("Stockfish download failed (HTTP " + response.status + ").");
+      let received = 0, last = 0;
+      const progress = new TransformStream({ transform(chunk, controller) {
+        received += chunk.length;
+        if (received - last > 1048576) {
+          last = received;
+          report("Downloading Stockfish \xB7 " + Math.round(received / 1048576) + " MB");
+        }
+        controller.enqueue(chunk);
+      } });
+      const reader = response.body.pipeThrough(progress).pipeThrough(new DecompressionStream("gzip")).getReader();
+      let pending = new Uint8Array(0), offset = 0;
+      async function read(size, keep = true) {
+        const result = keep ? new Uint8Array(size) : null;
+        let taken = 0;
+        while (taken < size) {
+          if (offset === pending.length) {
+            const next = await reader.read();
+            if (next.done) throw new Error("The engine download was incomplete.");
+            pending = next.value;
+            offset = 0;
+          }
+          const length = Math.min(size - taken, pending.length - offset);
+          if (keep) result.set(pending.subarray(offset, offset + length), taken);
+          taken += length;
+          offset += length;
+        }
+        return result;
+      }
+      let data;
+      const decoder = new TextDecoder();
+      try {
+        for (; ; ) {
+          const header = await read(512);
+          const name = decoder.decode(header.subarray(0, 100)).replace(/\0.*$/s, "");
+          if (!name) throw new Error("The Stockfish package did not contain its engine.");
+          const size = parseInt(decoder.decode(header.subarray(124, 136)).replace(/\0.*$/s, "").trim(), 8) || 0;
+          if (!Number.isSafeInteger(size) || size < 0 || size > 25e7) throw new Error("Invalid engine archive.");
+          if (name === "package/bin/stockfish-19-single.wasm") {
+            data = await read(size);
+            break;
+          }
+          await read(Math.ceil(size / 512) * 512, false);
+        }
+      } finally {
+        await reader.cancel().catch(() => {
+        });
+      }
+      report("Checking engine download\u2026");
+      const digest = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", data)), (v) => v.toString(16).padStart(2, "0")).join("");
+      if (digest !== "991bede2f253ebb08ff01fcc48270f4b9c8e66b12d5bd5f8d6f52eb3e3b3a740") throw new Error("Engine integrity check failed. Please retry the download.");
+      const wasmURL = URL.createObjectURL(new Blob([data], { type: "application/wasm" }));
+      const workerURL = URL.createObjectURL(new Blob(['/*!\n * Stockfish.js 19 (c) 2026, Chess.com, LLC\n * https://github.com/nmrugg/stockfish.js\n * License: GPLv3\n *\n * Based on Stockfish (c) T. Romstad, M. Costalba, J. Kiiski, G. Linscott and other contributors.\n * https://github.com/official-stockfish/Stockfish\n */\n!function(){function e(){var e,t=(e=globalThis.document?.currentScript?.src,async function(t={}){var r=t,n=!!globalThis.window,a=!!globalThis.WorkerGlobalScope,o=globalThis.process?.versions?.node&&"renderer"!=globalThis.process?.type;"undefined"!=typeof global&&"[object process]"===Object.prototype.toString.call(global.process)&&"undefined"!=typeof fetch&&("undefined"==typeof XMLHttpRequest&&(global.XMLHttpRequest=function(){var e,t={readyState:0,status:0,onerror:null,onreadystatechange:null,onload:null,open:function(t,r){e=r},send:function(){require("fs").readFile(e,function(e,r){t.readyState=4,e?(t.status=404,t.onerror(e)):(t.status=200,t.response=r,t.onreadystatechange(),t.onload())})}};return t}),fetch=null),r.print=function(e){r.listener&&r.listener(e)},r.printErr=function(e){r.listener&&r.listener(e)},r.terminate=function(){"undefined"!=typeof PThread&&PThread.Ha()};var i=[],s="./this.program",f=(e,t)=>{throw t};"undefined"!=typeof __filename?e=__filename:a&&(e=self.location.href);var u,l,c="";if(o){var d=require("node:fs");c=__dirname+"/",l=e=>(e=y(e)?new URL(e):e,d.readFileSync(e)),u=async e=>(e=y(e)?new URL(e):e,d.readFileSync(e,void 0)),process.argv.length>1&&(s=process.argv[1].replace(/\\\\/g,"/")),i=process.argv.slice(2),f=(e,t)=>{throw process.exitCode=e,t}}else if(n||a){try{c=new URL(".",e).href}catch{}a&&(l=e=>{var t=new XMLHttpRequest;return t.open("GET",e,!1),t.responseType="arraybuffer",t.send(null),new Uint8Array(t.response)}),u=async e=>{if((e=await fetch(e,{credentials:"same-origin"})).ok)return e.arrayBuffer();throw Error(e.status+" : "+e.url)}}var h,m,w=function(){}.bind(),p=function(){}.bind(),v=!1,y=e=>e.startsWith("file://");function g(){if(!S?.buffer?.resizable){var e=Ke.buffer;S=new Int8Array(e),ge=new Int16Array(e),pe=new Uint8Array(e),F=new Int32Array(e),ve=new Uint32Array(e),be=new Float64Array(e),ye=new BigInt64Array(e)}}function b(e){throw p(e=`Aborted(${e})`),v=!0,new WebAssembly.RuntimeError(e+". Build with -sASSERTIONS for more info.")}class k{name="ExitStatus";constructor(e){this.message=`Program terminated with exit(${e})`,this.status=e}}var S,F,T=()=>{var e=F[+Se>>2];return Se+=4,e},M=(e,t)=>{for(var r=0,n=e.length-1;n>=0;n--){var a=e[n];"."===a?e.splice(n,1):".."===a?(e.splice(n,1),r++):r&&(e.splice(n,1),r--)}if(t)for(;r;r--)e.unshift("..");return e},x=e=>{var t="/"===e.charAt(0),r="/"===e.slice(-1);return(e=M(e.split("/").filter(e=>!!e),!t).join("/"))||t||(e="."),e&&r&&(e+="/"),(t?"/":"")+e},I=e=>{var t=/^(\\/?|)([\\s\\S]*?)((?:\\.{1,2}|[^\\/]+?|)(\\.[^.\\/]*|))(?:[\\/]*)$/.exec(e).slice(1);return e=t[0],t=t[1],e||t?(t&&=t.slice(0,-1),e+t):"."},A=e=>(A=(()=>{if(o){var e=require("node:crypto");return t=>(e.randomFillSync(t),0)}return e=>(crypto.getRandomValues(e),0)})())(e),E=globalThis.TextDecoder&&new TextDecoder,G=(e,t=0)=>{for(var r=t,n=r+NaN;e[r]&&!(r>=n);)++r;if(r-t>16&&e.buffer&&E)return E.decode(e.subarray(t,r));for(n="";t<r;){var a=e[t++];if(128&a){var o=63&e[t++];if(192==(224&a))n+=String.fromCharCode((31&a)<<6|o);else{var i=63&e[t++];(a=224==(240&a)?(15&a)<<12|o<<6|i:(7&a)<<18|o<<12|i<<6|63&e[t++])<65536?n+=String.fromCharCode(a):(a-=65536,n+=String.fromCharCode(55296|a>>10,56320|1023&a))}}else n+=String.fromCharCode(a)}return n},_=[],C=e=>{for(var t=0,r=0;r<e.length;++r){var n=e.charCodeAt(r);n<=127?t++:n<=2047?t+=2:n>=55296&&n<=57343?(t+=4,++r):t+=3}return t},L=(e,t,r,n)=>{if(!(n>0))return 0;var a=r;n=r+n-1;for(var o=0;o<e.length;++o){var i=e.codePointAt(o);if(i<=127){if(r>=n)break;t[r++]=i}else if(i<=2047){if(r+1>=n)break;t[r++]=192|i>>6,t[r++]=128|63&i}else if(i<=65535){if(r+2>=n)break;t[r++]=224|i>>12,t[r++]=128|i>>6&63,t[r++]=128|63&i}else{if(r+3>=n)break;t[r++]=240|i>>18,t[r++]=128|i>>12&63,t[r++]=128|i>>6&63,t[r++]=128|63&i,o++}}return t[r]=0,r-a},D=[];function U(e,t){D[e]={input:[],output:[],R:t},ie(e,P)}var P={open(e){var t=D[e.node.rdev];if(!t)throw new H(43);e.tty=t,e.seekable=!1},close(e){e.tty.R.fsync(e.tty)},fsync(e){e.tty.R.fsync(e.tty)},read(e,t,r,n){if(!e.tty||!e.tty.R.ha)throw new H(60);for(var a=0,o=0;o<n;o++){try{var i=e.tty.R.ha(e.tty)}catch(e){throw new H(29)}if(void 0===i&&!a)throw new H(6);if(null==i)break;if(a++,t[r+o]=i,10===i)break}return a&&(e.node.atime=Date.now()),a},write(e,t,r,n){if(!e.tty||!e.tty.R.ea)throw new H(60);try{for(var a=0;a<n;a++)e.tty.R.ea(e.tty,t[r+a])}catch(e){throw new H(29)}return n&&(e.node.mtime=e.node.ctime=Date.now()),a}},j={ha(){e:{if(!_.length){var e=null;if(o){var t=Buffer.alloc(256),r=0,n=process.stdin.fd;try{r=d.readSync(n,t,0,256)}catch(e){if(!e.toString().includes("EOF"))throw e;r=0}r>0&&(e=t.slice(0,r).toString("utf-8"))}else globalThis.window?.prompt&&null!==(e=window.prompt("Input: "))&&(e+="\\n");if(!e){e=null;break e}t=Array(C(e)+1),e=L(e,t,0,t.length),t.length=e,_=t}e=_.shift()}return e},ea(e,t){null===t||10===t?(w(G(e.output)),e.output=[]):0!=t&&e.output.push(t)},fsync(e){e.output?.length>0&&(w(G(e.output)),e.output=[])},qa:()=>({Aa:25856,Ca:5,za:191,Ba:35387,ya:[3,28,127,21,4,0,1,0,17,19,26,0,18,15,23,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}),ra:()=>0,sa:()=>[24,80]},R={ea(e,t){null===t||10===t?(p(G(e.output)),e.output=[]):0!=t&&e.output.push(t)},fsync(e){e.output?.length>0&&(p(G(e.output)),e.output=[])}},N={N:null,P:()=>N.createNode(null,"/",16895,0),createNode(e,t,r,n){if(24576==(61440&r)||4096==(61440&r))throw new H(63);return N.N||(N.N={dir:{node:{T:N.G.T,S:N.G.S,lookup:N.G.lookup,V:N.G.V,rename:N.G.rename,unlink:N.G.unlink,rmdir:N.G.rmdir,readdir:N.G.readdir,symlink:N.G.symlink},stream:{M:N.F.M}},file:{node:{T:N.G.T,S:N.G.S},stream:{M:N.F.M,read:N.F.read,write:N.F.write,ja:N.F.ja,la:N.F.la}},link:{node:{T:N.G.T,S:N.G.S,readlink:N.G.readlink},stream:{}},ga:{node:{T:N.G.T,S:N.G.S},stream:oe}}),16384==(61440&(r=Q(e,t,r,n)).mode)?(r.G=N.N.dir.node,r.F=N.N.dir.stream,r.I={}):32768==(61440&r.mode)?(r.G=N.N.file.node,r.F=N.N.file.stream,r.J=0,r.I=N.na??(N.na=new Uint8Array(0))):40960==(61440&r.mode)?(r.G=N.N.link.node,r.F=N.N.link.stream):8192==(61440&r.mode)&&(r.G=N.N.ga.node,r.F=N.N.ga.stream),r.atime=r.mtime=r.ctime=Date.now(),e&&(e.I[t]=r,e.atime=e.mtime=e.ctime=r.atime),r},G:{T(e){var t={};return t.dev=8192==(61440&e.mode)?e.id:1,t.ino=e.id,t.mode=e.mode,t.nlink=1,t.uid=0,t.gid=0,t.rdev=e.rdev,16384==(61440&e.mode)?t.size=4096:32768==(61440&e.mode)?t.size=e.J:40960==(61440&e.mode)?t.size=e.link.length:t.size=0,t.atime=new Date(e.atime),t.mtime=new Date(e.mtime),t.ctime=new Date(e.ctime),t.blksize=4096,t.blocks=Math.ceil(t.size/t.blksize),t},S(e,t){for(var r of["mode","atime","mtime","ctime"])null!=t[r]&&(e[r]=t[r]);void 0!==t.size&&(t=t.size,e.J!=t&&(r=e.I,e.I=new Uint8Array(t),e.I.set(r.subarray(0,Math.min(t,e.J))),e.J=t))},lookup(){throw N.X||(N.X=new H(44),N.X.stack="<generic error, no stack>"),N.X},V:(e,t,r,n)=>N.createNode(e,t,r,n),rename(e,t,r){try{var n=K(t,r)}catch(e){}if(n){if(16384==(61440&e.mode))for(var a in n.I)throw new H(55);if(a=Z(n.parent.id,n.name),z[a]===n)z[a]=n.U;else for(a=z[a];a;){if(a.U===n){a.U=n.U;break}a=a.U}}delete e.parent.I[e.name],t.I[r]=e,e.name=r,t.ctime=t.mtime=e.parent.ctime=e.parent.mtime=Date.now()},unlink(e,t){delete e.I[t],e.ctime=e.mtime=Date.now()},rmdir(e,t){var r,n=K(e,t);for(r in n.I)throw new H(55);delete e.I[t],e.ctime=e.mtime=Date.now()},readdir:e=>[".","..",...Object.keys(e.I)],symlink:(e,t,r)=>((e=N.createNode(e,t,41471,0)).link=r,e),readlink(e){if(40960!=(61440&e.mode))throw new H(28);return e.link}},F:{read:(e,t,r,n,a)=>a>=e.node.J?0:(n=Math.min(e.node.J-a,n),t.set(e.node.I.subarray(a,a+n),r),n),write(e,t,r,n,a,o){if(t.buffer===S.buffer&&(o=!1),!n)return 0;if((e=e.node).mtime=e.ctime=Date.now(),o)e.I=t.subarray(r,r+n),e.J=n;else if(e.J||a){o=a+n;var i=e.I.length;i>=o||(o=Math.max(o,i*(i<1048576?2:1.125)>>>0),i&&(o=Math.max(o,256)),i=e.I.subarray(0,e.J),e.I=new Uint8Array(o),e.I.set(i)),e.I.set(t.subarray(r,r+n),a),e.J=Math.max(e.J,a+n)}else e.I=t.slice(r,r+n),e.J=n;return n},M(e,t,r){if(1===r?t+=e.position:2===r&&32768==(61440&e.node.mode)&&(t+=e.node.J),t<0)throw new H(28);return t},ja(e,t,r,n,a){if(32768!=(61440&e.node.mode))throw new H(43);if(e=e.node.I,2&a||e.buffer!==S.buffer){if(n=!0,b(),!(a=void 0))throw new H(48);e&&((r>0||r+t<e.length)&&(e=e.subarray?e.subarray(r,r+t):Array.prototype.slice.call(e,r,r+t)),S.set(e,a))}else n=!1,a=e.byteOffset;return{Ga:a,xa:n}},la:(e,t,r,n)=>(N.F.write(e,t,0,n,r,!1),0)}},O=null,$={},W=[],q=1,z=null,B=!1,J=!0,H=class{name="ErrnoError";constructor(e){this.L=e}},V=class{shared={};node=null;get flags(){return this.shared.flags}set flags(e){this.shared.flags=e}get position(){return this.shared.position}set position(e){this.shared.position=e}},X=class{G={};F={};W=null;listeners=null;fa=0;constructor(e,t,r,n){e||=this,this.parent=e,this.P=e.P,this.id=q++,this.name=t,this.mode=r,this.rdev=n,this.atime=this.mtime=this.ctime=Date.now()}get read(){return!(365&~this.mode)}set read(e){e?this.mode|=365:this.mode&=-366}get write(){return!(146&~this.mode)}set write(e){e?this.mode|=146:this.mode&=-147}va(){if(this.listeners){var e;for(t of this.listeners)t.exclusive?(e||=[]).push(t):t.ma(32);if(e){var t=(this.fa||0)%e.length;this.fa=t+1,e[t].ma(32)}}}};function Y(e,t={}){if(!e)throw new H(44);t.Z??(t.Z=!0),"/"===e.charAt(0)||(e="//"+e);var r=0;e:for(;r<40;r++){e=e.split("/").filter(e=>!!e);for(var n=O,a="/",o=0;o<e.length;o++){var i=o===e.length-1;if(i&&t.parent)break;if("."!==e[o])if(".."===e[o]){if(a=I(a),n===n.parent){e=a+"/"+e.slice(o+1).join("/"),r--;continue e}n=n.parent}else{a=x(a+"/"+e[o]);try{n=K(n,e[o])}catch(e){if(44===e?.L&&i&&t.ua)return{path:a};throw e}if(!n.W||i&&!t.Z||(n=n.W.root),40960==(61440&n.mode)&&(!i||t.Y)){if(!n.G.readlink)throw new H(52);"/"===(n=n.G.readlink(n)).charAt(0)||(n=I(a)+"/"+n),e=n+"/"+e.slice(o+1).join("/");continue e}}}return{path:a,node:n}}throw new H(32)}function Z(e,t){for(var r=0,n=0;n<t.length;n++)r=(r<<5)-r+t.charCodeAt(n)|0;return(e+r>>>0)%z.length}function K(e,t){var r=16384==(61440&e.mode)?(r=ee(e,"x"))?r:e.G.lookup?0:2:54;if(r)throw new H(r);for(r=z[Z(e.id,t)];r;r=r.U){var n=r.name;if(r.parent.id===e.id&&n===t)return r}return e.G.lookup(e,t)}function Q(e,t,r,n){return t=Z((e=new X(e,t,r,n)).parent.id,e.name),e.U=z[t],z[t]=e}function ee(e,t){return J?0:t.includes("r")&&!(292&e.mode)||t.includes("w")&&!(146&e.mode)||t.includes("x")&&!(73&e.mode)?2:0}function te(e,t){if(16384!=(61440&e.mode))return 54;try{return K(e,t),20}catch(e){}return ee(e,"wx")}function re(e){if(!(e=W[e]))throw new H(8);return e}function ne(e,t=-1){if(e=Object.assign(new V,e),-1==t)e:{for(t=0;t<=4096;t++)if(!W[t])break e;throw new H(33)}return e.fd=t,W[t]=e}function ae(e,t){var r=void 0,n=r?null:e;if(r??=e.G.S,!r)throw new H(63);try{r(n,t)}catch(e){if(e instanceof RangeError)throw new H(22);throw e}}var oe={open(e){e.F=$[e.node.rdev].F,e.F.open?.(e)},M(){throw new H(70)}};function ie(e,t){$[e]={F:t}}function se(e,t){var r="/"===t;if(r&&O)throw new H(10);if(!r&&t){var n=Y(t,{Z:!1});if(t=n.path,(n=n.node).W)throw new H(10);if(16384!=(61440&n.mode))throw new H(54)}t={type:e,Fa:{},ka:t,ta:[]},(e=e.P(t)).P=t,t.root=e,r?O=e:n&&(n.W=t,n.P&&n.P.ta.push(t))}function fe(e,t,r){var n=Y(e,{parent:!0}).node;if(!(e=e&&e.match(/([^\\/]+|\\/)\\/*$/)[1]))throw new H(28);if("."===e||".."===e)throw new H(20);var a=te(n,e);if(a)throw new H(a);if(!n.G.V)throw new H(63);return n.G.V(n,e,t,r)}function ue(e){return fe(e,16895,0)}function le(e,t,r){void 0===r&&(r=t,t=438),fe(e,8192|t,r)}function ce(e,t){if(!((...e)=>{for(var t="",r=!1,n=e.length-1;n>=-1&&!r;n--){if("string"!=typeof(r=n>=0?e[n]:"/"))throw new TypeError("Arguments to path.resolve must be strings");if(!r)return"";t=r+"/"+t,r="/"===r.charAt(0)}return(r?"/":"")+(t=M(t.split("/").filter(e=>!!e),!r).join("/"))||"."})(e))throw new H(44);var r=Y(t,{parent:!0}).node;if(!r)throw new H(44);var n=te(r,t=t&&t.match(/([^\\/]+|\\/)\\/*$/)[1]);if(n)throw new H(n);if(!r.G.symlink)throw new H(63);r.G.symlink(r,t,e)}function de(e,t,r=438){if(""===e)throw new H(44);if("string"==typeof t){var n={r:0,"r+":2,w:577,"w+":578,a:1089,"a+":1090}[t];if(void 0===n)throw Error(`Unknown file open mode: ${t}`);t=n}if(r=64&t?4095&r|32768:0,"object"==typeof e)n=e;else{var a=e.endsWith("/"),o=Y(e,{Y:!(131072&t),ua:!0});n=o.node,e=o.path}if(o=!1,64&t)if(n){if(128&t)throw new H(20)}else{if(a)throw new H(31);n=fe(e,511|r,0),o=!0}if(!n)throw new H(44);if(8192==(61440&n.mode)&&(t&=-513),65536&t&&16384!=(61440&n.mode))throw new H(54);if(!o&&(n?40960==(61440&n.mode)?a=32:(a=["r","w","rw"][3&t],512&t&&(a+="w"),a=16384==(61440&n.mode)&&("r"!==a||576&t)?31:ee(n,a)):a=44,a))throw new H(a);if(512&t&&!o){if(16384==(61440&(a="string"==typeof(a=n)?Y(a,{Y:!0}).node:a).mode))throw new H(31);if(32768!=(61440&a.mode))throw new H(28);if(e=ee(a,"w"))throw new H(e);ae(a,{size:0,timestamp:Date.now()})}e:{for(a=n;;){if(a===a.parent){a=a.P.ka;var i=i?"/"!==a[a.length-1]?`${a}/${i}`:a+i:a;break e}i=i?`${a.name}/${i}`:a.name,a=a.parent}i=void 0}return(t=ne({node:n,path:i,flags:-131713&t,seekable:!0,position:0,F:n.F,wa:[],error:!1})).F.open&&t.F.open(t),o&&(r&=511,ae(n="string"==typeof n?Y(n,{Y:!0}).node:n,{mode:4095&r|-4096&n.mode,ctime:Date.now(),Da:void 0})),t}function he(e,t,r){if(null===e.fd)throw new H(8);if(!e.seekable||!e.F.M)throw new H(70);if(0!=r&&1!=r&&2!=r)throw new H(28);e.position=e.F.M(e,t,r),e.wa=[]}function me(e,t,r,n){var a=void 0;if(n<0||a<0)throw new H(28);if(null===e.fd)throw new H(8);if(!(2097155&e.flags))throw new H(8);if(16384==(61440&e.node.mode))throw new H(31);if(!e.F.write)throw new H(28);e.seekable&&1024&e.flags&&he(e,0,2);var o=void 0!==a;if(o){if(!e.seekable)throw new H(70)}else a=e.position;return t=e.F.write(e,t,r,n,a,void 0),o||(e.position+=t),t}function we(e,t){e=x("/dev/"+e);var r=(e=>{var t=0;return e&&(t|=365),t})(!!t);we.ia??(we.ia=64);var n=we.ia++<<8;ie(n,{open(e){e.seekable=!1},close(){},read(e,r,n,a){for(var o=0,i=0;i<a;i++){try{var s=t()}catch(e){throw new H(29)}if(void 0===s&&!o)throw new H(6);if(null==s)break;o++,r[n+i]=s}return o&&(e.node.atime=Date.now()),o},write(e,t,r,n){for(var a=0;a<n;a++)try{(void 0)(t[r+a])}catch(e){throw new H(29)}return n&&(e.node.mtime=e.node.ctime=Date.now()),a}}),le(e,r,n)}var pe,ve,ye,ge,be,ke,Se=void 0,Fe={},Te=e=>{if(!v)try{return e()}catch(e){e instanceof k||"unwind"==e||f(1,e)}},Me=[],xe={},Ie=()=>{if(!ke){var e,t={USER:"web_user",LOGNAME:"web_user",PATH:"/",PWD:"/",HOME:"/home/web_user",LANG:(globalThis.navigator?.language??"C").replace("-","_")+".UTF-8",_:s};for(e in xe)void 0===xe[e]?delete t[e]:t[e]=xe[e];var r=[];for(e in t)r.push(`${e}=${t[e]}`);ke=r}return ke},Ae=e=>{var t=C(e)+1,r=Je(t);return L(e,pe,r,t),r},Ee=e=>{try{e()}catch(e){b(e)}};function Ge(e){var t=(...t)=>{De.push(e);try{return e(...t)}finally{v||(De.pop(),Ce&&1===_e&&!De.length&&(_e=0,Ee(Xe),"undefined"!=typeof Fibers&&Fibers.Ja()))}};return je.set(e,t),t}var _e=0,Ce=null,Le=0,De=[],Ue=new Map,Pe=new Map,je=new Map,Re=0,Ne=null,Oe=[];z=Array(4096),se(N,"/"),ue("/tmp"),ue("/home"),ue("/home/web_user"),function(){ue("/dev"),ie(259,{read:()=>0,write:(e,t,r,n)=>n,M:()=>0}),le("/dev/null",259),U(1280,j),U(1536,R),le("/dev/tty",1280),le("/dev/tty1",1536);var e=new Uint8Array(1024),t=0,r=()=>(t||(A(e),t=e.byteLength),e[--t]);we("random",r),we("urandom",r),ue("/dev/shm"),ue("/dev/shm/tmp")}(),function(){ue("/proc");var e=ue("/proc/self");ue("/proc/self/fd"),se({P(){var t=Q(e,"fd",16895,73);return t.F={M:N.F.M},t.G={lookup(e,t){var r=re(e=+t);return(e={parent:null,P:{ka:"fake"},G:{readlink:()=>r.path},id:e+1}).parent=e},readdir:()=>Array.from(W.entries()).filter(([,e])=>e).map(([e])=>e.toString())},t}},"/proc/self/fd")}(),r.print&&(w=r.print),r.printErr&&(p=r.printErr),r.wasmBinary&&(h=r.wasmBinary),r.ccall=(e,t,n,a,o)=>{function i(e){return u&&Be(u),"string"===t?e?G(pe,e):"":"boolean"===t?!!e:e}var s={string:e=>{var t=0;return null!=e&&0!==e&&(t=Ae(e)),t},array:e=>{var t=Je(e.length);return S.set(e,t),t}};e=r["_"+e];var f=[],u=0;if(a)for(var l=0;l<a.length;l++){var c=s[n[l]];c?(u||=He(),f[l]=c(a[l])):f[l]=a[l]}return n=Ce,a=e(...f),o=o?.async,Ce!=n?new Promise((e,t)=>{Ne={resolve:e,reject:t}}).then(i):(a=i(a),o?Promise.resolve(a):a)};var $e,We,qe,ze,Be,Je,He,Ve,Xe,Ye,Ze,Ke,Qe,et={98639912:()=>{try{r.onDoneSearching()}catch(e){}}},tt={b:function(e,t,r){Se=r;try{var n=re(e);switch(t){case 0:var a=T();if(a<0)break;for(;W[a];)a++;return function(e,t=-1){return e=ne(e,t),e.F?.Ea?.(e),e}(n,a).fd;case 1:case 2:case 13:case 14:return 0;case 3:return n.flags;case 4:return a=T(),n.flags=-289793&n.flags|289792&a,0;case 12:return a=T(),ge[a+0>>1]=2,0}return-28}catch(e){if("ErrnoError"!==e.name)throw e;return-e.L}},r:function(e,t,r){Se=r;try{var n=re(e);switch(t){case 21509:case 21510:case 21511:case 21512:case 21524:case 21515:return n.tty?0:-59;case 21505:if(!n.tty)return-59;if(n.tty.R.qa){e=[3,28,127,21,4,0,1,0,17,19,26,0,18,15,23,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];var a=T();F[a>>2]=25856,F[a+4>>2]=5,F[a+8>>2]=191,F[a+12>>2]=35387;for(var o=0;o<32;o++)S[a+o+17]=e[o]||0}return 0;case 21506:case 21507:case 21508:if(!n.tty)return-59;if(n.tty.R.ra)for(a=T(),e=[],o=0;o<32;o++)e.push(S[a+o+17]);return 0;case 21519:return n.tty?(a=T(),F[a>>2]=0):-59;case 21520:return n.tty?-28:-59;case 21537:case 21531:if(a=T(),!n.F.pa)throw new H(59);return n.F.pa(n,t,a);case 21523:return n.tty?(n.tty.R.sa&&(o=[24,80],a=T(),ge[a>>1]=o[0],ge[a+2>>1]=o[1]),0):-59;default:return-28}}catch(e){if("ErrnoError"!==e.name)throw e;return-e.L}},d:function(e,t,r,n){Se=n;try{var a=t=t?G(pe,t):"";if("/"===a.charAt(0))t=a;else{var o=-100===e?"/":re(e).path;if(0==a.length)throw new H(44);t=o+"/"+a}var i=n?T():0;return 64&r&&(i&=-19),de(t,r,i).fd}catch(e){if("ErrnoError"!==e.name)throw e;return-e.L}},i:()=>b(""),h:()=>{},k:(e,t)=>{if(Fe[e]&&(clearTimeout(Fe[e].id),delete Fe[e]),!t)return 0;var r=setTimeout(()=>{delete Fe[e],Te(()=>qe(e,performance.now()))},t);return Fe[e]={id:r,Ia:t},0},l:(e,t,r,n)=>{var a=(new Date).getFullYear(),o=new Date(a,0,1).getTimezoneOffset();a=new Date(a,6,1).getTimezoneOffset(),ve[e>>2]=60*Math.max(o,a),F[t>>2]=Number(o!=a),e=(t=e=>{var t=Math.abs(e);return`UTC${e>=0?"-":"+"}${String(Math.floor(t/60)).padStart(2,"0")}${String(t%60).padStart(2,"0")}`})(o),t=t(a),a<o?(L(e,pe,r,17),L(t,pe,n,17)):(L(e,pe,n,17),L(t,pe,r,17))},e:function(e,t,r){return e>=0&&e<=3?(ye[r>>3]=BigInt(Math.round(1e3*(0===e?Date.now():performance.now())*1e3)),0):28},j:(e,t,r)=>{Me.length=0;for(var n;n=pe[t++];){var a=105!=n;r+=(a&=112!=n)&&r%8?4:0,Me.push(112==n?ve[r>>2]:106==n?ye[r>>3]:105==n?F[r>>2]:be[r>>3]),r+=a?8:4}return et[e](...Me)},f:e=>{var t=pe.length;if((e>>>=0)>2147483648)return!1;for(var r=1;r<=4;r*=2){var n=t*(1+.2/r);n=Math.min(n,e+100663296);e:{n=(Math.min(2147483648,65536*Math.ceil(Math.max(e,n)/65536))-Ke.buffer.byteLength+65535)/65536|0;try{Ke.grow(n),g();var a=1;break e}catch(e){}a=void 0}if(a)return!0}return!1},s:function(e){return(e=>function(e){if(!v){if(0===_e){var t=!1,r=!1;e((e=0)=>{if(!v&&(Le=e,t=!0,r)){_e=2,Ee(()=>Ye(Ce)),"undefined"!=typeof MainLoop&&MainLoop.oa&&MainLoop.resume(),e=!1;try{var n=function(){var e=Pe.get(F[Ce+8>>2]);return e=je.get(e),Te(e)}()}catch(t){n=t,e=!0}var a=!1;if(!Ce){var o=Ne;o&&(Ne=null,(e?o.reject:o.resolve)(n),a=!0)}if(e&&!a)throw n}}),r=!0,t||(_e=1,Ce=function(){var e=ze(10485772),t=e+12;if(ve[e>>2]=t,ve[e+4>>2]=t+10485760,t=De[0],!Ue.has(t)){var r=Re++;Ue.set(t,r),Pe.set(r,t)}return t=Ue.get(t),F[e+8>>2]=t,e}(),"undefined"!=typeof MainLoop&&MainLoop.oa&&MainLoop.pause(),Ee(()=>Ve(Ce)))}else 2===_e?(_e=0,Ee(Ze),We(Ce),Ce=null,Oe.forEach(Te)):b(`invalid state: ${_e}`);return Le}}(async t=>{t(await e())}))(()=>new Promise(t=>setTimeout(t,e)))},m:(e,t)=>{var r,n=0,a=0;for(r of Ie()){var o=t+n;ve[e+a>>2]=o,n+=L(r,pe,o,1/0)+1,a+=4}return 0},n:(e,t)=>{var r=Ie();for(var n of(ve[e>>2]=r.length,e=0,r))e+=C(n)+1;return ve[t>>2]=e,0},a:e=>{f(e,new k(e))},c:function(e){try{var t=re(e);if(null===t.fd)throw new H(8);t.da&&(t.da=null),t.node?.va();try{t.F.close&&t.F.close(t)}catch(e){throw e}finally{W[t.fd]=null}return t.fd=null,0}catch(e){if("ErrnoError"!==e.name)throw e;return e.L}},q:function(e,t,r,n){try{e:{var a=re(e);e=t;for(var o,i=t=0;i<r;i++){var s=ve[e>>2],f=ve[e+4>>2];e+=8;try{var u=a,l=s,c=f,d=o,h=S;if(c<0||d<0)throw new H(28);if(null===u.fd)throw new H(8);if(1==(2097155&u.flags))throw new H(8);if(16384==(61440&u.node.mode))throw new H(31);if(!u.F.read)throw new H(28);var m=void 0!==d;if(m){if(!u.seekable)throw new H(70)}else d=u.position;var w=u.F.read(u,h,l,c,d);m||(u.position+=w);var p=w}catch(e){if(t>0&&e instanceof H&&(6==e.L||6==e.L))break;throw e}if(p<0){var v=-1;break e}if(t+=p,p<f)break;void 0!==o&&(o+=p)}v=t}return ve[n>>2]=v,0}catch(e){if("ErrnoError"!==e.name)throw e;return e.L}},o:function(e,t,r,n){t=t<-9007199254740992||t>9007199254740992?NaN:Number(t);try{if(isNaN(t))return 22;var a=re(e);return he(a,t,r),ye[n>>3]=BigInt(a.position),a.da&&!t&&0===r&&(a.da=null),0}catch(e){if("ErrnoError"!==e.name)throw e;return e.L}},p:function(e,t,r,n){try{var a=re(e);if(e=t,1==r)var o=me(a,S,ve[e>>2],ve[e+4>>2]);else{for(var i=t=0,s=e;i<r;i++,s+=8)t+=ve[s+4>>2];var f=new Uint8Array(t);for(i=s=0;i<r;i++,e+=8){var u=ve[e>>2],l=ve[e+4>>2];f.set(pe.subarray(u,u+l),s),s+=l}o=me(a,f,0,t)}return ve[n>>2]=o,0}catch(e){if("ErrnoError"!==e.name)throw e;return e.L}},g:e=>{f(e,new k(e))}};return Qe=await async function(){function e(e){var t=Qe=e.exports;e={};for(let[r,n]of Object.entries(t))"function"==typeof n?(t=Ge(n),e[r]=t):e[r]=n;return e=Qe=e,$e=r._main=e.v,r._command=e.w,r._isSearching=e.x,We=e.y,qe=e.z,ze=e.A,Be=e.B,Je=e.C,He=e.D,e.E,e.H,e.K,e.O,Ve=e._,Xe=e.$,Ye=e.aa,Ze=e.ba,Ke=e.t,g(),Qe}var t,n={a:tt},a=r.instantiateWasm;return a?new Promise(t=>{a(n,r=>t(e(r)))}):(m??=r.locateFile?r.locateFile("stockfish.wasm",c):c+"stockfish.wasm",t=await async function(e){var t=m;if(!h&&!o)try{var r=fetch(t,{credentials:"same-origin"});return await WebAssembly.instantiateStreaming(r,e)}catch(e){p(`wasm streaming compile failed: ${e}`),p("falling back to ArrayBuffer instantiation")}return async function(e,t){try{var r=await async function(e){if(!h)try{var t=await u(e);return new Uint8Array(t)}catch{}if(e==m&&h)e=new Uint8Array(h);else{if(!l)throw"both async and sync fetching of the wasm failed";e=l(e)}return e}(e);return await WebAssembly.instantiate(r,t)}catch(e){p(`failed to asynchronously prepare wasm: ${e}`),b(e)}}(t,e)}(n),e(t.instance))}(),await async function(e=i){v||(r.noFSInit||B||(B=!0,ce("/dev/tty","/dev/stdin"),ce("/dev/tty","/dev/stdout"),ce("/dev/tty1","/dev/stderr"),de("/dev/stdin",0),de("/dev/stdout",1),de("/dev/stderr",1)),Qe.u(),J=!1,function(e=[]){var t=$e;e.unshift(s);var r,n=e.length,a=Je(4*(n+1)),o=a;for(r of e)ve[o>>2]=Ae(r),o+=4;ve[o>>2]=0;try{var i=t(n,a);f(i,new k(i))}catch(e){e instanceof k||"unwind"==e||f(1,e)}}(e))}(),r});return"object"==typeof exports&&"object"==typeof module?(module.exports=t,module.exports.default=t):"function"==typeof define&&define.amd&&define([],()=>t),t}"undefined"!=typeof globalThis&&"string"==typeof globalThis.name&&0===globalThis.name.indexOf("em-pthread")||"undefined"!=typeof global&&"[object process]"===Object.prototype.toString.call(global.process)&&"em-pthread"===require("node:worker_threads").workerData?e():"undefined"!=typeof onmessage&&("undefined"==typeof window||void 0===window.document)||"undefined"!=typeof global&&"[object process]"===Object.prototype.toString.call(global.process)?function(){var t,r,n,a,o="undefined"!=typeof global&&"[object process]"===Object.prototype.toString.call(global.process),i={},s=[],f=[];function u(e){if(i.ccall("command",null,["string"],[e],{async:/^go\\b/.test(e)}),"quit"===e){try{i.terminate()}catch(e){}try{self.close()}catch(e){}try{process.exit()}catch(e){}}return!0}function l(){for(;f.length&&(!i._isSearching||!i._isSearching());)u(f.shift())}function c(e){"go"===(e=e.trim()).substring(0,2)||"setoption"===e.substring(0,9)?f.push(e):u(e),l()}function d(){if(i._isReady&&!i._isReady())return setTimeout(d,10);var e;i.onDoneSearching=function(){setTimeout(l,1)},i.processCommand=c,s.length&&(e=0,function t(){for(var r;e<s.length;){if((r=s[e++]).startsWith("sleep "))return setTimeout(t,r.slice(6));c(r)}}())}o?(r=require("path"),t=r.join(__dirname,r.basename(__filename,r.extname(__filename))+".wasm"),i={locateFile:function(e){return e.indexOf(".wasm")>-1?e.indexOf(".wasm.map")>-1?t+".map":t:__filename},listener:function(e){process.stdout.write(e+"\\n")}},s=process.argv.slice(2),require.main===module?(e()(i).then(d),require("readline").createInterface({input:process.stdin,output:process.stdout,completer:function(e){var t=["binc ","btime ","confidence ","depth ","infinite ","mate ","maxdepth ","maxtime ","mindepth ","mintime ","moves ","movestogo ","movetime ","ponder ","searchmoves ","shallow ","winc ","wtime "];function r(t){return 0===t.toLowerCase().indexOf(e.toLowerCase())}var n=["compiler","d","eval","flip","go ","isready","ponderhit","position fen ","position startpos","position startpos moves ","quit","setoption name Clear Hash value true","setoption name Hash value ","setoption name Minimum Thinking Time value ","setoption name Move Overhead value ","setoption name MultiPV value ","setoption name Ponder value ","setoption name Skill Level value ","setoption name Slow Mover value ","setoption name Threads value ","setoption name UCI_Chess960 value false","setoption name UCI_Chess960 value true","setoption name UCI_LimitStrength value true","setoption name UCI_LimitStrength value false","setoption name UCI_Elo value ","setoption name UCI_ShowWDL value true","setoption name UCI_ShowWDL value false","setoption name nodestime value ","stop","uci","ucinewgame"].filter(r);return n.length||(n=(e=e.replace(/^.*\\s/,""))?t.filter(r):t),[n,e]},historySize:100}).on("line",function(e){e&&(i.processCommand?i.processCommand(e):s.push(e),"quit"===e&&process.exit())}).on("close",function(){process.exit()}).setPrompt("")):module.exports=function(){return e()(i).then(d),i.processCommand=function(e){s.push(e)},i}):(a=self.location.hash.substr(1).split(","),t=decodeURIComponent(a[0]||location.origin+location.pathname.replace(/\\.js$/i,".wasm")),function(r){{var a,o;function s(){return function(e,t,r){var i;n&&(i=function(e,t,r){var n,a,o=e/((Date.now()-r||1)/1e3),i=0;return o>0&&e<t&&(i=(t-e)/o),{percent:e/t,loaded:e,total:t,speedBytesPerSec:o,speedText:(a=o,a<1024?Math.round(a)+" B/s":a<1048576?(a/1024).toFixed(1)+" KB/s":(a/1048576).toFixed(1)+" MB/s"),eta:i,etaText:(n=i,!n||n<0?"":n<60?Math.ceil(n)+" sec":Math.round(n/60)+" min")}}(t,r,e),o=i,a||(a=setTimeout(function(){a=null,n.postMessage(o),o.percent>=1&&(n.close(),n=null)},4)))}}(i={locateFile:function(e){return e.indexOf(".wasm")>-1?e.indexOf(".wasm.map")>-1?t+".map":r||t:self.location.href},listener:function(e){postMessage(e)}}).instantiateWasm=function(e,r){var n=s();return function(e,t){return fetch(e).then(function(e){var r=Date.now();if(!e.ok)throw new Error("HTTP "+e.status+": "+e.statusText);var n=99169054,a=0,o=e.body.getReader(),i=new ReadableStream({start:function(e){!function i(){o.read().then(function(o){var s=o.done,f=o.value;if(s)return t(r,n,n),void e.close();a+=f.byteLength,t(r,a,n),e.enqueue(f),i()}).catch(function t(r){e.error(r),t(r)})}()}}),s=new Headers(e.headers);return new Response(i,{status:e.status,statusText:e.statusText,headers:s})})}(t,n).then(function(t){return WebAssembly.instantiateStreaming(t,e)}).then(function(e){return r(e.instance,e.module),e.instance.exports}).catch(function(e){throw e})}}e()(i).then(d).catch(function(e){setTimeout(function(){throw e},1)})}(),onmessage||(onmessage=function(e){if("setoption name CanOutputEngineDownloadProgress"===e.data)postMessage("info WillOutputEngineDownloadProgress");else if(e.data.progressPort)n=e.data.progressPort;else if(i.processCommand?i.processCommand(e.data):s.push(e.data),"quit"===e.data)try{self.close()}catch(e){}}))}():"object"==typeof document&&document.currentScript?document.currentScript._exports=e():e()}();'], { type: "text/javascript" }));
+      window.addEventListener("pagehide", () => {
+        URL.revokeObjectURL(wasmURL);
+        URL.revokeObjectURL(workerURL);
+      }, { once: true });
+      return workerURL + "#" + encodeURIComponent(wasmURL);
+    })().catch((error) => {
+      prepared = null;
+      throw new Error("Could not load Stockfish. Internet access to registry.npmjs.org is required. " + error.message);
+    });
+    return prepared;
+  };
+})();
+</script>
+<p id="online-help" style="max-width:1100px;margin:20px auto;padding:16px;font:13px/1.6 system-ui">This small page downloads the full Stockfish 19 engine from the official npm package on first analysis. The engine download is large and may take a few minutes. Keep this tab open. Chess positions and screen sharing stay on your device. No extension or Developer mode is required. Network access to registry.npmjs.org must be allowed. <a href="https://github.com/nmrugg/stockfish.js/tree/v19.0.1">Stockfish source (GPLv3)</a> · <a href="https://github.com/jhlywa/chess.js/tree/v1.4.0">chess.js source (BSD-2-Clause)</a></p></body>
+</html>

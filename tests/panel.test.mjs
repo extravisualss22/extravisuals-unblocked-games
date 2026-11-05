@@ -56,7 +56,7 @@ test('panel follows a verified game, rejects stale analysis, and analyzes import
     assert.match(await page.locator('#best-move').textContent(),/#$/);
     assert.equal(await page.locator('#evaluation').textContent(),'M1');
     assert.equal(await page.locator('#arrow').isVisible(),true);
-    await page.screenshot({path:'/tmp/chess-companion-panel.png',fullPage:true});
+    await page.screenshot({path:'/tmp/travis.suda-panel.png',fullPage:true});
     assert.deepEqual(errors,[]);
     await page.locator('#position-input').fill('7k/6Q1/6K1/8/8/8/8/8 b - - 0 1');await page.locator('#import').click();
     assert.equal(await page.locator('#move-description').textContent(),'Checkmate');

@@ -1,12 +1,12 @@
-# Chess Companion — website and offline HTML
+# travis.suda — website and offline HTML
 
 The website runs the full Stockfish 19 neural-network engine on your device. It needs no Chrome extension, Developer mode, account, API key, or backend.
 
 ## Open on a Chromebook
 
-If the large attachment will not download, use **chess-companion-online.html** (about 181 KB), or extract it from **chess-companion-small.zip**. This version downloads the same full Stockfish 19 engine from the pinned official npm package on first analysis; it does not use a weaker engine. The package transfer is about 154 MB, so first analysis can take several minutes and requires access to `registry.npmjs.org`. The selected WASM is checked against its SHA-256 before execution. The engine is reused while the page stays open. Game positions and video remain local. Build this version with `npm run build:online`.
+If the large attachment will not download, use **travis.suda-online.html** (about 181 KB), or extract it from **travis.suda-small.zip**. This version downloads the same full Stockfish 19 engine from the pinned official npm package on first analysis; it does not use a weaker engine. The package transfer is about 154 MB, so first analysis can take several minutes and requires access to `registry.npmjs.org`. The selected WASM is checked against its SHA-256 before execution. The engine is reused while the page stays open. Game positions and video remain local. Build this version with `npm run build:online`.
 
-Download **chess-companion.html**, keep it in Downloads, and open it in Chrome. It is a single self-contained page with its engine inside. The file is about 127 MB because it contains the full engine rather than a smaller, weaker network. Initial engine startup can take several seconds.
+Download **travis.suda.html**, keep it in Downloads, and open it in Chrome. It is a single self-contained page with its engine inside. The file is about 127 MB because it contains the full engine rather than a smaller, weaker network. Initial engine startup can take several seconds.
 
 Use **Load position** to import a Chess.com FEN or complete PGN. You can also enter moves on the analysis board by selecting the starting and destination squares. Choose the promotion piece when prompted. Stockfish updates after each move, showing its recommendation, an arrow, evaluation, search depth, and continuation. Evaluation is from White's perspective. A longer think time generally searches deeper.
 
