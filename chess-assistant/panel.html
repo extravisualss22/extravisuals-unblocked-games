@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chess Companion</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header><div class="brand-icon">♞</div><div><h1>Chess Companion</h1><p>STOCKFISH 19 · FULL ENGINE</p></div><span class="local-dot" title="Engine runs on your device"></span></header>
+  <main>
+    <div class="connection"><span id="connection-dot" class="dot"></span><span id="connection">Connect to your board</span><button id="refresh" class="text-button" title="Read board again">↻ Sync</button></div>
+    <div class="mode-row"><label class="switch-label"><input id="live" type="checkbox" checked> Follow Chess.com</label><button id="flip" class="text-button">Flip board ⇅</button></div>
+    <p id="notice" class="notice" role="status">Open a game on Chess.com, then keep this panel beside it.</p>
+    <section class="board-section" aria-label="Current chess position">
+      <div id="board" class="board"></div>
+      <svg id="arrow" class="board-arrow" viewBox="0 0 800 800" aria-hidden="true"><defs><marker id="arrowhead" markerWidth="4" markerHeight="4" refX="2.5" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 Z" fill="#efb74a"/></marker></defs><line id="best-arrow" stroke="#efb74a" stroke-width="13" stroke-linecap="round" marker-end="url(#arrowhead)"/></svg>
+    </section>
+    <div class="board-meta"><span id="turn">Waiting for a position</span><span id="source">—</span></div>
+    <section class="recommendation" aria-label="Engine recommendation">
+      <div class="eyebrow"><span>BEST MOVE</span><span id="evaluation">—</span></div>
+      <div class="move-row"><strong id="best-move">—</strong><span id="move-description">Connect or import a position</span></div>
+      <p id="variation" class="variation">The engine’s continuation appears here.</p>
+      <div class="engine-meta"><span id="engine-status" role="status">Engine starts with your first position</span><span id="depth">Depth —</span></div>
+    </section>
+    <div class="analysis-controls"><label for="time">Think time</label><select id="time"><option value="1000">1 second</option><option value="3000" selected>3 seconds</option><option value="10000">10 seconds</option><option value="30000">30 seconds</option></select><button id="analyze" class="primary">Analyze</button><button id="stop" class="secondary" title="Stop analysis">Stop</button></div>
+    <details id="import-section"><summary>Import a position or game <span>FEN / PGN</span></summary><p class="help">Use Chess.com’s share or download tools to copy a FEN or PGN. Importing pauses live following; turn it back on to track this position.</p><textarea id="position-input" rows="3" spellcheck="false" aria-label="FEN or PGN" placeholder="Paste FEN or PGN here…"></textarea><div class="import-buttons"><button id="import" class="primary">Load position</button><button id="copy" class="secondary">Copy FEN</button><button id="start-position" class="text-button">Start position</button></div><p id="import-error" role="alert"></p></details>
+    <footer>Full neural network · Local analysis<br><span>Suggestions follow the board. Moves stay in your hands.</span></footer>
+  </main>
+  <script type="module" src="panel.js"></script>
+</body>
+</html>

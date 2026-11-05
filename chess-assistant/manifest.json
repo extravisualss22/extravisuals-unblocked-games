@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Chess Companion — Stockfish 19",
+  "version": "1.0.0",
+  "description": "Local Stockfish analysis in a side panel for the Chess.com board you are viewing.",
+  "permissions": ["sidePanel", "activeTab", "storage"],
+  "background": {"service_worker": "background.js"},
+  "action": {"default_title": "Open Chess Companion"},
+  "side_panel": {"default_path": "panel.html"},
+  "content_scripts": [{
+    "matches": ["https://www.chess.com/*", "https://chess.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; worker-src 'self'"
+  }
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#193d32">
+  <meta name="description" content="A private chess analysis workspace powered by the full Stockfish 19 engine. Enter moves, import a game, or share your chess tab.">
+  <title>Chess Companion — Stockfish analysis</title>
+  <link rel="stylesheet" href="web.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Chess Companion home"><span class="brand-mark" aria-hidden="true">♞</span><span>Chess Companion<small>YOUR PERSONAL ANALYSIS BOARD</small></span></a>
+    <span class="local-status"><span class="status-dot"></span> Stockfish 19 <span class="status-divider">/</span> On your device</span>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <div><p class="eyebrow">A CLEARER VIEW OF THE BOARD</p><h1>Find your next move.</h1><p class="intro">Enter a position. Explore the possibilities. Let Stockfish do the thinking.</p></div>
+      <div class="heading-note"><span aria-hidden="true">↗</span><p>Full neural network.<br>Every calculation stays here.</p></div>
+    </section>
+
+    <p id="notice" class="notice" role="status" hidden></p>
+
+    <div class="workspace">
+      <section class="board-column" aria-label="Analysis board">
+        <div class="board-toolbar"><div class="turn-indicator"><span class="turn-piece" aria-hidden="true">●</span><span id="turn">White to move</span></div><span id="source" class="source-label">Starting position</span></div>
+        <div class="board-frame">
+          <div class="board-surface">
+            <div id="board" class="board" aria-label="Chessboard"></div>
+            <svg id="arrow" class="board-arrow" viewBox="0 0 800 800" aria-hidden="true" hidden><defs><marker id="arrowhead" markerWidth="4" markerHeight="4" refX="2.5" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 Z" fill="#e4aa32"/></marker></defs><line id="best-arrow" stroke="#e4aa32" stroke-width="13" stroke-linecap="round" marker-end="url(#arrowhead)"/></svg>
+          </div>
+        </div>
+        <div class="board-actions"><p>Click a piece, then its destination.</p><div><button id="undo" class="quiet-button" title="Undo the last move"><span aria-hidden="true">↶</span> Undo</button><button id="flip" class="quiet-button" title="Flip the board"><span aria-hidden="true">⇅</span> Flip</button><button id="reset" class="quiet-button">Reset</button></div></div>
+        <section class="history-card" aria-label="Move history"><div class="section-label"><h2>THE GAME SO FAR</h2><button id="fen-copy" class="text-button">Copy FEN <span aria-hidden="true">↗</span></button></div><div id="history" class="move-history" aria-live="polite"><p class="empty-history">Your moves will appear here.</p></div></section>
+      </section>
+
+      <aside class="analysis-column" aria-label="Position analysis">
+        <section class="analysis-card">
+          <div class="analysis-top"><span class="eyebrow">THE ENGINE’S CHOICE</span><span id="evaluation" class="evaluation" title="Evaluation from White’s perspective">—</span></div>
+          <div class="recommendation"><strong id="best-move">—</strong><p id="move-description">Ready when you are.</p></div>
+          <div class="continuation"><h2>LIKELY CONTINUATION</h2><p id="variation">Analyze the position to see the next moves.</p></div>
+          <div class="engine-meta"><span id="engine-status" role="status">Stockfish starts with your first analysis</span><span id="depth">Depth —</span></div>
+          <div class="analysis-settings"><label for="time">Think time</label><select id="time"><option value="1000">1 second</option><option value="3000" selected>3 seconds</option><option value="10000">10 seconds</option><option value="30000">30 seconds</option></select></div>
+          <div class="analysis-buttons"><button id="analyze" class="primary-button"><span aria-hidden="true">✦</span> Find best move</button><button id="stop" class="outline-button">Stop</button></div>
+          <p class="analysis-note">More thinking time can reveal a stronger continuation.</p>
+        </section>
+
+        <details class="utility-card import-card" open>
+          <summary><span class="utility-icon" aria-hidden="true">↳</span><span>Bring your game<span class="summary-subtitle">Import a position or move history</span></span><span class="chevron" aria-hidden="true">⌄</span></summary>
+          <div class="utility-body"><p class="help">Paste a FEN position or PGN game from your chess website’s share or download tools.</p><label class="visually-hidden" for="position-input">FEN position or PGN game</label><textarea id="position-input" rows="3" spellcheck="false" placeholder="Paste FEN or PGN here…"></textarea><div class="import-footer"><span>FEN / PGN</span><button id="import" class="small-button">Load position <span aria-hidden="true">→</span></button></div><p id="import-error" class="error-message" role="alert"></p></div>
+        </details>
+        <div class="perspective-note"><span aria-hidden="true">◐</span><p>Evaluation is from White’s perspective.<br><strong>+</strong> favors White · <strong>−</strong> favors Black · <strong>M</strong> means mate.</p></div>
+      </aside>
+    </div>
+
+    <details class="sharing-card" id="sharing-section">
+      <summary><div class="sharing-title"><span class="share-icon" aria-hidden="true">▣</span><span>Keep your game in view<small>Optional tab sharing · no extension needed</small></span></div><span class="sharing-tag">SCREEN SHARE ASSIST <span aria-hidden="true">⌄</span></span></summary>
+      <div class="sharing-body">
+        <div class="sharing-guide"><p>Share your chess tab, then mark the board’s top-left and bottom-right corners in the preview. Load the same position here, confirm it matches, and check each detected move before applying it.</p><p class="help">Start with a FEN/PGN for a game in progress, or use the initial position for a new game. If sharing is unavailable, enter moves on the analysis board instead.</p><div class="share-controls"><button id="share-start" class="primary-button">Share chess tab <span aria-hidden="true">↗</span></button><button id="share-stop" class="outline-button" disabled>Stop sharing</button><label for="share-orientation">Shared board</label><select id="share-orientation"><option value="white">White at bottom</option><option value="black">Black at bottom</option></select></div><p class="privacy-note"><span aria-hidden="true">◈</span> Your screen stays on this device. Nothing is uploaded.</p></div>
+        <div class="share-preview"><video id="share-video" hidden muted playsinline></video><canvas id="share-canvas" width="960" height="540" aria-label="Shared chess tab preview; mark the top-left and bottom-right corners of the board"></canvas><p id="share-status" class="share-status" role="status">Your shared tab will appear here.</p></div>
+        <div class="share-confirm"><button id="share-seed" class="small-button" disabled>Position matches · track changes</button><p id="share-candidate" aria-live="polite">Detected moves will appear here for you to confirm.</p><button id="share-apply" class="primary-button" disabled>Apply detected move</button></div>
+      </div>
+    </details>
+  </main>
+
+  <footer class="site-footer"><p><span class="footer-knight" aria-hidden="true">♞</span> A little more clarity. One move at a time.</p><div><a href="https://github.com/nmrugg/stockfish.js/tree/v19.0.1" target="_blank" rel="noopener noreferrer">Stockfish 19</a><span>·</span><a href="vendor/stockfish-LICENSE.txt">GPLv3</a><span>·</span><a href="README.md">About &amp; source</a></div></footer>
+
+  <dialog id="promotion" class="promotion-dialog"><form method="dialog"><p class="eyebrow">A PAWN’S NEXT CHAPTER</p><h2>Choose your promotion</h2><div class="promotion-options"><button type="button" data-promotion="q" aria-label="Promote to queen">♛<span>Queen</span></button><button type="button" data-promotion="r" aria-label="Promote to rook">♜<span>Rook</span></button><button type="button" data-promotion="b" aria-label="Promote to bishop">♝<span>Bishop</span></button><button type="button" data-promotion="n" aria-label="Promote to knight">♞<span>Knight</span></button></div><button type="button" id="promotion-cancel" class="quiet-button">Cancel</button></form></dialog>
+  <script type="module" src="web.js"></script>
+</body>
+</html>
